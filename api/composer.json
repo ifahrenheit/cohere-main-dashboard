@@ -1,0 +1,17 @@
+{
+    "name": "root/api",
+    "description": "Voucher redemption API",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Binbin",
+            "email": "andrewvincentt@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "google/apiclient": "^2.0",
+        "phpmailer/phpmailer": "^6.10"
+    }
+}

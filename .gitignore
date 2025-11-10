@@ -1,0 +1,124 @@
+# ==========================================
+# COHERE DASHBOARD - .gitignore
+# ==========================================
+
+# --------------------
+# SENSITIVE FILES (CRITICAL!)
+# --------------------
+config.php
+db_connection.php
+database.php
+connection.php
+.env
+*.env
+credentials.json
+ldap_config.php
+api/credentials.json
+
+# Keep examples
+!config.example.php
+!db_connection.example.php
+
+# --------------------
+# SUB-PROJECTS (Have their own repos)
+# --------------------
+/cohere_dashboard_frontend/
+/coaching/.git/
+/coaching/
+
+# If you want to include them as git submodules later:
+# (uncomment if needed)
+# !cohere_dashboard_frontend/.gitmodules
+# !coaching/.gitmodules
+
+# --------------------
+# NODE_MODULES & DEPENDENCIES
+# --------------------
+node_modules/
+/cohere_dashboard_frontend/node_modules/
+/api/node_modules/
+vendor/
+/api/vendor/
+/vendor/
+composer.lock
+package-lock.json
+
+# --------------------
+# USER UPLOADS & IMAGES
+# --------------------
+/uploads/*
+!/uploads/.gitkeep
+/coaching/uploads/*
+!/coaching/uploads/.gitkeep
+/coaching/uploads/profile_pictures/*
+
+# --------------------
+# LOGS & DEBUG FILES
+# --------------------
+*.log
+/logs/*
+error_log
+debug.log
+phpmailer_debug.log
+api/debug.log
+
+# --------------------
+# BACKUP & OLD FILES
+# --------------------
+*-backup.php
+*-bak.php
+*-old.php
+*-OLD.php
+*.backup
+*.bak
+*.old
+dashboard-backup.php
+dashboard-bak.php
+
+# --------------------
+# TEST FILES
+# --------------------
+test.php
+test_*.php
+*_test.php
+testing*.php
+info.php
+
+# --------------------
+# TEMPORARY & CSV FILES
+# --------------------
+tempfile.csv
+*.tmp
+/tmp/*
+/cache/*
+/sessions/*
+
+# --------------------
+# DATABASE DUMPS
+# --------------------
+*.sql
+*.sql.gz
+*.dump
+
+# --------------------
+# COMPRESSED FILES
+# --------------------
+*.zip
+*.tar
+*.tar.gz
+*.rar
+
+# --------------------
+# OS FILES
+# --------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --------------------
+# IDE
+# --------------------
+.vscode/
+.idea/
+*.swp
+*.swo

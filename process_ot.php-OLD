@@ -1,0 +1,78 @@
+<?php
+include 'db_connection.php';
+session_start();
+
+if (!isset($_SESSION['employeeID']) || empty($_SESSION['employeeID'])) {
+    die("Session Error: Employee ID is missing! Check login process.");
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Retrieve OT request ID and action
+    $ot_id = $_POST['ot_id'] ?? '';
+    $action = $_POST['action'] ?? '';
+
+    // Get Start Time and End Time (only required for approval)
+    $start_time = $_POST['start_time'] ?? '';
+    $end_time = $_POST['end_time'] ?? '';
+
+
+    if (empty($ot_id) || empty($action)) {
+        die("Error: Missing required parameters.");
+    }
+
+    // Ensure valid action
+    if (!in_array($action, ['approve', 'reject'])) {
+        die("Error: Invalid action.");
+    }
+
+    // If approving, ensure Start and End times are provided
+    if ($action === 'approve' && (empty($start_time) || empty($end_time))) {
+        die("Error: Start Time and End Time are required for approval.");
+    }
+
+    // Define status based on action
+    $status = ($action === 'approve') ? 'Approved' : 'Rejected';
+
+    // Get approver details
+    $approver_id = $_SESSION['employeeID'];
+    $stmt = $conn->prepare("SELECT firstname, lastname FROM Employees WHERE employeeID = ?");
+    $stmt->bind_param("s", $approver_id);
+    $stmt->execute();
+    $stmt->bind_result($approver_firstname, $approver_lastname);
+    $stmt->fetch();
+    $stmt->close();
+
+    if (empty($approver_firstname) || empty($approver_lastname)) {
+        die("Error: Approver details not found.");
+    }
+
+    $approver_name = $approver_firstname . ' ' . $approver_lastname;
+
+    // Prepare update query
+    if ($action === "approve") {
+        // Update OT request with approval status, Start Time, End Time
+        $stmt = $conn->prepare("UPDATE ot_requests
+                                SET status = ?, approver_name = ?, approver = ?, start_time = ?, end_time = ?, timestamp = NOW()
+                                WHERE id = ?");
+        $stmt->bind_param("sssssi", $status, $approver_name, $approver_id, $start_time, $end_time, $ot_id);
+    } else {
+        // Update OT request with rejection status (without modifying start_time and end_time)
+        $stmt = $conn->prepare("UPDATE ot_requests
+                                SET status = ?, approver_name = ?, approver = ?, timestamp = NOW()
+                                WHERE id = ?");
+        $stmt->bind_param("sssi", $status, $approver_name, $approver_id, $ot_id);
+    }
+
+    // Execute and check result
+    if ($stmt->execute()) {
+        echo "<script>alert('OT Request $status successfully!'); window.location.href='approve_ot.php';</script>";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close resources
+    $stmt->close();
+    $conn->close();
+}
+?>
+

@@ -1,0 +1,75 @@
+<?php
+include 'db_connection.php';
+session_start();
+
+// Check if the user is a Shifts Operations Manager
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Shifts Operations Manager') {
+    die("Access Denied! You do not have permission to approve requests.");
+}
+
+// Fetch pending OT requests with employee names
+$sql = "
+    SELECT o.id, o.employee_id, e.Firstname, e.Lastname, o.ot_date, o.ot_type, o.regular_rate,o.start_time, o.end_time, o.status 
+    FROM ot_requests o
+    LEFT JOIN Employees e ON o.employee_id = e.EmployeeID
+    WHERE o.status = 'Pending'
+";
+$result = $conn->query($sql);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve OT Requests</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h2>Pending OT Requests</h2>
+        <div class="logout-btn">
+            <a href="dashboard.php"><button>Back to Dashboard</button></a>
+            <a href="logout.php"><button>Logout</button></a>
+        </div>
+    </div>
+
+    <table border="1">
+        <tr>
+            <th>Employee ID</th>
+            <th>Employee Name</th>  <!-- Added Employee Name Column -->
+            <th>OT Date</th>
+            <th>OT Type</th>
+            <th>Regular Rate</th>
+            <th>Start Time</th>
+            <th>End Time</th>   
+	    <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        <?php while ($row = $result->fetch_assoc()) { ?>
+            <tr>
+                <td><?php echo $row['employee_id']; ?></td>
+                <td><?php echo $row['Firstname'] . " " . $row['Lastname']; ?></td> <!-- Display Employee Name -->
+                <td><?php echo $row['ot_date']; ?></td>
+                <td><?php echo $row['ot_type']; ?></td>
+		<td><?php echo $row['regular_rate']; ?></td>
+	        <td><?php echo date("H:i", strtotime($row['start_time'])); ?></td>
+                <td><?php echo date("H:i", strtotime($row['end_time'])); ?></td>       
+		<td><?php echo $row['status']; ?></td>
+                <td>
+		<form action="process_ot.php" method="POST">
+		    <input type="hidden" name="ot_id" value="<?= htmlspecialchars($row['id']); ?>">
+		    <input type="hidden" name="start_time" value="<?= htmlspecialchars($row['start_time']); ?>">
+		    <input type="hidden" name="end_time" value="<?= htmlspecialchars($row['end_time']); ?>">
+		    <button type="submit" name="action" value="approve">Approve</button>
+		    <button type="submit" name="action" value="reject">Reject</button>
+		</form>
+		</td>
+            </tr>
+        <?php } ?>
+    </table>
+
+</body>
+</html>
+

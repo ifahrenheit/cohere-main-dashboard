@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Redirect root to login.php
+RewriteCond %{REQUEST_URI} ^/$
+RewriteRule ^$ login.php [L]
+
+# If the file or directory exists, serve it
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Otherwise route to index.php or 404 later
+# RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+

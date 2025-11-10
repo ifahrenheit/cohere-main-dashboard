@@ -1,0 +1,330 @@
+/* ===============================
+   General Styles
+================================== */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===============================
+   Header & Navbar
+================================== */
+.header {
+    background-color: #0D47A1;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+}
+
+.custom-navbar {
+    background-color: #0D47A1 !important;
+    padding: 10px 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .nav-link {
+    color: white !important;
+    font-weight: bold;
+}
+
+.custom-navbar .nav-link:hover {
+    color: #bbdefb !important;
+}
+
+/* ===============================
+   Logout Button
+================================== */
+.logout-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.logout-btn button {
+    font-size: 14px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logout-btn button:hover {
+    background-color: #c82333;
+}
+
+/* ===============================
+   Logout Button (Navbar Version)
+================================== */
+.btn-logout {
+    background-color: #dc3545;
+    color: white !important;
+    font-size: 14px;
+    padding: 5px 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+    color: #fff !important;
+    text-decoration: none;
+}
+
+
+/* ===============================
+   Container & Dashboard
+================================== */
+.container, .page-container {
+    width: 90%;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-container {
+    background: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* ===============================
+   Logo
+================================== */
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-container img {
+    width: 250px;
+}
+
+/* ===============================
+   Forms & Filters
+================================== */
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: #E3F2FD;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="date"], select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* ===============================
+   Default / Generic Buttons
+================================== */
+button,
+.btn-default {
+    background-color: #e24e08;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover,
+.btn-default:hover {
+    background-color: #c03d06;
+}
+
+/* ===============================
+   Navigation Buttons
+================================== */
+.btn-back {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+.btn-back:hover {
+    background-color: #0056b3 !important;
+}
+
+/* ===============================
+   ✅ Approve / Reject Buttons
+================================== */
+button.approveBtn,
+.approveBtn {
+    background-color: #28a745 !important;
+    color: white !important;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button.approveBtn:hover,
+.approveBtn:hover {
+    background-color: #218838 !important;
+}
+
+button.rejectBtn,
+.rejectBtn {
+    background-color: #dc3545 !important;
+    color: white !important;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button.rejectBtn:hover,
+.rejectBtn:hover {
+    background-color: #c82333 !important;
+}
+
+button.approveBtn:disabled,
+button.rejectBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ===============================
+   Tables
+================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #0D47A1;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* ===============================
+   Legends & Info
+================================== */
+.legend {
+    font-size: 14px;
+    color: #0056b3;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.last-uploaded-container {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.last-uploaded-container i {
+    color: #007bff;
+    margin-right: 8px;
+}
+
+/* ===============================
+   Responsive Design
+================================== */
+@media (max-width: 768px) {
+    .form-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .legend {
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    table {
+        font-size: 12px;
+    }
+    th, td {
+        padding: 5px;
+    }
+}
+
+/* ===============================
+   Back Button
+================================== */
+.btn-back {
+    background-color: #6c757d; /* Neutral gray */
+    color: white;
+    font-size: 14px;
+    padding: 5px 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #5a6268;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* ===============================
+   Table Cell Text Handling
+================================== */
+table td {
+    white-space: nowrap;         /* Prevents line breaks */
+    overflow: hidden;            /* Hides overflowing text */
+    text-overflow: ellipsis;     /* Adds "..." when text is too long */
+    max-width: 200px;            /* Adjust width to fit your layout */
+}
+
+/* Allow multi-line only for the Reason column */
+table td:nth-child(8) {
+    white-space: normal;
+    max-width: 400px;            /* Reason column can wrap */
+}
