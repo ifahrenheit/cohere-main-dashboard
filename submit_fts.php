@@ -123,9 +123,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                           Please log in to approve or reject.";
 
         $mail->send();
+
+        file_put_contents('email_debug.txt', 
+    date('Y-m-d H:i:s') . " - Email sent successfully to: $approver_email ($approver_name) for $employee_name\n", 
+    FILE_APPEND);
+
         echo "<script>alert('FTS Request Submitted & Email Sent!'); window.location.href='submit_fts.php';</script>";
         exit();
     } catch (Exception $e) {
+
+         file_put_contents('email_debug.txt', 
+        date('Y-m-d H:i:s') . " - EMAIL FAILED to: $approver_email - Error: {$mail->ErrorInfo}\n", 
+        FILE_APPEND);
+        
         echo "FTS Request Submitted, but email could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
