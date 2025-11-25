@@ -118,12 +118,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
 
                 if ($is_api) {
-                    echo json_encode(["message" => "Login successful"]);
-                    exit;
-                } else {
-                    header("Location: dashboard.php");
-                    exit;
-                }
+    echo json_encode(["message" => "Login successful"]);
+    exit;
+} else {
+    // Default fallback
+    $redirectUrl = '/dashboard.php';
+
+    // Use redirect parameter if it exists
+    if (!empty($_GET['redirect'])) {
+        $redirectUrl = $_GET['redirect'];
+    }
+
+    header("Location: $redirectUrl");
+    exit();
+}
+
             } else {
                 $error_message = "Invalid password.";
             }
@@ -210,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if ($error_message): ?>
         <div class="error-message"><?= htmlspecialchars($error_message) ?></div>
     <?php endif; ?>
-    <form method="post" action="">
+    <form method="post" action="login.php?redirect=<?= urlencode($_GET['redirect'] ?? '') ?>">
         <div class="input-group">
             <label>Email</label>
             <input type="email" name="email" required>

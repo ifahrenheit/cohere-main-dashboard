@@ -5,7 +5,6 @@ ini_set('session.cookie_samesite', 'None');
 ini_set('session.cookie_secure', '1');
 session_start();
 
-// Always return plain text for AJAX
 header("Content-Type: text/plain");
 
 if (!isset($_SESSION['employeeID']) || empty($_SESSION['employeeID'])) {
@@ -43,27 +42,50 @@ $status      = ($action === 'approve') ? 'Approved' : 'Rejected';
 $decision_at = date('Y-m-d H:i:s');
 $approved_at = ($action === 'approve') ? $decision_at : null;
 
-// --- Queries ---
 if ($action === "approve") {
+    // Approve OT: remove deleted_at filter
     $stmt = $conn->prepare("
         UPDATE ot_requests
-        SET status = ?, approver_name = ?, approver = ?, 
-            start_time = IFNULL(?, start_time), 
-            end_time = IFNULL(?, end_time),
-            approved_at = ?, decision_at = ?, timestamp = NOW()
-        WHERE id = ? AND deleted_at IS NULL
+        SET status = ?, 
+            approver_name = ?, 
+            approver = ?, 
+            approved_at = ?, 
+            decision_at = ?, 
+            timestamp = NOW()
+        WHERE id = ?
     ");
-    $stmt->bind_param("sssssssi", $status, $approver_name, $approver_id,
-        $start_time, $end_time, $approved_at, $decision_at, $ot_id);
+    $stmt->bind_param(
+        "sssssi", 
+        $status, 
+        $approver_name, 
+        $approver_id,
+        $approved_at, 
+        $decision_at, 
+        $ot_id
+    );
+
 } else {
+    // Reject OT
     $stmt = $conn->prepare("
         UPDATE ot_requests
-        SET status = ?, approver_name = ?, approver = ?, 
-            approved_at = NULL, decision_at = ?, timestamp = NOW()
-        WHERE id = ? AND deleted_at IS NULL
+        SET status = ?, 
+            approver_name = ?, 
+            approver = ?, 
+            approved_at = NULL, 
+            decision_at = ?, 
+            deleted_at = NOW(), 
+            deleted_by = ?
+        WHERE id = ?
     ");
-    $stmt->bind_param("ssssi", $status, $approver_name, $approver_id,
-        $decision_at, $ot_id);
+    $stmt->bind_param(
+        "sssssi", 
+        $status,
+        $approver_name,
+        $approver_id,
+        $decision_at,
+        $approver_id,
+        $ot_id
+    );
 }
 
 if ($stmt->execute()) {
@@ -71,5 +93,6 @@ if ($stmt->execute()) {
 } else {
     echo "Error: " . $stmt->error;
 }
+
 $stmt->close();
 $conn->close();

@@ -1,17 +1,32 @@
 <?php
-include 'db_connection.php';
+// modules/overtime/submit.php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+// ✅ Use absolute path to db_connection
+require_once __DIR__ . '/../../config/db_connection.php';
+
+// ✅ Start session properly
 ini_set('session.cookie_domain', '.cohere.ph');
 ini_set('session.cookie_samesite', 'None');
 ini_set('session.cookie_secure', '1');
 session_start();
 
 if (!isset($_SESSION['employeeID'])) {
-    header("Location: login.php");
+    header("Location: ../../login.php");
     exit();
 }
 
 $employee_id = $_SESSION['employeeID'];
 $message = "";
+
+// Feature flag - redirect to new system when ready
+$use_new_system = false; // Set to true when ready
+
+if ($use_new_system) {
+    header("Location: /ot/submit_ticket.php");
+    exit();
+}
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -165,7 +180,7 @@ select, input {
         <p class="<?= strpos($message, 'Error') !== false ? 'error' : 'success' ?>"><?= $message; ?></p>
     <?php endif; ?>
 
-    <form method="POST" action="submit_ot.php">
+    <form method="POST" action="submit.php">
         <label for="ot_date">OT Date:</label>
         <input type="date" name="ot_date" required>
 

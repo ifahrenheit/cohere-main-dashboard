@@ -47,10 +47,14 @@ $sql = "
 if ($role === 'SOM Approver') {
     $safeEmail = $conn->real_escape_string($userEmail);
     $sql .= " AND e.role = 'Manager' AND e.som_email = '{$safeEmail}'";
-} elseif ($role === 'Manager') {
+} 
+
+elseif ($role === 'Manager') {
     $safeEmail = $conn->real_escape_string($userEmail);
-    $sql .= " AND e.role = 'Employee' AND e.som_email = '{$safeEmail}'";
-} elseif ($role === 'Director' || $role === 'Admin') {
+    $sql .= " AND e.role IN ('Employee', 'Team Lead') AND e.som_email = '{$safeEmail}'";
+}  
+
+elseif ($role === 'Director' || $role === 'Admin') {
     // Directors/Admins see all
 }
 

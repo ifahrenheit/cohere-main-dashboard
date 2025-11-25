@@ -14,6 +14,22 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], $allowedRoles)) {
 $role = $_SESSION['role'] ?? '';
 $userEmail = $_SESSION['user_email'] ?? '';
 
+// Sorting
+$allowedSort = [
+    'employee_name' => "e.FirstName",
+    'original_date' => "STR_TO_DATE(c.original_date, '%Y-%m-%d')",
+    'som' => "e.SOM"
+];
+
+$sort = $_GET['sort'] ?? 'original_date';
+$order = $_GET['order'] ?? 'desc';
+
+if (!isset($allowedSort[$sort])) {
+    $sort = 'original_date';
+}
+
+$order = ($order === 'asc') ? 'ASC' : 'DESC';
+
 // Base SQL
 $sql = "
     SELECT 
@@ -35,18 +51,18 @@ $sql = "
     WHERE c.status = 'Pending'
 ";
 
-// Apply filters based on role
+// Apply role-based filters
 if ($role === 'SOM Approver') {
     $safeEmail = $conn->real_escape_string($userEmail);
-    $sql .= " AND e.role = 'Manager' AND e.som_email = '{$safeEmail}'";
-} elseif ($role === 'Manager') {
+    $sql .= " AND e.som_email = '{$safeEmail}' AND e.role IN ('Employee','Team Lead','Manager')";
+} 
+elseif ($role === 'Manager') {
     $safeEmail = $conn->real_escape_string($userEmail);
-    $sql .= " AND e.role = 'Employee' AND e.som_email = '{$safeEmail}'";
-} elseif ($role === 'Director' || $role === 'Admin') {
-    // Directors/Admins see all
+    $sql .= " AND e.som_email = '{$safeEmail}' AND e.role IN ('Employee','Team Lead')";
 }
 
-$sql .= " ORDER BY STR_TO_DATE(c.original_date, '%Y-%m-%d') DESC, e.FirstName ASC";
+// Apply sorting
+$sql .= " ORDER BY {$allowedSort[$sort]} $order";
 
 $result = $conn->query($sql);
 if (!$result) {
@@ -56,57 +72,92 @@ if (!$result) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Approve Change Work Schedule Requests</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approve Change Work Schedule Requests</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    th {
+        color: #fff;
+    }
+    th a {
+        text-decoration: none;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .sort-arrow {
+        font-size: 14px;
+        opacity: 0.6;
+    }
+    th a:hover .sort-arrow {
+        opacity: 1;
+    }
+</style>
 </head>
 <body>
-  <div class="header">
-      Pending Change Work Schedule Requests
-      <div class="logout-btn">
-          <a href="dashboard.php"><button class="btn-back">Back to Dashboard</button></a>
-          <a href="logout.php"><button>Logout</button></a>
-      </div>
-  </div>
+<div class="header">
+    Pending Change Work Schedule Requests
+    <div class="logout-btn">
+        <a href="dashboard.php"><button class="btn-back">Back to Dashboard</button></a>
+        <a href="logout.php"><button>Logout</button></a>
+    </div>
+</div>
 
-  <div class="container">
-  <table>
-      <tr>
-          <th>Employee ID</th>
-          <th>Employee Name</th>
-          <th>Original Date</th>
-          <th>Original Time</th>
-          <th>New Date</th>
-          <th>New Time</th>
-          <th>Reason</th>
-          <th>Status</th>
-          <th>Action</th>
-          <th>SOM</th>
-      </tr>
-      <?php while ($row = $result->fetch_assoc()): ?>
-          <tr id="row-<?= htmlspecialchars($row['id']); ?>">
-              <td><?= htmlspecialchars($row['employee_id']); ?></td>
-              <td><?= htmlspecialchars($row['FirstName'] . ' ' . $row['LastName']); ?></td>
-              <td><?= htmlspecialchars($row['original_date']); ?></td>
-              <td><?= htmlspecialchars($row['original_time']); ?></td>
-              <td><?= htmlspecialchars($row['new_date']); ?></td>
-              <td><?= htmlspecialchars($row['new_time']); ?></td>
-              <td class="reason"><?= nl2br(htmlspecialchars(html_entity_decode($row['reason']))); ?></td>
-              <td><?= htmlspecialchars($row['status']); ?></td>
-              <td>
-                  <button class="approveBtn" data-id="<?= htmlspecialchars($row['id']); ?>">Approve</button>
-                  <button class="rejectBtn" data-id="<?= htmlspecialchars($row['id']); ?>">Reject</button>
-              </td>
-              <td><?= htmlspecialchars($row['SOM']); ?></td>
-          </tr>
-      <?php endwhile; ?>
-  </table>
-  </div>
+<div class="container">
+<table>
+    <tr>
+        <th>Employee ID</th>
+        <th>
+            <a href="?sort=employee_name&order=<?= ($sort=='employee_name' && $order=='ASC') ? 'desc' : 'asc' ?>">
+                Employee Name
+                <span class="sort-arrow"><?= ($sort=='employee_name' ? ($order=='ASC' ? '▲' : '▼') : '↕') ?></span>
+            </a>
+        </th>
+        <th>
+            <a href="?sort=original_date&order=<?= ($sort=='original_date' && $order=='ASC') ? 'desc' : 'asc' ?>">
+                Original Date
+                <span class="sort-arrow"><?= ($sort=='original_date' ? ($order=='ASC' ? '▲' : '▼') : '↕') ?></span>
+            </a>
+        </th>
+        <th>Original Time</th>
+        <th>New Date</th>
+        <th>New Time</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Action</th>
+        <th>
+            <a href="?sort=som&order=<?= ($sort=='som' && $order=='ASC') ? 'desc' : 'asc' ?>">
+                SOM
+                <span class="sort-arrow"><?= ($sort=='som' ? ($order=='ASC' ? '▲' : '▼') : '↕') ?></span>
+            </a>
+        </th>
+    </tr>
+
+    <?php while ($row = $result->fetch_assoc()): ?>
+    <tr id="row-<?= htmlspecialchars($row['id']); ?>">
+        <td><?= htmlspecialchars($row['employee_id']); ?></td>
+        <td><?= htmlspecialchars($row['FirstName'] . ' ' . $row['LastName']); ?></td>
+        <td><?= htmlspecialchars($row['original_date']); ?></td>
+        <td><?= htmlspecialchars($row['original_time']); ?></td>
+        <td><?= htmlspecialchars($row['new_date']); ?></td>
+        <td><?= htmlspecialchars($row['new_time']); ?></td>
+        <td class="reason"><?= nl2br(htmlspecialchars(html_entity_decode($row['reason']))); ?></td>
+        <td><?= htmlspecialchars($row['status']); ?></td>
+        <td>
+            <button class="approveBtn" data-id="<?= htmlspecialchars($row['id']); ?>">Approve</button>
+            <button class="rejectBtn" data-id="<?= htmlspecialchars($row['id']); ?>">Reject</button>
+        </td>
+        <td><?= htmlspecialchars($row['SOM']); ?></td>
+    </tr>
+    <?php endwhile; ?>
+</table>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // unified helper: send POST to process script and remove row on OK
     function handleAction(recordId, action, button) {
         if (!recordId) return;
 
@@ -114,50 +165,38 @@ document.addEventListener("DOMContentLoaded", function() {
         const originalText = button.textContent;
         button.textContent = "Processing...";
 
-        const body = "cws_id=" + encodeURIComponent(recordId) + "&action=" + encodeURIComponent(action);
-
         fetch("process_cws.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: body
+            body: "cws_id=" + encodeURIComponent(recordId) + "&action=" + encodeURIComponent(action)
         })
-        .then(response => response.text())
+        .then(res => res.text())
         .then(text => {
-            const data = text.trim();
-
-            if (data === "OK") {
-                // Use the same local variable recordId — no global/undeclared names
+            if (text.trim() === "OK") {
                 const row = document.getElementById("row-" + recordId);
                 if (row) row.remove();
             } else {
-                // Keep button enabled again so user can retry
-                alert("Server response: " + data);
+                alert("Server response: " + text);
                 button.disabled = false;
                 button.textContent = originalText;
             }
         })
         .catch(err => {
-            // Network or other fatal JS errors
-            console.error("Approval request failed:", err);
             alert("Error: " + err);
             button.disabled = false;
             button.textContent = originalText;
         });
     }
 
-    // wire up approve buttons
     document.querySelectorAll(".approveBtn").forEach(btn => {
         btn.addEventListener("click", function() {
-            const id = this.getAttribute("data-id");
-            handleAction(id, "approve", this);
+            handleAction(this.dataset.id, "approve", this);
         });
     });
 
-    // wire up reject buttons
     document.querySelectorAll(".rejectBtn").forEach(btn => {
         btn.addEventListener("click", function() {
-            const id = this.getAttribute("data-id");
-            handleAction(id, "reject", this);
+            handleAction(this.dataset.id, "reject", this);
         });
     });
 });

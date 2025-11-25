@@ -34,10 +34,17 @@ $sql = "
 
 // ✅ Role-based filters
 if ($role === 'SOM Approver') {
-    $sql .= " AND e.role = 'Manager' AND e.som_email = '$userEmail'";
-} elseif ($role === 'Manager') {
-    $sql .= " AND e.role = 'Employee' AND e.som_email = '$userEmail'";
-} elseif (in_array($role, ['Director', 'Admin'])) {
+    $safeEmail = $conn->real_escape_string($userEmail);
+    $sql .= " AND e.som_email = '{$safeEmail}' AND e.role IN ('Employee','Team Lead','Manager')";
+}
+ 
+
+elseif ($role === 'Manager') {
+    $safeEmail = $conn->real_escape_string($userEmail);
+    $sql .= " AND e.role IN ('Employee', 'Team Lead') AND e.som_email = '{$safeEmail}'";
+}  
+
+elseif (in_array($role, ['Director', 'Admin'])) {
     // can view all
 }
 
