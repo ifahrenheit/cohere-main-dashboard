@@ -37,6 +37,7 @@ $sql = "
            c.status, 
            c.approver_name, 
            c.approved_at,
+           e.SOM AS som_approver,
            c.deleted_at
     FROM cws_requests c
     LEFT JOIN Employees e ON c.employee_id = e.EmployeeID
@@ -151,11 +152,19 @@ $total_pages = ceil($total_records / $limit);
                     <td><?php echo htmlspecialchars($row['cws_hours']); ?></td>
                     <td><?php echo htmlspecialchars($row['reason']); ?></td>
                     <td><?php echo htmlspecialchars($row['status']); ?></td>
-                    <td><?php echo htmlspecialchars($row['approver_name'] ?? 'Unknown'); ?></td>
+                    <td>
+                        <?php
+                        if (!empty($row['approver_name'])) {
+                            echo htmlspecialchars($row['approver_name']);
+                        } else {
+                            echo !empty($row['som_approver']) ? htmlspecialchars($row['som_approver']) : 'Unknown';
+                        }
+                        ?>
+                    </td>
                     <td><?php echo $row['approved_at'] ? htmlspecialchars($row['approved_at']) : 'Pending'; ?></td>
                     <?php if ($is_authorized): ?>
                     <td>
-                        <button class="delete-button" onclick="confirmDelete(<?php echo $row['id']; ?>)">Delete</button>
+                        <button class="delete-button" onclick="confirmDelete(<?php echo (int)$row['id']; ?>)">Delete</button>
                     </td>
                     <?php endif; ?>
                 </tr>

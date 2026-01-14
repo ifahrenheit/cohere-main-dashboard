@@ -22,12 +22,17 @@ $approver_filter = $_GET['approver'] ?? '';
 $start_date = $_GET['start_date'] ?? '';
 $end_date = $_GET['end_date'] ?? '';
 $page = max(1, intval($_GET['page'] ?? 1));
-$limit = 15;
+$limit = intval($_GET['per_page'] ?? 25); // Default to 25
+$allowed_limits = [25, 50, 100, 500];
+if (!in_array($limit, $allowed_limits)) {
+    $limit = 25; // Fallback to 25 if invalid value
+}
 $offset = ($page - 1) * $limit;
 
-// Base Query
+// Base Query with SOM approver (including soft-deleted records)
 $sql = "SELECT o.*, 
                CONCAT(e.FirstName, ' ', e.LastName) AS employee_name,
+               e.SOM AS som_approver,
                CASE
                    WHEN o.end_time < o.start_time 
                        THEN TIME_TO_SEC(TIMEDIFF(ADDTIME(o.end_time, '24:00:00'), o.start_time)) / 3600
@@ -35,7 +40,7 @@ $sql = "SELECT o.*,
                END AS ot_hours
         FROM ot_requests o
         LEFT JOIN Employees e ON o.employee_id = e.EmployeeID
-        WHERE o.deleted_at IS NULL";
+        WHERE 1=1";
 
 // Apply Filters
 if (!empty($search_query)) {
@@ -67,12 +72,11 @@ if (!empty($start_date) && !empty($end_date)) {
 $sql .= " ORDER BY COALESCE(o.timestamp, o.ot_date) DESC LIMIT $limit OFFSET $offset";
 $result = $conn->query($sql);
 
-// Pagination Count
+// Pagination Count (also including soft-deleted)
 $count_sql = "SELECT COUNT(*) as count FROM ot_requests o 
               LEFT JOIN Employees e ON o.employee_id = e.EmployeeID 
-              WHERE o.deleted_at IS NULL";
-$count_result = $conn->query($count_sql);
-$total_records = $count_result->fetch_assoc()['count'] ?? 0;
+              WHERE 1=1";
+$total_records = $conn->query($count_sql)->fetch_assoc()['count'] ?? 0;
 $total_pages = ceil($total_records / $limit);
 
 // Fetch Approvers for dropdown
@@ -84,7 +88,6 @@ $approvers_result = $conn->query("
       AND approver_name != 'Andrew Vincent Tacdoro'
     ORDER BY approver_name ASC
 ");
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -92,20 +95,16 @@ $approvers_result = $conn->query("
     <title>OT Requests</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
-        .delete-button {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .delete-button:hover {
-            background-color: #c0392b;
-        }
-        .filter-row select, .filter-row input {
-            margin-right: 8px;
-        }
+        .delete-button { background-color: #e74c3c; color: white; border: none; padding: 6px 10px; cursor: pointer; border-radius: 4px; }
+        .delete-button:hover { background-color: #c0392b; }
+        .filter-row select, .filter-row input { margin-right: 8px; }
+        .soft-deleted-row { background-color: #ffe6e6; border-left: 4px solid #dc3545; }
+        .deleted-badge { background-color: #dc3545; color: white; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: bold; margin-left: 8px; }
+        table { border-collapse: collapse; }
+        td small { line-height: 1.4; }
+        .pagination { margin-top: 20px; display: flex; gap: 5px; justify-content: center; align-items: center; }
+        .pagination a { padding: 8px 12px; border: 1px solid #ddd; text-decoration: none; color: #333; border-radius: 4px; transition: all 0.3s; }
+        .pagination a:hover { background-color: #f0f0f0; border-color: #007bff; }
     </style>
     <script>
         function confirmDelete(id) {
@@ -140,7 +139,7 @@ $approvers_result = $conn->query("
         <label>Status:</label>
         <select name="status">
             <?php
-            $statuses = ['All', 'Approved', 'Rejected'];
+            $statuses = ['All', 'Approved', 'Rejected', 'Deleted', 'Pending'];
             foreach ($statuses as $status) {
                 $selected = (strtolower($status_filter) === strtolower($status)) ? 'selected' : '';
                 echo "<option value='$status' $selected>$status</option>";
@@ -152,8 +151,7 @@ $approvers_result = $conn->query("
         <select name="approver">
             <option value="all">All</option>
             <?php while ($a = $approvers_result->fetch_assoc()): ?>
-                <option value="<?= htmlspecialchars($a['approver_name']); ?>"
-                    <?= ($a['approver_name'] === $approver_filter) ? 'selected' : ''; ?>>
+                <option value="<?= htmlspecialchars($a['approver_name']); ?>" <?= ($a['approver_name'] === $approver_filter) ? 'selected' : ''; ?>>
                     <?= htmlspecialchars($a['approver_name']); ?>
                 </option>
             <?php endwhile; ?>
@@ -164,9 +162,28 @@ $approvers_result = $conn->query("
         <label>To:</label>
         <input type="date" name="end_date" value="<?= htmlspecialchars($end_date); ?>">
 
+        <label>Per Page:</label>
+        <select name="per_page">
+            <?php
+            $per_page_options = [25, 50, 100, 500];
+            foreach ($per_page_options as $option) {
+                $selected = ($limit === $option) ? 'selected' : '';
+                echo "<option value='$option' $selected>$option</option>";
+            }
+            ?>
+        </select>
+
         <button type="submit">Filter</button>
         <button type="submit" formaction="download_ot.php">Download CSV</button>
     </form>
+
+    <div style="margin: 10px 0; color: #666; font-size: 14px;">
+        <?php
+        $start_record = $offset + 1;
+        $end_record = min($offset + $limit, $total_records);
+        echo "Showing $start_record-$end_record of $total_records records";
+        ?>
+    </div>
 
     <table>
         <tr>
@@ -181,11 +198,12 @@ $approvers_result = $conn->query("
             <th>Status</th>
             <th>Approver</th>
             <th>Decision Timestamp</th>
+            <th>Deleted Info</th>
             <?php if ($is_authorized): ?><th>Action</th><?php endif; ?>
         </tr>
 
         <?php while ($row = $result->fetch_assoc()): ?>
-            <tr>
+            <tr <?= !empty($row['deleted_at']) ? 'class="soft-deleted-row"' : ''; ?>>
                 <td><?= htmlspecialchars($row['employee_id']); ?></td>
                 <td><?= htmlspecialchars($row['employee_name'] ?? 'Unknown'); ?></td>
                 <td><?= htmlspecialchars($row['ot_date']); ?></td>
@@ -194,8 +212,25 @@ $approvers_result = $conn->query("
                 <td><?= number_format((float)$row['ot_hours'], 2); ?></td>
                 <td><?= htmlspecialchars($row['ot_type']); ?></td>
                 <td><?= ($row['regular_rate'] === 'Yes') ? 'Yes' : 'No'; ?></td>
-                <td><?= htmlspecialchars($row['status']); ?></td>
-                <td><?= htmlspecialchars($row['approver_name'] ?? 'Unknown'); ?></td>
+                <td>
+                    <?php if (!empty($row['deleted_at'])): ?>
+                        <span style="color: #999; text-decoration: line-through;">
+                            Previously <?= htmlspecialchars($row['status']); ?>
+                        </span>
+                        <span class="deleted-badge">DELETED</span>
+                    <?php else: ?>
+                        <?= htmlspecialchars($row['status']); ?>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php
+                    if (!empty($row['approver_name'])) {
+                        echo htmlspecialchars($row['approver_name']);
+                    } else {
+                        echo !empty($row['som_approver']) ? htmlspecialchars($row['som_approver']) : 'Unknown';
+                    }
+                    ?>
+                </td>
                 <td>
                     <?php
                     if ($row['status'] === 'Approved' && !empty($row['approved_at'])) {
@@ -207,19 +242,60 @@ $approvers_result = $conn->query("
                     }
                     ?>
                 </td>
+                <td>
+                    <?php if (!empty($row['deleted_at'])): ?>
+                        <small style="color: #dc3545;">
+                            By: <?= htmlspecialchars($row['deleted_by'] ?? 'Unknown'); ?><br>
+                            At: <?= htmlspecialchars($row['deleted_at']); ?>
+                        </small>
+                    <?php else: ?>
+                        -
+                    <?php endif; ?>
+                </td>
                 <?php if ($is_authorized): ?>
-                <td><button class="delete-button" onclick="confirmDelete(<?= $row['id']; ?>)">Delete</button></td>
+                <td>
+                    <?php if (empty($row['deleted_at'])): ?>
+                        <button class="delete-button" onclick="confirmDelete(<?= (int)$row['id']; ?>)">Delete</button>
+                    <?php else: ?>
+                        <span style="color: #999;">Already Deleted</span>
+                    <?php endif; ?>
+                </td>
                 <?php endif; ?>
             </tr>
         <?php endwhile; ?>
     </table>
 
     <div class="pagination">
-        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <a href="?page=<?= $i; ?>&search=<?= urlencode($search_query); ?>&status=<?= urlencode($status_filter); ?>&approver=<?= urlencode($approver_filter); ?>&start_date=<?= urlencode($start_date); ?>&end_date=<?= urlencode($end_date); ?>">
-                <?= $i; ?>
-            </a>
-        <?php endfor; ?>
+        <?php
+        // Build base URL with all parameters except page
+        $base_url = "?search=" . urlencode($search_query) . 
+                    "&status=" . urlencode($status_filter) . 
+                    "&approver=" . urlencode($approver_filter) . 
+                    "&start_date=" . urlencode($start_date) . 
+                    "&end_date=" . urlencode($end_date) . 
+                    "&per_page=" . $limit;
+        
+        // First and Previous
+        if ($page > 1) {
+            echo "<a href='$base_url&page=1'>&laquo; First</a>";
+            echo "<a href='$base_url&page=" . ($page - 1) . "'>&lsaquo; Prev</a>";
+        }
+        
+        // Page numbers - show current page and 2 pages on each side
+        $start_page = max(1, $page - 2);
+        $end_page = min($total_pages, $page + 2);
+        
+        for ($i = $start_page; $i <= $end_page; $i++) {
+            $active_class = ($i === $page) ? 'style="font-weight: bold; background-color: #007bff; color: white;"' : '';
+            echo "<a href='$base_url&page=$i' $active_class>$i</a>";
+        }
+        
+        // Next and Last
+        if ($page < $total_pages) {
+            echo "<a href='$base_url&page=" . ($page + 1) . "'>Next &rsaquo;</a>";
+            echo "<a href='$base_url&page=$total_pages'>Last &raquo;</a>";
+        }
+        ?>
     </div>
 </div>
 </body>

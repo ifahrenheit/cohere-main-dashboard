@@ -56,7 +56,7 @@ if (!empty($search)) {
     $types .= "ssss";
 }
 
-$sql .= " ORDER BY u.companyid, d.date";
+$sql .= " ORDER BY d.date DESC";
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {

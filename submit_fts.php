@@ -1,4 +1,5 @@
 <?php
+// Session configuration MUST come first
 ini_set('session.cookie_domain', '.cohere.ph');
 ini_set('session.cookie_samesite', 'None');
 ini_set('session.cookie_secure', '1');
@@ -7,7 +8,7 @@ session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; // PHPMailer installed via Composer
+require 'vendor/autoload.php';
 include 'db_connection.php';
 
 if (!isset($_SESSION['employeeID']) || empty($_SESSION['employeeID'])) {
@@ -15,6 +16,140 @@ if (!isset($_SESSION['employeeID']) || empty($_SESSION['employeeID'])) {
 }
 
 $employee_id = $_SESSION['employeeID'];
+
+// Professional email function for FTS
+function sendFTSEmailToApprover($conn, $employee_id, $employee_name, $employee_role, $fts_date, $fts_time, $fts_type, $approver_email, $approver_name) {
+    
+    // Create professional email body
+    $subject = "New FTS Request - " . $employee_name . " - " . date('M j, Y', strtotime($fts_date));
+    
+    $email_body = "
+    <html>
+    <body style='font-family: Arial, sans-serif;'>
+        <div style='max-width: 600px; margin: 0 auto; padding: 20px;'>
+            <div style='background-color: #2196F3; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0;'>
+                <h2 style='margin: 0;'>New Failure to Swipe Request</h2>
+            </div>
+            
+            <div style='background-color: #f9f9f9; padding: 25px; border: 1px solid #ddd; border-top: none;'>
+                <p style='font-size: 16px; margin-bottom: 20px;'>
+                    Hello <strong>" . htmlspecialchars($approver_name) . "</strong>,
+                </p>
+                
+                <p>You have a new Failure to Swipe request that <strong>requires your review and approval</strong>.</p>
+                
+                <div style='background-color: #e3f2fd; padding: 15px; border-left: 4px solid #2196F3; margin: 20px 0;'>
+                    <strong style='color: #1976d2;'>Employee Information</strong>
+                </div>
+                
+                <table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>
+                    <tr>
+                        <td style='padding: 12px; border: 1px solid #ddd; background-color: #f5f5f5;'><strong>Employee:</strong></td>
+                        <td style='padding: 12px; border: 1px solid #ddd;'>" . htmlspecialchars($employee_name) . " 
+                            <span style='background-color: #e3f2fd; color: #1976d2; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;'>" . htmlspecialchars($employee_role) . "</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 12px; border: 1px solid #ddd; background-color: #f5f5f5;'><strong>Employee ID:</strong></td>
+                        <td style='padding: 12px; border: 1px solid #ddd;'>" . htmlspecialchars($employee_id) . "</td>
+                    </tr>
+                </table>
+                
+                <div style='background-color: #fff3e0; padding: 15px; border-left: 4px solid #ff9800; margin: 20px 0;'>
+                    <strong style='color: #e65100;'>FTS Details</strong>
+                </div>
+                
+                <table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>
+                    <tr>
+                        <td style='padding: 12px; border: 1px solid #ddd; background-color: #f5f5f5;'><strong>FTS Date:</strong></td>
+                        <td style='padding: 12px; border: 1px solid #ddd;'>" . htmlspecialchars(date('l, F j, Y', strtotime($fts_date))) . "</td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 12px; border: 1px solid #ddd; background-color: #f5f5f5;'><strong>FTS Time:</strong></td>
+                        <td style='padding: 12px; border: 1px solid #ddd;'><strong>" . htmlspecialchars($fts_time) . "</strong></td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 12px; border: 1px solid #ddd; background-color: #f5f5f5;'><strong>FTS Type:</strong></td>
+                        <td style='padding: 12px; border: 1px solid #ddd;'>
+                            <span style='background-color: " . ($fts_type == 'IN' ? '#4CAF50' : '#f44336') . "; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold;'>" . htmlspecialchars($fts_type) . "</span>
+                        </td>
+                    </tr>
+                </table>
+                
+                <p style='text-align: center; margin: 30px 0;'>
+                    <a href='https://dashboard.cohere.ph' 
+                       style='background-color: #2196F3; color: white; padding: 14px 28px; 
+                              text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 16px;'>
+                        Review Request on Dashboard
+                    </a>
+                </p>
+                
+                <div style='background-color: #fff3cd; padding: 15px; border-radius: 5px; border-left: 4px solid #ffc107;'>
+                    <strong>Action Required:</strong> Please log in to the dashboard to approve or reject this request. 
+                    " . htmlspecialchars($employee_name) . " is waiting for your response.
+                </div>
+            </div>
+            
+            <div style='margin-top: 20px; font-size: 12px; color: #777; text-align: center; padding-top: 15px; border-top: 1px solid #ddd;'>
+                <p><strong>FTS Request System</strong></p>
+                <p>This is an automated notification. Please do not reply to this email.</p>
+                <p style='margin-top: 10px;'>
+                    <a href='https://dashboard.cohere.ph' style='color: #2196F3; text-decoration: none;'>Go to Dashboard</a> | 
+                    <a href='https://cohere.ph' style='color: #2196F3; text-decoration: none;'>Visit Website</a>
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>
+    ";
+    
+    // Send email using PHPMailer
+    $mail = new PHPMailer(true);
+    
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'cohere.ph';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'send_email@cohere.ph';
+        $mail->Password   = 'Cohere123456';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 2525;
+        
+        $mail->setFrom('send_email@cohere.ph', 'FTS Request System');
+        $mail->addAddress($approver_email, $approver_name);
+        
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $email_body;
+        
+        // Plain text version
+        $plain_text = "New Failure to Swipe Request\n\n";
+        $plain_text .= "Hello $approver_name,\n\n";
+        $plain_text .= "Employee: " . $employee_name . " (" . $employee_role . ") - ID: " . $employee_id . "\n\n";
+        $plain_text .= "FTS Date: " . $fts_date . "\n";
+        $plain_text .= "FTS Time: " . $fts_time . "\n";
+        $plain_text .= "FTS Type: " . $fts_type . "\n\n";
+        $plain_text .= "Please visit https://dashboard.cohere.ph to review and approve/reject this request.";
+        
+        $mail->AltBody = $plain_text;
+        
+        $mail->send();
+        
+        // Log success
+        file_put_contents('email_debug.txt', 
+            date('Y-m-d H:i:s') . " - FTS Email sent to: $approver_email ($approver_name) for $employee_name\n", 
+            FILE_APPEND);
+        
+        return true;
+        
+    } catch (Exception $e) {
+        error_log("FTS Email error: " . $e->getMessage());
+        file_put_contents('email_debug.txt', 
+            date('Y-m-d H:i:s') . " - FTS EMAIL FAILED to: $approver_email - Error: {$mail->ErrorInfo}\n", 
+            FILE_APPEND);
+        return false;
+    }
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $fts_date   = trim($_POST['fts_date'] ?? '');
@@ -28,10 +163,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $fts_time = sprintf("%02d:%02d:00", $fts_hour, $fts_minute);
 
-    // ✅ Get employee details including som_email
-    $stmt = $conn->prepare("SELECT firstname, lastname, role, SOM, som_email 
+    // Get employee details including som_email
+    $stmt = $conn->prepare("SELECT FirstName, LastName, role, SOM, som_email 
                             FROM Employees 
-                            WHERE employeeID = ?");
+                            WHERE EmployeeID = ?");
     $stmt->bind_param("s", $employee_id);
     $stmt->execute();
     $stmt->bind_result($firstname, $lastname, $role, $som_name, $som_email);
@@ -44,14 +179,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $employee_name = "$firstname $lastname";
 
-    // ✅ Determine approver
+    // Determine approver
     $approver_email = "";
     $approver_name  = "";
 
-    if ($role === "Shifts Operations Manager") {
+    if ($role === "Shifts Operations Manager" || $role === "SOM") {
         // SOM → send to SOM Approver
-        $stmt = $conn->prepare("SELECT email, CONCAT(TRIM(FirstName), ' ', TRIM(LastName)) 
-                                AS full_name 
+        $stmt = $conn->prepare("SELECT Email, CONCAT(TRIM(FirstName), ' ', TRIM(LastName)) as full_name 
                                 FROM Employees 
                                 WHERE role = 'SOM Approver' 
                                 LIMIT 1");
@@ -61,12 +195,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->close();
     } else {
         if (!empty($som_email)) {
-            // ✅ Use som_email directly
+            // Use som_email directly
             $approver_email = $som_email;
 
             // Get approver name using som_email
-            $stmt = $conn->prepare("SELECT CONCAT(TRIM(FirstName), ' ', TRIM(LastName)) 
-                                    AS full_name 
+            $stmt = $conn->prepare("SELECT CONCAT(TRIM(FirstName), ' ', TRIM(LastName)) as full_name 
                                     FROM Employees 
                                     WHERE Email = ?");
             $stmt->bind_param("s", $approver_email);
@@ -76,8 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->close();
         } else {
             // Fallback: use SOM field name if som_email is missing
-            $stmt = $conn->prepare("SELECT email, CONCAT(TRIM(FirstName), ' ', TRIM(LastName)) 
-                                    AS full_name 
+            $stmt = $conn->prepare("SELECT Email, CONCAT(TRIM(FirstName), ' ', TRIM(LastName)) as full_name 
                                     FROM Employees 
                                     WHERE CONCAT(TRIM(FirstName), ' ', TRIM(LastName)) = ?");
             $stmt->bind_param("s", $som_name);
@@ -92,52 +224,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Error: Approver email not found.");
     }
 
-    // ✅ Insert the request
+    // Insert the request
     $stmt = $conn->prepare("INSERT INTO fts_requests (employeeID, employee_name, fts_date, fts_time, fts_type, status, approver)
                             VALUES (?, ?, ?, ?, ?, 'Pending', ?)");
     $stmt->bind_param("ssssss", $employee_id, $employee_name, $fts_date, $fts_time, $fts_type, $approver_name);
     $stmt->execute();
     $stmt->close();
 
-    // ✅ Send email notification
-    $mail = new PHPMailer(true);
-
+    // Send professional email notification (wrapped in try-catch)
     try {
-        $mail->isSMTP();
-        $mail->Host       = 'cohere.ph';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'send_email@cohere.ph';
-        $mail->Password   = 'Cohere123456';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 2525;
-
-        $mail->setFrom('send_email@cohere.ph', 'Cohere Notification');
-        $mail->addAddress($approver_email);
-        $mail->isHTML(true);
-        $mail->Subject = 'New FTS Request from ' . $employee_name;
-        $mail->Body    = "Hello,<br><br>You have a new FTS request to review.<br><br>
-                          <strong>Date:</strong> $fts_date<br>
-                          <strong>Time:</strong> $fts_time<br>
-                          <strong>Type:</strong> $fts_type<br>
-                          <strong>From:</strong> $employee_name<br><br>
-                          Please log in to approve or reject.";
-
-        $mail->send();
-
-        file_put_contents('email_debug.txt', 
-    date('Y-m-d H:i:s') . " - Email sent successfully to: $approver_email ($approver_name) for $employee_name\n", 
-    FILE_APPEND);
-
-        echo "<script>alert('FTS Request Submitted & Email Sent!'); window.location.href='submit_fts.php';</script>";
-        exit();
+        sendFTSEmailToApprover($conn, $employee_id, $employee_name, $role, $fts_date, $fts_time, $fts_type, $approver_email, $approver_name);
     } catch (Exception $e) {
-
-         file_put_contents('email_debug.txt', 
-        date('Y-m-d H:i:s') . " - EMAIL FAILED to: $approver_email - Error: {$mail->ErrorInfo}\n", 
-        FILE_APPEND);
-        
-        echo "FTS Request Submitted, but email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        error_log("FTS Email exception: " . $e->getMessage());
     }
+
+    echo "<script>alert('FTS Request Submitted & Email Sent!'); window.location.href='submit_fts.php';</script>";
+    exit();
 }
 ?>
 
@@ -157,6 +259,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .time-container { display: flex; align-items: center; justify-content: center; }
         .time-container select { width: auto; flex: none; }
         .time-container span { margin: 0 5px; font-size: 1.2em; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid #ddd; }
+        th, td { padding: 10px; text-align: center; }
     </style>
 </head>
 <body>

@@ -29,7 +29,7 @@ $type_filter  = $conn->real_escape_string($_GET['type'] ?? '');
 $start_date   = $conn->real_escape_string($_GET['start_date'] ?? '');
 $end_date     = $conn->real_escape_string($_GET['end_date'] ?? '');
 
-// Build base query
+// Build base query - Calculate decimal hours in SQL
 $sql = "
     SELECT
         o.employee_id,
@@ -39,9 +39,9 @@ $sql = "
         o.end_time,
         CASE
             WHEN o.end_time < o.start_time THEN
-                TIME_FORMAT(TIMEDIFF(ADDTIME(o.end_time, '24:00:00'), o.start_time), '%H:%i')
+                ROUND(TIME_TO_SEC(TIMEDIFF(ADDTIME(o.end_time, '24:00:00'), o.start_time)) / 3600, 2)
             ELSE
-                TIME_FORMAT(TIMEDIFF(o.end_time, o.start_time), '%H:%i')
+                ROUND(TIME_TO_SEC(TIMEDIFF(o.end_time, o.start_time)) / 3600, 2)
         END AS ot_hours,
         o.ot_type,
         o.regular_rate,
@@ -88,7 +88,7 @@ while ($row = $result->fetch_assoc()) {
         $row['ot_date'],
         $row['start_time'],
         $row['end_time'],
-        $row['ot_hours'],
+        $row['ot_hours'], // Now in decimal format (e.g., 4.50)
         $row['ot_type'],
         $row['regular_rate'],
         $row['status'],

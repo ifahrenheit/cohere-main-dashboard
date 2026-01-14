@@ -113,6 +113,11 @@ if (
         🧩 Questions Performance
       </a>
     </li>
+        <li class="nav-item">
+      <a class="nav-link <?= basename($_SERVER['PHP_SELF']) === 'view_questions.php' ? 'active' : '' ?>" href="view_questions.php">
+         View Questions
+      </a>
+    </li>
   </ul>
 </nav>
 
@@ -187,13 +192,16 @@ if (
         tr.innerHTML = `
           <td>${row.companyid}</td>
           <td>${row.fullname}</td>
-          <td>${row.email}</td>
+          <td>${row.email || 'N/A'}</td>
           <td>${row.total_questions}</td>
           <td>${row.total_correct}</td>
           <td>${row.score_percentage}%</td>
           <td>${row.duration_seconds > 0 ? formatDuration(row.duration_seconds) : 'N/A'}</td>
-          <td><a class="view-link" href="view_answers.php?companyid=${encodeURIComponent(row.companyid)}" target="_blank">View</a></td>
+          <td>
+            <a class="view-link" href="view_answers.php?username=${encodeURIComponent(row.username)}" target="_blank">View</a>
+          </td>
         `;
+
         tbody.appendChild(tr);
 
         totalQuestions += parseInt(row.total_questions);

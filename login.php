@@ -1,4 +1,7 @@
 <?php
+// ✅ Set permissive CSP to allow browser extensions
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https://cdn.jsdelivr.net; connect-src 'self' https:;");
+header("Cache-Control: no-cache, must-revalidate");
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -109,11 +112,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['is_qa'] = $isQa;
 
 
-                // ✅ Set secure cross-subdomain cookie
+                // ✅ Set secure cross-subdomain cookie with expiration
                 setcookie(session_name(), session_id(), [
+                    'expires' => time() + 86400, // 24 hours
                     'domain' => '.cohere.ph',
                     'path' => '/',
                     'secure' => true,
+                    'httponly' => true,
                     'samesite' => 'None'
                 ]);
 

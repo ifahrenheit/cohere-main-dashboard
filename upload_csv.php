@@ -1,64 +1,95 @@
 <?php
-session_start(); // Start the session
+// Path to upload folder
+$targetDir = "/var/www/html/cohere_dashboard/uploads/";
+$allowedTypes = ["text/csv", "application/csv", "text/plain"];  // Allow only CSV
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_FILES['file']) && $_FILES['file']['error'] == UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['file']['tmp_name'];
-        $originalFileName = $_FILES['file']['name'];
+// Check if the form is submitted and file is uploaded
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["csvFile"])) {
+    // Get file details
+    $fileName = $_FILES["csvFile"]["name"];
+    $fileTmpName = $_FILES["csvFile"]["tmp_name"];
+    $fileSize = $_FILES["csvFile"]["size"];
+    $fileError = $_FILES["csvFile"]["error"];
+    $fileType = $_FILES["csvFile"]["type"];
+    
+    // Validate file type (must be CSV)
+    if (!in_array($fileType, $allowedTypes)) {
+        echo "Only CSV files are allowed.";
+        exit;
+    }
+    
+    // Check if there were any errors during file upload
+    if ($fileError === UPLOAD_ERR_OK) {
+        // Generate a unique name for the file to avoid conflicts
+        $newFileName = uniqid("", true) . "_" . basename($fileName);
+        $targetFilePath = $targetDir . $newFileName;
 
-        // Sanitize the file name
-        $originalFileName = preg_replace("/[^a-zA-Z0-9\._-]/", "_", $originalFileName);
+        // Move the uploaded file to the target directory
+        if (move_uploaded_file($fileTmpName, $targetFilePath)) {
+            echo "File uploaded successfully!<br>";
+            echo "File saved as: " . $newFileName . "<br>";
 
-        $uploadDir = 'uploads/';
-
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        $destination = $uploadDir . $originalFileName;
-
-        // Ensure unique filename by appending timestamp if file exists
-        if (file_exists($destination)) {
-            $fileInfo = pathinfo($originalFileName);
-            $destination = $uploadDir . $fileInfo['filename'] . "_" . time() . "." . $fileInfo['extension'];
-        }
-
-        if (move_uploaded_file($fileTmpPath, $destination)) {
-            // Make the file executable
-            chmod($destination, 0755);
-
-            // Set success message
-            $_SESSION['success_message'] = "File uploaded successfully as '$originalFileName'!";
-
-            // Redirect to display page
-            header("Location: display_csv.php?file=" . urlencode($destination));
-            exit();
+            // Process CSV to JSON (Keycloak format)
+            processCSV($targetFilePath);
         } else {
-            echo "Error moving the uploaded file.";
+            echo "Error uploading the file.";
         }
     } else {
-        echo "No file uploaded or upload error.";
+        echo "Error during file upload: " . $fileError;
     }
 } else {
-    echo "Invalid request.";
+    echo "No file uploaded or invalid request.";
+}
+
+// Function to process CSV file and convert it to JSON for Keycloak
+function processCSV($filePath) {
+    // Open the CSV file
+    if (($handle = fopen($filePath, "r")) !== FALSE) {
+        $users = [];
+        
+        // Read the CSV header (optional) and data
+        $header = fgetcsv($handle);  // Skip the first line (header)
+        
+        // Loop through each row of the CSV
+        while (($row = fgetcsv($handle)) !== FALSE) {
+            // Ensure that there are 4 columns (Name, Email, Username, Password)
+            if (count($row) == 4) {
+                list($name, $email, $username, $password) = $row;
+                
+                // Split the name into first and last names
+                $nameParts = explode(" ", $name);
+                $firstName = $nameParts[0];
+                $lastName = isset($nameParts[1]) ? $nameParts[1] : "";  // Handle single name case
+                
+                // Create a user object for Keycloak
+                $user = [
+                    "username" => $email,
+                    "firstName" => $firstName,
+                    "lastName" => $lastName,
+                    "email" => $email,
+                    "enabled" => true,
+                    "emailVerified" => false,
+                    "attributes" => [],
+                    "requiredActions" => ["VERIFY_EMAIL", "UPDATE_PASSWORD"],
+                    "credentials" => [
+                        [
+                            "type" => "password",
+                            "value" => $password
+                        ]
+                    ]
+                ];
+                $users[] = $user;
+            }
+        }
+
+        fclose($handle);  // Close the CSV file
+
+        // Convert the users array to JSON and save to a file
+        $jsonFileName = "/var/www/html/cohere_dashboard/uploads/users_" . uniqid() . ".json";
+        file_put_contents($jsonFileName, json_encode($users, JSON_PRETTY_PRINT));
+        echo "Users have been converted to JSON. <a href='$jsonFileName'>Download JSON File</a>";
+    } else {
+        echo "Failed to open CSV file.";
+    }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload CSV</title>
-</head>
-<body>
-    <h2>Upload a CSV File</h2>
-    <form action="upload_csv.php" method="post" enctype="multipart/form-data">
-        <label for="file">Choose CSV file:</label>
-        <input type="file" name="file" id="file" accept=".csv" required>
-        <br><br>
-        <button type="submit">Upload</button>
-    </form>
-</body>
-</html>
-

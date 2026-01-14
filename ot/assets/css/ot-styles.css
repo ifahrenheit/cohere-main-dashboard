@@ -1,0 +1,458 @@
+/* ot/assets/css/ot-styles.css */
+/* OT Tracker - Centralized Styles */
+
+/* ============================================
+   COLOR VARIABLES - Change colors here only!
+   ============================================ */
+:root {
+    --primary-color: #71b280;
+    --secondary-color: #134e5e;
+    --primary-light: rgba(102, 126, 234, 0.1);
+    --primary-dark: #5568d3;
+    
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --danger-color: #f44336;
+    --info-color: #2196f3;
+    
+    --text-dark: #333;
+    --text-medium: #666;
+    --text-light: #999;
+    
+    --bg-light: #f8f9fa;
+    --bg-lighter: #f5f5f5;
+    --border-color: #e0e0e0;
+    
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+    --shadow-md: 0 2px 12px rgba(0,0,0,0.1);
+    --shadow-lg: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* ============================================
+   GENERAL STYLES
+   ============================================ */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* ============================================
+   HEADER STYLES
+   ============================================ */
+.ot-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 2rem;
+    margin: -2rem -2rem 2rem -2rem;
+    border-radius: 10px 10px 0 0;
+}
+
+.ot-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.ot-header p {
+    margin: 0.5rem 0 0 0;
+    opacity: 0.9;
+}
+
+.role-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   AGENT ACTION SECTION
+   ============================================ */
+.agent-action-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+}
+
+.agent-action-section h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.agent-action-section p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 1rem;
+}
+
+.agent-action-section .tip {
+    margin: 0.5rem 0 0 0;
+    opacity: 0.8;
+    font-size: 0.85rem;
+}
+
+.agent-action-section .btn-submit {
+    background: white;
+    color: var(--primary-color);
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+.agent-action-section .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* ============================================
+   STATISTICS CARDS
+   ============================================ */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--primary-color);
+}
+
+.stat-card.warning {
+    border-left-color: var(--warning-color);
+}
+
+.stat-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-medium);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.stat-card .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.stat-card.warning .stat-value {
+    color: var(--warning-color);
+}
+
+.stat-card .stat-label {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   TABLES
+   ============================================ */
+.tickets-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tickets-table thead th {
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+.tickets-table thead th:first-child {
+    border-radius: 8px 0 0 0;
+}
+
+.tickets-table thead th:last-child {
+    border-radius: 0 8px 0 0;
+}
+
+.submission-group-row {
+    background: linear-gradient(135deg, var(--bg-light) 0%, #e9ecef 100%);
+    border-top: 3px solid var(--primary-color);
+}
+
+.submission-group-row td {
+    padding: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.submission-group-row .ot-hours {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.ticket-item-row {
+    background: white;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ticket-item-row:hover {
+    background: var(--bg-light);
+}
+
+.ticket-item-row.duplicate {
+    background: #fff3cd;
+    border-left: 4px solid var(--warning-color);
+}
+
+.ticket-item-row.duplicate:hover {
+    background: #ffe8a3;
+}
+
+.ticket-item-row td {
+    padding: 0.75rem 1rem;
+}
+
+.ticket-item-row td:first-child {
+    padding-left: 3rem;
+}
+
+.group-spacer {
+    height: 1rem;
+    background: var(--bg-lighter);
+}
+
+.ticket-number-cell {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.duplicate-row {
+    background-color: #fff3cd !important;
+}
+
+.duplicate-badge {
+    background: var(--warning-color);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+/* ============================================
+   FILTERS
+   ============================================ */
+.filters-section {
+    background: var(--bg-light);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.filter-group label {
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    display: block;
+}
+
+/* ============================================
+   VIEW TABS
+   ============================================ */
+.view-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.view-tab {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-medium);
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.view-tab:hover {
+    color: var(--primary-color);
+    background: var(--bg-light);
+}
+
+.view-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* ============================================
+   STATS BAR
+   ============================================ */
+.stats-bar {
+    background: var(--secondary-color); /* Solid color instead of gradient */
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.stats-bar .stat {
+    text-align: center;
+}
+
+.stats-bar .stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.stats-bar .stat-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* ============================================
+   QUICK ACTIONS
+   ============================================ */
+.quick-actions {
+    margin-top: 2rem;
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* ============================================
+   STATUS BADGES
+   ============================================ */
+.status-resolved {
+    background: var(--success-color);
+    color: white;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-open {
+    background: var(--info-color);
+    color: white;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-in_progress {
+    background: var(--warning-color);
+    color: white;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-closed {
+    background: #757575;
+    color: white;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .agent-action-section {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tickets-table {
+        font-size: 0.85rem;
+    }
+    
+    .tickets-table th,
+    .tickets-table td {
+        padding: 0.5rem;
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    .header-nav,
+    .action-buttons,
+    .quick-actions,
+    .filters-section,
+    .view-tabs,
+    .btn-edit,
+    .btn-view {
+        display: none !important;
+    }
+    
+    body {
+        background: white;
+    }
+    
+    .ot-header {
+        background: var(--primary-color) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

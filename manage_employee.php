@@ -61,14 +61,24 @@ if (isset($_GET['order']) && in_array(strtoupper($_GET['order']), ["ASC", "DESC"
 // Flip order when clicking same column again
 $nextOrder = ($sortOrder === "ASC") ? "DESC" : "ASC";
 
-// ✅ Fetch Employees
+// ✅ Fetch ACTIVE Employees only (joined with gsheet_employees)
 $employees = [];
-$result = $conn->query("SELECT EmployeeID, FirstName, LastName, Email, som_email, SOM, role 
-                        FROM Employees 
-                        ORDER BY $sortColumn $sortOrder");
+$result = $conn->query("SELECT e.EmployeeID, e.FirstName, e.LastName, e.Email, e.som_email, e.SOM, e.role 
+                        FROM Employees e
+                        INNER JOIN gsheet_employees ge ON e.Email = ge.email
+                        WHERE ge.status = 'Active'
+                        ORDER BY e.$sortColumn $sortOrder");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $employees[] = $row;
+    }
+}
+
+// ✅ Calculate unassigned approver count
+$unassignedApproverCount = 0;
+foreach ($employees as $emp) {
+    if (empty($emp['som_email']) || is_null($emp['som_email'])) {
+        $unassignedApproverCount++;
     }
 }
 ?>
@@ -77,68 +87,379 @@ if ($result) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Employees | Cohere</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<div class="container py-4">
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #050f38ff 0%, #0d4081ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-header h2 {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .btn-back {
+            background: white;
+            color: #050f38ff;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-tabs {
+            background: white;
+            border-radius: 12px 12px 0 0;
+            padding: 10px 20px 0;
+            margin-bottom: 0;
+            display: flex;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .nav-tabs li a {
+            display: block;
+            padding: 12px 24px;
+            color: #050f38ff;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+        }
+
+        .nav-tabs li a:hover {
+            background: #f7fafc;
+        }
+
+        .nav-tabs li a.active {
+            background: linear-gradient(135deg, #050f38ff 0%, #0d4081ff 100%);
+            color: white;
+        }
+
+        .header {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #1a202c;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #050f38ff 0%, #0d4081ff 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            flex: 1;
+        }
+
+        .stat-card.warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #050f38ff 0%, #0d4081ff 100%);
+            color: white;
+        }
+
+        thead th {
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+        }
+
+        thead th a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        thead th a:hover {
+            opacity: 0.8;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e2e8f0;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f7fafc;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .email-cell {
+            color: #0d4081ff;
+            font-weight: 500;
+        }
+
+        .approver-cell {
+            font-size: 13px;
+            color: #4a5568;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #e6fffa;
+            color: #047857;
+        }
+
+        .role-badge.admin {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .role-badge.manager {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .role-badge.director {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .btn-edit {
+            padding: 6px 16px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #050f38ff 0%, #0d4081ff 100%);
+            color: white;
+            border: none;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        @media (max-width: 768px) {
+            .stats {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            thead th, tbody td {
+                padding: 12px 10px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0 text-primary">👥 Employee Management</h2>
-        <a href="dashboard.php" class="btn btn-outline-danger btn-sm">⬅ Back to Dashboard</a>
+    <div class="page-header">
+        <h2>👥 Employee Management</h2>
+        <a href="dashboard.php" class="btn-back">⬅ Back to Dashboard</a>
     </div>
 
-<!-- Navigation Tabs -->
-<ul class="nav nav-tabs mb-4">
-    <li class="nav-item">
-        <a class="nav-link <?= basename($_SERVER['PHP_SELF']) === 'manage_employee.php' ? 'active' : '' ?>" href="manage_employee.php">Manage Employees</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= basename($_SERVER['PHP_SELF']) === 'add_employee.php' ? 'active' : '' ?>" href="add_employee.php">Add Employee</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= basename($_SERVER['PHP_SELF']) === 'manage_userdata.php' ? 'active' : '' ?>" href="manage_userdata.php">Manage Userdata</a>
-    </li>
-</ul>
+    <!-- Navigation Tabs -->
+    <ul class="nav-tabs">
+        <li><a href="manage_employee.php" class="active">Manage Employees</a></li>
+        <li><a href="manage_add_employee.php">Add Employee</a></li>
+        <li><a href="manage_userdata.php">Manage Userdata</a></li>
+        <li><a href="manage_supervisors.php">Supervisor Assignment</a></li>
+    </ul>
 
+    <div class="header">
+        <h1>Active Employees</h1>
+        <p>Showing only active employees from the system</p>
+        <div class="stats">
+            <div class="stat-card">
+                <div class="label">Total Active Employees</div>
+                <div class="value"><?= count($employees) ?></div>
+            </div>
+            <div class="stat-card <?= $unassignedApproverCount > 0 ? 'warning' : '' ?>">
+                <div class="label">Unassigned Approver</div>
+                <div class="value"><?= $unassignedApproverCount ?></div>
+            </div>
+        </div>
+    </div>
 
     <!-- Status Messages -->
     <?php if (!empty($message)): ?>
-        <div class="alert alert-info"><?= $message ?></div>
+        <?= $message ?>
     <?php endif; ?>
 
     <!-- Employee Table -->
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <strong>Employee List</strong>
-        </div>
-        <div class="card-body p-0">
-            <table class="table table-bordered table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th><a href="?sort=EmployeeID&order=<?= ($sortColumn === 'EmployeeID') ? $nextOrder : 'ASC' ?>">EmployeeID</a></th>
-                        <th><a href="?sort=FirstName&order=<?= ($sortColumn === 'FirstName') ? $nextOrder : 'ASC' ?>">First Name</a></th>
-                        <th><a href="?sort=LastName&order=<?= ($sortColumn === 'LastName') ? $nextOrder : 'ASC' ?>">Last Name</a></th>
-                        <th>Email</th>
-                        <th><a href="?sort=SOM&order=<?= ($sortColumn === 'SOM') ? $nextOrder : 'ASC' ?>">SOM</a></th>
-                        <th>SOM Email</th>
-                        <th><a href="?sort=role&order=<?= ($sortColumn === 'role') ? $nextOrder : 'ASC' ?>">Role</a></th>
-                        <th style="width:100px;">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th><a href="?sort=EmployeeID&order=<?= ($sortColumn === 'EmployeeID') ? $nextOrder : 'ASC' ?>">Employee ID <?= $sortColumn === 'EmployeeID' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th><a href="?sort=FirstName&order=<?= ($sortColumn === 'FirstName') ? $nextOrder : 'ASC' ?>">First Name <?= $sortColumn === 'FirstName' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th><a href="?sort=LastName&order=<?= ($sortColumn === 'LastName') ? $nextOrder : 'ASC' ?>">Last Name <?= $sortColumn === 'LastName' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th>Email</th>
+                    <th><a href="?sort=SOM&order=<?= ($sortColumn === 'SOM') ? $nextOrder : 'ASC' ?>">SOM <?= $sortColumn === 'SOM' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th>Approver</th>
+                    <th><a href="?sort=role&order=<?= ($sortColumn === 'role') ? $nextOrder : 'ASC' ?>">Role <?= $sortColumn === 'role' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th style="width:100px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php if (empty($employees)): ?>
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: 40px; color: #718096;">
+                        No active employees found.
+                    </td>
+                </tr>
+            <?php else: ?>
                 <?php foreach ($employees as $emp): ?>
                     <tr>
-                        <td><?= htmlspecialchars($emp['EmployeeID']) ?></td>
+                        <td><strong><?= htmlspecialchars($emp['EmployeeID']) ?></strong></td>
                         <td><?= htmlspecialchars($emp['FirstName']) ?></td>
                         <td><?= htmlspecialchars($emp['LastName']) ?></td>
-                        <td><?= htmlspecialchars($emp['Email']) ?></td>
+                        <td class="email-cell"><?= htmlspecialchars($emp['Email']) ?></td>
                         <td><?= htmlspecialchars($emp['SOM'] ?? '—') ?></td>
-                        <td><?= htmlspecialchars($emp['som_email'] ?? '—') ?></td>
-                        <td><?= htmlspecialchars($emp['role']) ?></td>
+                        <td class="approver-cell">
+                            <?php if (!empty($emp['som_email'])): ?>
+                                <?= htmlspecialchars($emp['som_email']) ?>
+                            <?php else: ?>
+                                <em style="color: #cbd5e0;">Not assigned</em>
+                            <?php endif; ?>
+                        </td>
                         <td>
-                            <button class="btn btn-sm btn-warning"
+                            <span class="role-badge <?= strtolower($emp['role'] ?? '') ?>">
+                                <?= htmlspecialchars($emp['role']) ?>
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn-edit"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editModal"
                                 data-employee='<?= json_encode($emp) ?>'>
@@ -147,9 +468,9 @@ if ($result) {
                         </td>
                     </tr>
                 <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+            <?php endif; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -158,9 +479,9 @@ if ($result) {
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form method="post">
-        <div class="modal-header bg-primary text-white">
+        <div class="modal-header">
           <h5 class="modal-title">Edit Employee</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body row g-3 p-3">
             <input type="hidden" name="EmployeeID" id="editEmployeeID">
@@ -181,8 +502,8 @@ if ($result) {
                 <input type="text" class="form-control" name="SOM" id="editSOM">
             </div>
             <div class="col-md-6">
-                <label class="form-label">SOM Email</label>
-                <input type="email" class="form-control" name="som_email" id="editSomEmail">
+                <label class="form-label">Approver</label>
+                <input type="email" class="form-control" name="som_email" id="editSomEmail" placeholder="Enter approver email">
             </div>
             <div class="col-md-6">
                 <label class="form-label">Role</label>
@@ -191,6 +512,7 @@ if ($result) {
                     <option value="Manager">Manager</option>
                     <option value="Director">Director</option>
                     <option value="Admin">Admin</option>
+                    <option value="Team Lead">Team Lead</option>
                 </select>
             </div>
         </div>
@@ -207,18 +529,20 @@ if ($result) {
 <script>
 // Auto-fill modal with employee data
 const editModal = document.getElementById('editModal');
-editModal.addEventListener('show.bs.modal', event => {
-    const button = event.relatedTarget;
-    const emp = JSON.parse(button.getAttribute('data-employee'));
+if (editModal) {
+    editModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        const emp = JSON.parse(button.getAttribute('data-employee'));
 
-    document.getElementById('editEmployeeID').value = emp.EmployeeID;
-    document.getElementById('editFirstName').value = emp.FirstName;
-    document.getElementById('editLastName').value = emp.LastName;
-    document.getElementById('editEmail').value = emp.Email;
-    document.getElementById('editSOM').value = emp.SOM ?? '';
-    document.getElementById('editSomEmail').value = emp.som_email ?? '';
-    document.getElementById('editRole').value = emp.role;
-});
+        document.getElementById('editEmployeeID').value = emp.EmployeeID;
+        document.getElementById('editFirstName').value = emp.FirstName;
+        document.getElementById('editLastName').value = emp.LastName;
+        document.getElementById('editEmail').value = emp.Email;
+        document.getElementById('editSOM').value = emp.SOM ?? '';
+        document.getElementById('editSomEmail').value = emp.som_email ?? '';
+        document.getElementById('editRole').value = emp.role;
+    });
+}
 </script>
 </body>
 </html>
