@@ -122,3 +122,10 @@ desktop.ini
 .idea/
 *.swp
 *.swo
+
+# Credentials
+google-credentials.json
+*.json
+.env
+/secrets/
+/var/www/secrets/
