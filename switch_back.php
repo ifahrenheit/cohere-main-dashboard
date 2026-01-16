@@ -16,6 +16,8 @@ foreach ($_SESSION['original_admin'] as $key => $value) {
 unset($_SESSION['original_admin']);
 unset($_SESSION['is_supervisor']);
 unset($_SESSION['supervised_agents']);
+unset($_SESSION['user_group']);  // Add this
+unset($_SESSION['is_qa']);       // Add this
 
 header("Location: dashboard.php");
 exit;

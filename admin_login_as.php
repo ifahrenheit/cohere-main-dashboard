@@ -49,6 +49,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
         $_SESSION['role'] = $user['role'] ?? 'Employee';
         $_SESSION['is_qa'] = (bool)$user['is_qa'];   // 👈 add this
 
+        // ✅ Check user's overhead group from gsheet_employees
+        $_SESSION['user_group'] = null;
+        if ($stmt_group = $conn->prepare("SELECT group_name FROM gsheet_employees WHERE email = ? AND status = 'Active'")) {
+            $stmt_group->bind_param("s", $user['Email']);
+            $stmt_group->execute();
+            $group_result = $stmt_group->get_result();
+            if ($group_row = $group_result->fetch_assoc()) {
+                $_SESSION['user_group'] = $group_row['group_name'];
+            }
+            $stmt_group->close();
+        }
+
         // ✅ Load supervisor mapping (optional)
         $_SESSION['is_supervisor'] = false;
         $_SESSION['supervised_agents'] = [];

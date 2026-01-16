@@ -98,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['supervised_agents'] = $agents;
                 $_SESSION['is_supervisor'] = !empty($agents);
 
+
                 // ✅ Check if QA from Employees table
                 $isQa = false;
                 if ($stmt3 = $conn->prepare("SELECT is_qa FROM Employees WHERE LOWER(Email) = ?")) {
@@ -110,6 +111,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt3->close();
                 }
                 $_SESSION['is_qa'] = $isQa;
+
+                // ✅ Check user's overhead group from gsheet_employees
+                $_SESSION['user_group'] = null;
+                if ($stmt_group = $conn->prepare("SELECT group_name FROM gsheet_employees WHERE email = ? AND status = 'Active'")) {
+                    $stmt_group->bind_param("s", $email);
+                    $stmt_group->execute();
+                    $group_result = $stmt_group->get_result();
+                    if ($group_row = $group_result->fetch_assoc()) {
+                        $_SESSION['user_group'] = $group_row['group_name'];
+                    }
+                    $stmt_group->close();
+                }
 
 
                 // ✅ Set secure cross-subdomain cookie with expiration

@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 require_once 'config.php';
 
@@ -53,9 +55,9 @@ if (!$is_sga) {
 }
 
 // If user is HR or SGA, show only HR-escalated incidents
-if (!$can_see_all && !$is_supervisor && !$user_group && ($is_hr || $is_sga)) {
-    $sql .= " AND ir.status IN ('pending_hr', 'resolved_hr')";
-}
+//if (!$can_see_all && !$is_supervisor && !$user_group && ($is_hr || $is_sga)) {
+//    $sql .= " AND ir.status IN ('pending_hr', 'resolved_hr')";
+//}
 
 // Get filter parameters
 $status_filter = $_GET['status'] ?? 'all';
@@ -81,7 +83,7 @@ if (!$can_see_all && $is_supervisor) {
 }
 
 if (!$can_see_all && !$is_supervisor && $user_group) {
-    $sql .= " AND ir.employee_id IN (
+    $sql .= " AND ir.submitted_by_id IN (
         SELECT employee_id 
         FROM gsheet_employees 
         WHERE group_name = ? 
@@ -153,9 +155,9 @@ if (!$can_see_all && $is_supervisor) {
     )";
 }
 
-// ADD THIS: Apply group filter
+// Apply group filter (by submitted_by_id, not employee_id)
 if (!$can_see_all && !$is_supervisor && $user_group) {
-    $stats_sql .= " AND ir.employee_id IN (
+    $stats_sql .= " AND ir.submitted_by_id IN (
         SELECT employee_id 
         FROM gsheet_employees 
         WHERE group_name = '$user_group' 
@@ -528,22 +530,6 @@ $conn->close();
                                     <div class="d-flex flex-column align-items-end gap-2">
                                         <span class="badge badge-<?= $report['status'] ?>"><?= strtoupper($report['status']) ?></span>
                                         <a href="view_report.php?id=<?= $report['report_number'] ?>" class="btn btn-sm btn-primary" target="_blank">View Details</a>
-                                        <?php if ($can_see_all || $is_supervisor || $user_group || $is_hr || $is_sga): ?>
-                                            <select class="form-select form-select-sm" style="width: 140px;" onchange="updateStatus('<?= $report['report_number'] ?>', this.value)">
-                                                <?php if (!$is_hr): ?>
-                                                    <!-- Regular users see all options -->
-                                                    <option value="pending" <?= $report['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
-                                                    <option value="reviewed" <?= $report['status'] === 'reviewed' ? 'selected' : '' ?>>Reviewed</option>
-                                                    <option value="resolved" <?= $report['status'] === 'resolved' ? 'selected' : '' ?>>Resolved</option>
-                                                    <option value="pending_hr" <?= $report['status'] === 'pending_hr' ? 'selected' : '' ?>>Pending HR</option>
-                                                    <option value="resolved_hr" <?= $report['status'] === 'resolved_hr' ? 'selected' : '' ?>>Resolved HR</option>
-                                                <?php else: ?>
-                                                    <!-- HR users ONLY see HR options -->
-                                                    <option value="pending_hr" <?= $report['status'] === 'pending_hr' ? 'selected' : '' ?>>Pending HR</option>
-                                                    <option value="resolved_hr" <?= $report['status'] === 'resolved_hr' ? 'selected' : '' ?>>Resolved HR</option>
-                                                <?php endif; ?>
-                                            </select>
-                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <div class="mt-2">

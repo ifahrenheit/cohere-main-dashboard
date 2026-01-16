@@ -138216,3 +138216,1653 @@ Parsed session_id: sess_1768410751502_695
 📝 Session recorded: Score 1 / 4 (25%), Duration 5s
 === Quiz Submit End ===
 
+Script started
+Raw input: {"windows_username":"eyonting","username":"eyonting","session_id":"sess_1768426985442_2469","duration_seconds":74,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"}]}
+Parsed username: eyonting
+Parsed session_id: sess_1768426985442_2469
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 74s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"glabad","username":"glabad","session_id":"sess_1768427233387_6893","duration_seconds":31,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"}]}
+Parsed username: glabad
+Parsed session_id: sess_1768427233387_6893
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 31s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"shbontilao","username":"shbontilao","session_id":"sess_1768427831151_7225","duration_seconds":6,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"A"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"B"}]}
+Parsed username: shbontilao
+Parsed session_id: sess_1768427831151_7225
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'A' vs 'C' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'B' vs 'C' — Wrong
+📝 Session recorded: Score 2 / 4 (50%), Duration 6s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"hbejuna","username":"hbejuna","session_id":"sess_1768431915358_8173","duration_seconds":28,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: hbejuna
+Parsed session_id: sess_1768431915358_8173
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 28s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"rcano","username":"rcano","session_id":"sess_1768433343809_9400","duration_seconds":107,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: rcano
+Parsed session_id: sess_1768433343809_9400
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 107s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"itejerero","username":"itejerero","session_id":"sess_1768433192604_7858","duration_seconds":276,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: itejerero
+Parsed session_id: sess_1768433192604_7858
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 276s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"pyap","username":"pyap","session_id":"sess_1768434489907_3177","duration_seconds":46,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: pyap
+Parsed session_id: sess_1768434489907_3177
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 2 / 4 (50%), Duration 46s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"ksacedon","username":"ksacedon","session_id":"sess_1768434835083_1638","duration_seconds":18,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: ksacedon
+Parsed session_id: sess_1768434835083_1638
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 18s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"dsaavedra","username":"dsaavedra","session_id":"sess_1768435059002_1538","duration_seconds":48,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: dsaavedra
+Parsed session_id: sess_1768435059002_1538
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 48s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mpobletin","username":"mpobletin","session_id":"sess_1768437544282_5193","duration_seconds":62,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"B"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: mpobletin
+Parsed session_id: sess_1768437544282_5193
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 62s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"rcano","username":"rcano","session_id":"sess_1768437750749_3270","duration_seconds":74,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: rcano
+Parsed session_id: sess_1768437750749_3270
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'A' vs 'C' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 2 / 4 (50%), Duration 74s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"waluben","username":"waluben","session_id":"sess_1768438426793_8967","duration_seconds":13,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: waluben
+Parsed session_id: sess_1768438426793_8967
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 13s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"hbejuna","username":"hbejuna","session_id":"sess_1768442608691_8007","duration_seconds":134,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: hbejuna
+Parsed session_id: sess_1768442608691_8007
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 134s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"rCano","username":"rCano","session_id":"sess_1768443290234_7131","duration_seconds":25,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"B"}]}
+Parsed username: rcano
+Parsed session_id: sess_1768443290234_7131
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'B' vs 'C' — Wrong
+📝 Session recorded: Score 3 / 4 (75%), Duration 25s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mlungtad","username":"mlungtad","session_id":"sess_1768452404763_1531","duration_seconds":23,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: mlungtad
+Parsed session_id: sess_1768452404763_1531
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 23s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"iogang","username":"iogang","session_id":"sess_1768452810420_6637","duration_seconds":21,"answers":[{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"}]}
+Parsed username: iogang
+Parsed session_id: sess_1768452810420_6637
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 21s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aperez","username":"aperez","session_id":"sess_1768453456155_899","duration_seconds":37,"answers":[{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: aperez
+Parsed session_id: sess_1768453456155_899
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 2 / 4 (50%), Duration 37s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"dsaavedra","username":"dsaavedra","session_id":"sess_1768453925308_7942","duration_seconds":260,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: dsaavedra
+Parsed session_id: sess_1768453925308_7942
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 260s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"rcasinillo","username":"rcasinillo","session_id":"sess_1768456149610_5958","duration_seconds":16,"answers":[{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: rcasinillo
+Parsed session_id: sess_1768456149610_5958
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 16s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"bhorfilla","username":"bhorfilla","session_id":"sess_1768456129633_1215","duration_seconds":55,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"}]}
+Parsed username: bhorfilla
+Parsed session_id: sess_1768456129633_1215
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 55s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"lybanez","username":"lybanez","session_id":"sess_1768452772752_7856","duration_seconds":3457,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: lybanez
+Parsed session_id: sess_1768452772752_7856
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 3457s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mabaquita","username":"mabaquita","session_id":"sess_1768456717563_8744","duration_seconds":48,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: mabaquita
+Parsed session_id: sess_1768456717563_8744
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 48s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"rgabotero","username":"rgabotero","session_id":"sess_1768456825444_1090","duration_seconds":26,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: rgabotero
+Parsed session_id: sess_1768456825444_1090
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 26s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jloyola","username":"jloyola","session_id":"sess_1768458176196_3804","duration_seconds":33,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: jloyola
+Parsed session_id: sess_1768458176196_3804
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 33s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jtanza","username":"jtanza","session_id":"sess_1768452994415_1842","duration_seconds":5700,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"B"}]}
+Parsed username: jtanza
+Parsed session_id: sess_1768452994415_1842
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+📝 Session recorded: Score 3 / 4 (75%), Duration 5700s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"dgorgonio","username":"dgorgonio","session_id":"sess_1768459348731_6024","duration_seconds":32,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: dgorgonio
+Parsed session_id: sess_1768459348731_6024
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 32s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"msolatorio","username":"msolatorio","session_id":"sess_1768459595196_5747","duration_seconds":15,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: msolatorio
+Parsed session_id: sess_1768459595196_5747
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 15s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"nfernandez","username":"nfernandez","session_id":"sess_1768459826156_546","duration_seconds":21,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: nfernandez
+Parsed session_id: sess_1768459826156_546
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 21s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"lalquilos","username":"lalquilos","session_id":"sess_1768459885986_8747","duration_seconds":46,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: lalquilos
+Parsed session_id: sess_1768459885986_8747
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 46s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mabubakar","username":"mabubakar","session_id":"sess_1768459837225_1204","duration_seconds":403,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: mabubakar
+Parsed session_id: sess_1768459837225_1204
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 403s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"gcarmilo","username":"gcarmilo","session_id":"sess_1768460396017_1410","duration_seconds":40,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: gcarmilo
+Parsed session_id: sess_1768460396017_1410
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 40s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"sbordalba","username":"sbordalba","session_id":"sess_1768460727285_4227","duration_seconds":71,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: sbordalba
+Parsed session_id: sess_1768460727285_4227
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 71s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"fordeñiza","username":"fordeñiza","session_id":"sess_1768463029089_8983","duration_seconds":13,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: fordeñiza
+Parsed session_id: sess_1768463029089_8983
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 13s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"apatual","username":"apatual","session_id":"sess_1768463785622_8792","duration_seconds":19,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: apatual
+Parsed session_id: sess_1768463785622_8792
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 19s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aylanan","username":"aylanan","session_id":"sess_1768463799346_6186","duration_seconds":34,"answers":[{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: aylanan
+Parsed session_id: sess_1768463799346_6186
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 34s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jvelayo","username":"jvelayo","session_id":"sess_1768463975392_7587","duration_seconds":26,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: jvelayo
+Parsed session_id: sess_1768463975392_7587
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 26s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"cbatoctoy","username":"cbatoctoy","session_id":"sess_1768464096440_1907","duration_seconds":53,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: cbatoctoy
+Parsed session_id: sess_1768464096440_1907
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 53s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vfiguracion","username":"vfiguracion","session_id":"sess_1768465884701_8272","duration_seconds":25,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"B"}]}
+Parsed username: vfiguracion
+Parsed session_id: sess_1768465884701_8272
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'B' vs 'C' — Wrong
+📝 Session recorded: Score 3 / 4 (75%), Duration 25s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"nquilario","username":"nquilario","session_id":"sess_1768474370447_5139","duration_seconds":17,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: nquilario
+Parsed session_id: sess_1768474370447_5139
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 17s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"gsevilla","username":"gsevilla","session_id":"sess_1768474625493_294","duration_seconds":25,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: gsevilla
+Parsed session_id: sess_1768474625493_294
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 25s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jmanto","username":"jmanto","session_id":"sess_1768474707847_7044","duration_seconds":9,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: jmanto
+Parsed session_id: sess_1768474707847_7044
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 9s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jmahusay","username":"jmahusay","session_id":"sess_1768474823248_6727","duration_seconds":238,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: jmahusay
+Parsed session_id: sess_1768474823248_6727
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 238s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"kinot","username":"kinot","session_id":"sess_1768475127549_8977","duration_seconds":10,"answers":[{"question_id":"11","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"B"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: kinot
+Parsed session_id: sess_1768475127549_8977
+✅ QID 11: 'A' vs 'C' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'B' vs 'C' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 1 / 4 (25%), Duration 10s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aberonga","username":"aberonga","session_id":"sess_1768479482217_3803","duration_seconds":32,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: aberonga
+Parsed session_id: sess_1768479482217_3803
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 32s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"dagacita","username":"dagacita","session_id":"sess_1768481546968_244","duration_seconds":37,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: dagacita
+Parsed session_id: sess_1768481546968_244
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 37s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vestrobo","username":"vestrobo","session_id":"sess_1768481588232_310","duration_seconds":15,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"A"}]}
+Parsed username: vestrobo
+Parsed session_id: sess_1768481588232_310
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'A' vs 'C' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'A' vs 'C' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 15s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jmahusay","username":"jmahusay","session_id":"sess_1768481655564_1890","duration_seconds":34,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: jmahusay
+Parsed session_id: sess_1768481655564_1890
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 34s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"kconde","username":"kconde","session_id":"sess_1768481671745_1373","duration_seconds":24,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: kconde
+Parsed session_id: sess_1768481671745_1373
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 24s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"klabrador","username":"klabrador","session_id":"sess_1768481770430_9700","duration_seconds":8,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"A"}]}
+Parsed username: klabrador
+Parsed session_id: sess_1768481770430_9700
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'A' vs 'C' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'A' vs 'C' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 8s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vimpas","username":"vimpas","session_id":"sess_1768481784574_6507","duration_seconds":30,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: vimpas
+Parsed session_id: sess_1768481784574_6507
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 30s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"eanding","username":"eanding","session_id":"sess_1768481823854_5957","duration_seconds":26,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: eanding
+Parsed session_id: sess_1768481823854_5957
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 26s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jtabares","username":"jtabares","session_id":"sess_1768481841193_6382","duration_seconds":10,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: jtabares
+Parsed session_id: sess_1768481841193_6382
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 10s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"Dbucasas","username":"Dbucasas","session_id":"sess_1768481837763_1780","duration_seconds":22,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: dbucasas
+Parsed session_id: sess_1768481837763_1780
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 22s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jgemeras","username":"jgemeras","session_id":"sess_1768482395669_8708","duration_seconds":12,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: jgemeras
+Parsed session_id: sess_1768482395669_8708
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 12s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jarmodia","username":"jarmodia","session_id":"sess_1768483940745_1414","duration_seconds":20,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"B"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: jarmodia
+Parsed session_id: sess_1768483940745_1414
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 20s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jcapangpangan","username":"jcapangpangan","session_id":"sess_1768484141929_3527","duration_seconds":14,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"A"}]}
+Parsed username: jcapangpangan
+Parsed session_id: sess_1768484141929_3527
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+📝 Session recorded: Score 3 / 4 (75%), Duration 14s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"acomendador","username":"acomendador","session_id":"sess_1768484617554_2426","duration_seconds":35,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: acomendador
+Parsed session_id: sess_1768484617554_2426
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 35s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"coliverio","username":"coliverio","session_id":"sess_1768484725467_2957","duration_seconds":40,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: coliverio
+Parsed session_id: sess_1768484725467_2957
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 40s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aauxtero","username":"aauxtero","session_id":"sess_1768485026813_7445","duration_seconds":31,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: aauxtero
+Parsed session_id: sess_1768485026813_7445
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 31s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vpadayogdog","username":"vpadayogdog","session_id":"sess_1768485124529_7970","duration_seconds":7,"answers":[{"question_id":"11","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"B"}]}
+Parsed username: vpadayogdog
+Parsed session_id: sess_1768485124529_7970
+✅ QID 11: 'B' vs 'C' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'B' vs 'C' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 7s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"lsalabao","username":"lsalabao","session_id":"sess_1768485191330_6373","duration_seconds":22,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: lsalabao
+Parsed session_id: sess_1768485191330_6373
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 22s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"lcaba","username":"lcaba","session_id":"sess_1768485134452_7399","duration_seconds":101,"answers":[{"question_id":"11","selected_answer":"B"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: lcaba
+Parsed session_id: sess_1768485134452_7399
+✅ QID 11: 'B' vs 'C' — Wrong
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 101s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"clauronal","username":"clauronal","session_id":"sess_1768485280469_4010","duration_seconds":72,"answers":[{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: clauronal
+Parsed session_id: sess_1768485280469_4010
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'B' vs 'C' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 2 / 4 (50%), Duration 72s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"coliveros","username":"coliveros","session_id":"sess_1768485301364_9431","duration_seconds":53,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: coliveros
+Parsed session_id: sess_1768485301364_9431
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 53s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"cbesabella","username":"cbesabella","session_id":"sess_1768485394339_6785","duration_seconds":58,"answers":[{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"B"},{"question_id":"48","selected_answer":"B"}]}
+Parsed username: cbesabella
+Parsed session_id: sess_1768485394339_6785
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'B' vs 'C' — Wrong
+✅ QID 48: 'B' vs 'A' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 58s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"sytac","username":"sytac","session_id":"sess_1768485454660_7548","duration_seconds":28,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"}]}
+Parsed username: sytac
+Parsed session_id: sess_1768485454660_7548
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 28s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"marong","username":"marong","session_id":"sess_1768485534400_3311","duration_seconds":41,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: marong
+Parsed session_id: sess_1768485534400_3311
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 41s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"madeva","username":"madeva","session_id":"sess_1768485609690_8658","duration_seconds":21,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"A"}]}
+Parsed username: madeva
+Parsed session_id: sess_1768485609690_8658
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'A' vs 'C' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'A' vs 'C' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 21s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jcapangpangan","username":"jcapangpangan","session_id":"sess_1768486345494_8253","duration_seconds":33,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: jcapangpangan
+Parsed session_id: sess_1768486345494_8253
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 33s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"lmalunjao","username":"lmalunjao","session_id":"sess_1768464038851_1075","duration_seconds":25333,"answers":[{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"}]}
+Parsed username: lmalunjao
+Parsed session_id: sess_1768464038851_1075
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 25333s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"dmagno","username":"dmagno","session_id":"sess_1768455510869_184","duration_seconds":40656,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: dmagno
+Parsed session_id: sess_1768455510869_184
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 40656s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"acomendador","username":"acomendador","session_id":"sess_1768506611144_7917","duration_seconds":11,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"}]}
+Parsed username: acomendador
+Parsed session_id: sess_1768506611144_7917
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 11s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aalcoseba","username":"aalcoseba","session_id":"sess_1768514176535_7868","duration_seconds":56,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: aalcoseba
+Parsed session_id: sess_1768514176535_7868
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 56s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"shbontilao","username":"shbontilao","session_id":"sess_1768514318944_2721","duration_seconds":9,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"B"}]}
+Parsed username: shbontilao
+Parsed session_id: sess_1768514318944_2721
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'B' vs 'C' — Wrong
+📝 Session recorded: Score 3 / 4 (75%), Duration 9s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"tcapangpangan","username":"tcapangpangan","session_id":"sess_1768514374321_9468","duration_seconds":50,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: tcapangpangan
+Parsed session_id: sess_1768514374321_9468
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 50s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vpadayogdog","username":"vpadayogdog","session_id":"sess_1768514471050_3607","duration_seconds":5,"answers":[{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"A"}]}
+Parsed username: vpadayogdog
+Parsed session_id: sess_1768514471050_3607
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'A' vs 'C' — Wrong
+📝 Session recorded: Score 2 / 4 (50%), Duration 5s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aalcoseba","username":"aalcoseba","session_id":"sess_1768514572306_8396","duration_seconds":14,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: aalcoseba
+Parsed session_id: sess_1768514572306_8396
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 14s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"glabad","username":"glabad","session_id":"sess_1768514692251_8430","duration_seconds":13,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: glabad
+Parsed session_id: sess_1768514692251_8430
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 13s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"casugao","username":"casugao","session_id":"sess_1768517587485_911","duration_seconds":36,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: casugao
+Parsed session_id: sess_1768517587485_911
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 36s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"itejerero","username":"itejerero","session_id":"sess_1768517817707_9248","duration_seconds":15,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"B"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: itejerero
+Parsed session_id: sess_1768517817707_9248
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 15s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"Hbejuna","username":"Hbejuna","session_id":"sess_1768518026043_804","duration_seconds":10,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: hbejuna
+Parsed session_id: sess_1768518026043_804
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 10s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"ksacedon","username":"ksacedon","session_id":"sess_1768521192397_2534","duration_seconds":13,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: ksacedon
+Parsed session_id: sess_1768521192397_2534
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 13s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"dsaavedra","username":"dsaavedra","session_id":"sess_1768521893332_1016","duration_seconds":20,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: dsaavedra
+Parsed session_id: sess_1768521893332_1016
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 20s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"pyap","username":"pyap","session_id":"sess_1768521932135_1359","duration_seconds":29,"answers":[{"question_id":"11","selected_answer":"B"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"B"}]}
+Parsed username: pyap
+Parsed session_id: sess_1768521932135_1359
+✅ QID 11: 'B' vs 'C' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 29s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mpobletin","username":"mpobletin","session_id":"sess_1768536884612_7608","duration_seconds":17,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: mpobletin
+Parsed session_id: sess_1768536884612_7608
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 17s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jtanza","username":"jtanza","session_id":"sess_1768538890836_1218","duration_seconds":35,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: jtanza
+Parsed session_id: sess_1768538890836_1218
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 35s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"lybanez","username":"lybanez","session_id":"sess_1768538969944_7556","duration_seconds":27,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: lybanez
+Parsed session_id: sess_1768538969944_7556
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 27s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aperez","username":"aperez","session_id":"sess_1768539010394_3808","duration_seconds":105,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: aperez
+Parsed session_id: sess_1768539010394_3808
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 105s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"iogang","username":"iogang","session_id":"sess_1768539111650_7238","duration_seconds":28,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: iogang
+Parsed session_id: sess_1768539111650_7238
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 28s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jtanza","username":"jtanza","session_id":"sess_1768539482607_6277","duration_seconds":10,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: jtanza
+Parsed session_id: sess_1768539482607_6277
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 10s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"iogang","username":"iogang","session_id":"sess_1768539579762_2344","duration_seconds":13,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: iogang
+Parsed session_id: sess_1768539579762_2344
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 13s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"iogang","username":"iogang","session_id":"sess_1768539730982_726","duration_seconds":68,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: iogang
+Parsed session_id: sess_1768539730982_726
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 68s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jtanza","username":"jtanza","session_id":"sess_1768539839247_7753","duration_seconds":17,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: jtanza
+Parsed session_id: sess_1768539839247_7753
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 17s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"iogang","username":"iogang","session_id":"sess_1768540334683_130","duration_seconds":9,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: iogang
+Parsed session_id: sess_1768540334683_130
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 9s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"ncedeño","username":"ncedeño","session_id":"sess_1768542251563_8355","duration_seconds":60,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: ncedeño
+Parsed session_id: sess_1768542251563_8355
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 60s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"bhorfilla","username":"bhorfilla","session_id":"sess_1768542362467_6226","duration_seconds":12,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: bhorfilla
+Parsed session_id: sess_1768542362467_6226
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 12s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"rcasinillo","username":"rcasinillo","session_id":"sess_1768542431193_8871","duration_seconds":73,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: rcasinillo
+Parsed session_id: sess_1768542431193_8871
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 73s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"apatual","username":"apatual","session_id":"sess_1768542915045_6203","duration_seconds":9,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: apatual
+Parsed session_id: sess_1768542915045_6203
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 9s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jangot","username":"jangot","session_id":"sess_1768542949357_3453","duration_seconds":43,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: jangot
+Parsed session_id: sess_1768542949357_3453
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 43s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mabaquita","username":"mabaquita","session_id":"sess_1768543447121_3454","duration_seconds":35,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: mabaquita
+Parsed session_id: sess_1768543447121_3454
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 35s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jpocong","username":"jpocong","session_id":"sess_1768543396583_1442","duration_seconds":209,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"B"}]}
+Parsed username: jpocong
+Parsed session_id: sess_1768543396583_1442
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'B' vs 'C' — Wrong
+📝 Session recorded: Score 2 / 4 (50%), Duration 209s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mabaquita","username":"mabaquita","session_id":"sess_1768543865769_3130","duration_seconds":13,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: mabaquita
+Parsed session_id: sess_1768543865769_3130
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 13s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mabubakar","username":"mabubakar","session_id":"sess_1768545173693_7548","duration_seconds":219,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: mabubakar
+Parsed session_id: sess_1768545173693_7548
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 219s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aferraris","username":"aferraris","session_id":"sess_1768544712102_710","duration_seconds":1045,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: aferraris
+Parsed session_id: sess_1768544712102_710
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 1045s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"msolatorio","username":"msolatorio","session_id":"sess_1768545974893_1582","duration_seconds":18,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: msolatorio
+Parsed session_id: sess_1768545974893_1582
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 18s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aferraris","username":"aferraris","session_id":"sess_1768546273046_4709","duration_seconds":35,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: aferraris
+Parsed session_id: sess_1768546273046_4709
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 35s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"rgabotero","username":"rgabotero","session_id":"sess_1768546828005_407","duration_seconds":26,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: rgabotero
+Parsed session_id: sess_1768546828005_407
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 26s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jloyola","username":"jloyola","session_id":"sess_1768546894843_8926","duration_seconds":5,"answers":[{"question_id":"11","selected_answer":"B"},{"question_id":"22","selected_answer":"A"},{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: jloyola
+Parsed session_id: sess_1768546894843_8926
+✅ QID 11: 'B' vs 'C' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 1 / 4 (25%), Duration 5s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"gcarmilo","username":"gcarmilo","session_id":"sess_1768548067801_1611","duration_seconds":17,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: gcarmilo
+Parsed session_id: sess_1768548067801_1611
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 17s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"fordeñiza","username":"fordeñiza","session_id":"sess_1768548100376_4933","duration_seconds":17,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: fordeñiza
+Parsed session_id: sess_1768548100376_4933
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 17s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jvelayo","username":"jvelayo","session_id":"sess_1768550436846_8798","duration_seconds":29,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: jvelayo
+Parsed session_id: sess_1768550436846_8798
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 29s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aylanan","username":"aylanan","session_id":"sess_1768553581221_6614","duration_seconds":19,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"B"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: aylanan
+Parsed session_id: sess_1768553581221_6614
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 2 / 4 (50%), Duration 19s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vfiguracion","username":"vfiguracion","session_id":"sess_1768553665561_6400","duration_seconds":29,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: vfiguracion
+Parsed session_id: sess_1768553665561_6400
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 29s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vfiguracion","username":"vfiguracion","session_id":"sess_1768553992180_664","duration_seconds":9,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: vfiguracion
+Parsed session_id: sess_1768553992180_664
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 9s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vfiguracion","username":"vfiguracion","session_id":"sess_1768554492077_7087","duration_seconds":5,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: vfiguracion
+Parsed session_id: sess_1768554492077_7087
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 5s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"kgibo","username":"kgibo","session_id":"sess_1768538826950_814","duration_seconds":18436,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: kgibo
+Parsed session_id: sess_1768538826950_814
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 18436s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mcogonon","username":"mcogonon","session_id":"sess_1768560633672_7631","duration_seconds":30,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"B"}]}
+Parsed username: mcogonon
+Parsed session_id: sess_1768560633672_7631
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'B' vs 'C' — Wrong
+📝 Session recorded: Score 3 / 4 (75%), Duration 30s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"nquilario","username":"nquilario","session_id":"sess_1768560984508_1962","duration_seconds":10,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: nquilario
+Parsed session_id: sess_1768560984508_1962
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 10s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"gsevilla","username":"gsevilla","session_id":"sess_1768561016951_1810","duration_seconds":24,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: gsevilla
+Parsed session_id: sess_1768561016951_1810
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 24s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jzozobrado","username":"jzozobrado","session_id":"sess_1768561303019_4832","duration_seconds":69,"answers":[{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: jzozobrado
+Parsed session_id: sess_1768561303019_4832
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 2 / 4 (50%), Duration 69s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mcogonon","username":"mcogonon","session_id":"sess_1768561480062_5631","duration_seconds":22,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: mcogonon
+Parsed session_id: sess_1768561480062_5631
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 22s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mcogonon","username":"mcogonon","session_id":"sess_1768561669728_4295","duration_seconds":13,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"B"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: mcogonon
+Parsed session_id: sess_1768561669728_4295
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 13s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jmanto","username":"jmanto","session_id":"sess_1768561821448_7986","duration_seconds":7,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: jmanto
+Parsed session_id: sess_1768561821448_7986
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 7s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"gsevilla","username":"gsevilla","session_id":"sess_1768562082973_4517","duration_seconds":10,"answers":[{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: gsevilla
+Parsed session_id: sess_1768562082973_4517
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 10s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"gsevilla","username":"gsevilla","session_id":"sess_1768562526054_2875","duration_seconds":25,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: gsevilla
+Parsed session_id: sess_1768562526054_2875
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 25s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"kinot","username":"kinot","session_id":"sess_1768563080244_3915","duration_seconds":9,"answers":[{"question_id":"42","selected_answer":"A"},{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"A"}]}
+Parsed username: kinot
+Parsed session_id: sess_1768563080244_3915
+✅ QID 42: 'A' vs 'C' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'A' vs 'C' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 9s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"gsevilla","username":"gsevilla","session_id":"sess_1768563380506_4845","duration_seconds":13,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: gsevilla
+Parsed session_id: sess_1768563380506_4845
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 13s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"kinot","username":"kinot","session_id":"sess_1768564005395_5880","duration_seconds":32,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"B"},{"question_id":"48","selected_answer":"B"}]}
+Parsed username: kinot
+Parsed session_id: sess_1768564005395_5880
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'B' vs 'C' — Wrong
+✅ QID 48: 'B' vs 'A' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 32s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mcogonon","username":"mcogonon","session_id":"sess_1768564081294_4921","duration_seconds":14,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: mcogonon
+Parsed session_id: sess_1768564081294_4921
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 14s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jzozobrado","username":"jzozobrado","session_id":"sess_1768565896484_5178","duration_seconds":25,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: jzozobrado
+Parsed session_id: sess_1768565896484_5178
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 25s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"lalquilos","username":"lalquilos","session_id":"sess_1768547035107_2095","duration_seconds":20031,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"B"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: lalquilos
+Parsed session_id: sess_1768547035107_2095
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 20031s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jtabares","username":"jtabares","session_id":"sess_1768567240149_2818","duration_seconds":17,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: jtabares
+Parsed session_id: sess_1768567240149_2818
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 17s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vestrobo","username":"vestrobo","session_id":"sess_1768567536861_577","duration_seconds":5,"answers":[{"question_id":"42","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"A"}]}
+Parsed username: vestrobo
+Parsed session_id: sess_1768567536861_577
+✅ QID 42: 'A' vs 'C' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'A' vs 'C' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 5s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"kconde","username":"kconde","session_id":"sess_1768568004288_1871","duration_seconds":12,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"B"}]}
+Parsed username: kconde
+Parsed session_id: sess_1768568004288_1871
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+📝 Session recorded: Score 3 / 4 (75%), Duration 12s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"klabrador","username":"klabrador","session_id":"sess_1768568034880_5088","duration_seconds":17,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"11","selected_answer":"A"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"A"}]}
+Parsed username: klabrador
+Parsed session_id: sess_1768568034880_5088
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 11: 'A' vs 'C' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'A' vs 'C' — Wrong
+📝 Session recorded: Score 1 / 4 (25%), Duration 17s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jgemeras","username":"jgemeras","session_id":"sess_1768568234949_4191","duration_seconds":31,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: jgemeras
+Parsed session_id: sess_1768568234949_4191
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 31s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"Dbucasas","username":"Dbucasas","session_id":"sess_1768568588186_9329","duration_seconds":33,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: dbucasas
+Parsed session_id: sess_1768568588186_9329
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 33s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vimpas","username":"vimpas","session_id":"sess_1768568696593_4134","duration_seconds":12,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: vimpas
+Parsed session_id: sess_1768568696593_4134
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 12s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"coliveros","username":"coliveros","session_id":"sess_1768571108218_6493","duration_seconds":22,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"}]}
+Parsed username: coliveros
+Parsed session_id: sess_1768571108218_6493
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 22s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"coliverio","username":"coliverio","session_id":"sess_1768571217942_6808","duration_seconds":23,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: coliverio
+Parsed session_id: sess_1768571217942_6808
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 23s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jnalangan","username":"jnalangan","session_id":"sess_1768571390665_940","duration_seconds":18,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: jnalangan
+Parsed session_id: sess_1768571390665_940
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 18s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jarmodia","username":"jarmodia","session_id":"sess_1768571392897_1471","duration_seconds":25,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"B"},{"question_id":"22","selected_answer":"B"}]}
+Parsed username: jarmodia
+Parsed session_id: sess_1768571392897_1471
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 22: 'B' vs 'B' — Correct
+📝 Session recorded: Score 3 / 4 (75%), Duration 25s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"jdimol","username":"jdimol","session_id":"sess_1768571395098_9385","duration_seconds":41,"answers":[{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"},{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"B"}]}
+Parsed username: jdimol
+Parsed session_id: sess_1768571395098_9385
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+📝 Session recorded: Score 2 / 4 (50%), Duration 41s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aauxtero","username":"aauxtero","session_id":"sess_1768571430950_9151","duration_seconds":13,"answers":[{"question_id":"48","selected_answer":"A"},{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: aauxtero
+Parsed session_id: sess_1768571430950_9151
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 13s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"aberonga","username":"aberonga","session_id":"sess_1768571710055_2637","duration_seconds":26,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: aberonga
+Parsed session_id: sess_1768571710055_2637
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 26s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"mcogonon","username":"mcogonon","session_id":"sess_1768571749700_9047","duration_seconds":9,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"42","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: mcogonon
+Parsed session_id: sess_1768571749700_9047
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 9s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"vpadayogdog","username":"vpadayogdog","session_id":"sess_1768571774977_3984","duration_seconds":5,"answers":[{"question_id":"22","selected_answer":"A"},{"question_id":"11","selected_answer":"B"},{"question_id":"42","selected_answer":"C"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: vpadayogdog
+Parsed session_id: sess_1768571774977_3984
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 11: 'B' vs 'C' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 2 / 4 (50%), Duration 5s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"cbesabella","username":"cbesabella","session_id":"sess_1768571773129_9611","duration_seconds":57,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"48","selected_answer":"B"},{"question_id":"22","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: cbesabella
+Parsed session_id: sess_1768571773129_9611
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 48: 'B' vs 'A' — Wrong
+✅ QID 22: 'A' vs 'B' — Wrong
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 2 / 4 (50%), Duration 57s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"madeva","username":"madeva","session_id":"sess_1768572091630_9331","duration_seconds":19,"answers":[{"question_id":"22","selected_answer":"B"},{"question_id":"11","selected_answer":"B"},{"question_id":"42","selected_answer":"B"},{"question_id":"48","selected_answer":"A"}]}
+Parsed username: madeva
+Parsed session_id: sess_1768572091630_9331
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 11: 'B' vs 'C' — Wrong
+✅ QID 42: 'B' vs 'C' — Wrong
+✅ QID 48: 'A' vs 'A' — Correct
+📝 Session recorded: Score 2 / 4 (50%), Duration 19s
+=== Quiz Submit End ===
+
+Script started
+Raw input: {"windows_username":"acomendador","username":"acomendador","session_id":"sess_1768572126632_316","duration_seconds":17,"answers":[{"question_id":"11","selected_answer":"C"},{"question_id":"22","selected_answer":"B"},{"question_id":"48","selected_answer":"A"},{"question_id":"42","selected_answer":"C"}]}
+Parsed username: acomendador
+Parsed session_id: sess_1768572126632_316
+✅ QID 11: 'C' vs 'C' — Correct
+✅ QID 22: 'B' vs 'B' — Correct
+✅ QID 48: 'A' vs 'A' — Correct
+✅ QID 42: 'C' vs 'C' — Correct
+📝 Session recorded: Score 4 / 4 (100%), Duration 17s
+=== Quiz Submit End ===
+

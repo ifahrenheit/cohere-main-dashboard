@@ -137,6 +137,13 @@ $conn->close();
 <title>COHERE Dashboard</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<script>
+// Add small-screen class immediately if needed
+if (window.innerWidth <= 1400) {
+    document.documentElement.classList.add('small-screen');
+}
+</script>
+
 <style>
 /* Body & theme */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; margin:0; transition: background 0.3s; }
@@ -152,7 +159,17 @@ body.dark-mode { background-color: #121212; color: #e1e1e1; }
 
 /* Content */
 #content { margin-left: 250px; transition: all 0.3s; padding: 20px; }
-#content.fullwidth { margin-left: 0; }
+
+/* Iframe containers - EXACT SAME RULES AS #content */
+.iframe-container,
+#voucherApp,
+#memoSearch,
+#incidentReport,
+#incidentDashboard {
+    margin-left: 250px;
+    transition: all 0.3s;
+    padding: 20px;
+}
 
 /* Topbar */
 #topbar { height: 60px; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:space-between; padding:0 20px; position: sticky; top:0; z-index: 1000; transition: background 0.3s; }
@@ -261,10 +278,97 @@ body.dark-mode .table-hover tbody tr:hover {
 body.dark-mode .dashboard-container .legend {
     color: #cfcfcf !important;  /* light gray, visible but not too harsh */
 }
+
+/* ===== Sidebar Push Layout (All Screen Sizes) ===== */
+
+/* Default (desktop - screens wider than 1400px) */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
+    margin-left: 0;
+}
+
+#content {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Collapsed sidebar (when collapsed class is added on desktop) */
+#sidebar.collapsed {
+    margin-left: -250px;
+}
+
+#sidebar.collapsed ~ #content,
+#sidebar.collapsed ~ .iframe-container,
+#sidebar.collapsed ~ #voucherApp,
+#sidebar.collapsed ~ #memoSearch,
+#sidebar.collapsed ~ #incidentReport,
+#sidebar.collapsed ~ #incidentDashboard {
+    margin-left: 0;
+}
+
+/* Small screens approach using html class */
+html.small-screen #sidebar {
+    margin-left: -250px;
+}
+
+html.small-screen #content,
+html.small-screen .iframe-container,
+html.small-screen #voucherApp,
+html.small-screen #memoSearch,
+html.small-screen #incidentReport,
+html.small-screen #incidentDashboard {
+    margin-left: 0;
+}
+
+/* When user opens sidebar on small screen (removes collapsed class) */
+html.small-screen #sidebar:not(.collapsed) {
+    margin-left: 0;
+}
+
+html.small-screen #sidebar:not(.collapsed) ~ #content,
+html.small-screen #sidebar:not(.collapsed) ~ .iframe-container,
+html.small-screen #sidebar:not(.collapsed) ~ #voucherApp,
+html.small-screen #sidebar:not(.collapsed) ~ #memoSearch,
+html.small-screen #sidebar:not(.collapsed) ~ #incidentReport,
+html.small-screen #sidebar:not(.collapsed) ~ #incidentDashboard {
+    margin-left: 250px;
+}
+
+/* Fallback media query for browsers without JavaScript */
+@media (max-width: 1400px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+
+    #content,
+    .iframe-container,
+    #voucherApp,
+    #memoSearch,
+    #incidentReport,
+    #incidentDashboard {
+        margin-left: 0;
+    }
+
+    #sidebar:not(.collapsed) {
+        margin-left: 0;
+    }
+
+    #sidebar:not(.collapsed) ~ #content,
+    #sidebar:not(.collapsed) ~ .iframe-container,
+    #sidebar:not(.collapsed) ~ #voucherApp,
+    #sidebar:not(.collapsed) ~ #memoSearch,
+    #sidebar:not(.collapsed) ~ #incidentReport,
+    #sidebar:not(.collapsed) ~ #incidentDashboard {
+        margin-left: 250px;
+    }
+}
 </style>
 </head>
 <body>
-
 <!-- Sidebar -->
 <nav id="sidebar">
     <div class="p-3 d-flex flex-column" style="height:100%; justify-content: space-between;">
@@ -347,14 +451,15 @@ body.dark-mode .dashboard-container .legend {
                 <?php endif; ?>
 
                 <!-- E-Vouchers -->
-                <?php if (in_array($_SESSION['role'], ['Admin','Manager','Director','SOM Approver','Employee'])): ?>
+                <?php /* TEMPORARILY HIDDEN
+                if (in_array($_SESSION['role'], ['Admin','Manager','Director','SOM Approver','Employee'])): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="toggleSubmenu('voucherSub')">E-Vouchers ▼</a>
                         <ul class="submenu list-unstyled" id="voucherSub" style="display:none;">
                             <li><a class="nav-link" href="#" onclick="event.preventDefault(); showIframe('voucherApp')">Open E-Vouchers</a></li>
                         </ul>
                     </li>
-                <?php endif; ?>
+                <?php endif; */ ?>
 
                 <!-- OT Tracker -->
                 <li class="nav-item">
@@ -376,8 +481,9 @@ body.dark-mode .dashboard-container .legend {
 
                 <!-- Coaching -->
                 <?php if (
-                    in_array($_SESSION['role'], ['Admin','Manager','Director','SOM Approver']) ||
-                    ($_SESSION['is_supervisor'] ?? false)
+                    in_array($_SESSION['role'], ['Admin', 'Manager', 'Director', 'SOM Approver']) ||
+                    ($_SESSION['is_supervisor'] ?? false) ||
+                    ($_SESSION['user_group'] ?? '') === 'QA'
                 ): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="coaching/index.php">Coaching</a>
@@ -463,29 +569,6 @@ body.dark-mode .dashboard-container .legend {
     </div>
 </nav>
 
-<!-- Submenu toggle script -->
-<script>
-function toggleSubmenu(id) {
-    const submenu = document.getElementById(id);
-    if (submenu) submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-}
-</script>
-
-
-<script>
-// Headcount clock
-function updateHeadcountClock(){
-    const now=new Date();
-    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    let hours=now.getHours(); const ampm=hours>=12?'PM':'AM';
-    hours=hours%12||12;
-    const str=`${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()} - ${hours}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')} ${ampm}`;
-    const el=document.getElementById('headcount-clock');
-    if(el) el.textContent=str;
-}
-setInterval(updateHeadcountClock,1000); updateHeadcountClock();
-</script>
-
 <!-- Main Content -->
 <div id="content">
     <!-- Topbar -->
@@ -567,7 +650,7 @@ setInterval(updateHeadcountClock,1000); updateHeadcountClock();
 $iframeViews = ['voucherApp', 'memoSearch', 'incidentReport', 'incidentDashboard'];
 foreach($iframeViews as $view):
 ?>
-<div id="<?= $view ?>" class="container" style="display:none;">
+<div id="<?= $view ?>" class="iframe-container" style="display:none;">
     <div class="text-end mt-3">
         <button onclick="hideIframe()" class="btn btn-outline-secondary btn-sm">← Back</button>
     </div>
@@ -577,11 +660,69 @@ foreach($iframeViews as $view):
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// Sidebar toggle
+// Sidebar toggle - simplified, CSS handles margins automatically
 document.getElementById('sidebarCollapse').addEventListener('click', function(){
     document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('content').classList.toggle('fullwidth');
 });
+
+// Update small-screen class on resize
+window.addEventListener('resize', function() {
+    if (window.innerWidth <= 1400) {
+        document.documentElement.classList.add('small-screen');
+    } else {
+        document.documentElement.classList.remove('small-screen');
+        // On large screens, ensure sidebar is visible
+        document.getElementById('sidebar').classList.remove('collapsed');
+    }
+});
+
+// Update small-screen class on resize
+window.addEventListener('resize', function() {
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('content');
+    const isSidebarOpen = !sidebar.classList.contains('collapsed');
+    
+    if (window.innerWidth <= 1400) {
+        document.documentElement.classList.add('small-screen');
+        
+        // Update margins based on sidebar state
+        content.style.marginLeft = isSidebarOpen ? '250px' : '0';
+        
+        // Update any visible iframe container
+        document.querySelectorAll('.iframe-container').forEach(el => {
+            if (el.style.display === 'block') {
+                el.style.marginLeft = isSidebarOpen ? '250px' : '0';
+            }
+        });
+    } else {
+        document.documentElement.classList.remove('small-screen');
+        
+        // On large screens, remove collapsed class if it exists
+        sidebar.classList.remove('collapsed');
+        
+        // Update margins
+        content.style.marginLeft = '250px';
+        
+        // Update any visible iframe container
+        document.querySelectorAll('.iframe-container').forEach(el => {
+            if (el.style.display === 'block') {
+                el.style.marginLeft = '250px';
+            }
+        });
+    }
+});
+
+// Sidebar clock update
+function updateSidebarClock(){
+    const now=new Date();
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let hours=now.getHours(); const ampm=hours>=12?'PM':'AM';
+    hours=hours%12||12;
+    const str=`${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()} - ${hours}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')} ${ampm}`;
+    const el=document.getElementById('sidebar-clock');
+    if(el) el.textContent=str;
+}
+setInterval(updateSidebarClock,1000); updateSidebarClock();
 
 // Submenu toggle
 function toggleSubmenu(id){
@@ -600,15 +741,32 @@ function updateClock(){
 }
 setInterval(updateClock,1000); updateClock();
 
-// Iframe functions
+// Iframe functions - simplified, CSS handles margins
 function showIframe(id){
-    document.getElementById('content').style.display='none';
-    document.querySelectorAll('.container').forEach(el=>{if(el.id!=='content') el.style.display='none';});
-    const t=document.getElementById(id); if(t){t.style.display='block'; t.scrollIntoView({behavior:'smooth'});}
+    // Hide main content
+    document.getElementById('content').style.display = 'none';
+    
+    // Hide all iframe containers
+    document.querySelectorAll('.iframe-container').forEach(el=>{
+        el.style.display = 'none';
+    });
+    
+    // Show the requested iframe container
+    const targetContainer = document.getElementById(id);
+    if(targetContainer){
+        targetContainer.style.display = 'block';
+        targetContainer.scrollIntoView({behavior:'smooth'});
+    }
 }
+
 function hideIframe(){
-    document.querySelectorAll('.container').forEach(el=>{if(el.id!=='content') el.style.display='none';});
-    document.getElementById('content').style.display='block';
+    // Hide all iframe containers
+    document.querySelectorAll('.iframe-container').forEach(el=>{
+        el.style.display = 'none';
+    });
+    
+    // Show main content
+    document.getElementById('content').style.display = 'block';
 }
 
 // Dark Mode Toggle

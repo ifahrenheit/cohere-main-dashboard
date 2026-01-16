@@ -259,7 +259,8 @@ $conn->close();
             <!-- Coaching -->
             <?php if (
                 in_array($_SESSION['role'], ['Admin', 'Manager', 'Director', 'SOM Approver']) ||
-                ($_SESSION['is_supervisor'] ?? false)
+                ($_SESSION['is_supervisor'] ?? false) ||
+                ($_SESSION['user_group'] ?? '') === 'QA'
             ): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="coaching/index.php">Coaching</a>
@@ -296,11 +297,11 @@ $conn->close();
         <!-- Right Side: Employee Features -->
         <ul class="navbar-nav">
             <!-- E-Vouchers -->
-            <?php if (in_array($_SESSION['role'], ['Admin', 'Manager', 'Director', 'SOM Approver', 'Employee'])): ?>
+            <?php /* if (in_array($_SESSION['role'], ['Admin', 'Manager', 'Director', 'SOM Approver', 'Employee'])): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="event.preventDefault(); showIframe('voucherApp')">E-Vouchers</a>
                 </li>
-            <?php endif; ?>
+            <?php endif; */?>
 
             <!-- File Requests Dropdown -->
             <li class="nav-item dropdown">
