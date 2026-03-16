@@ -4,9 +4,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include 'db_connection.php';
-ini_set('session.cookie_domain', '.cohere.ph'); // ✅ Note the leading dot!
-ini_set('session.cookie_samesite', 'None');     // ✅ Required for cross-origin cookies
-ini_set('session.cookie_secure', '1');          // ✅ Must be HTTPS
+ini_set('session.cookie_domain', '.cohere.ph');
+ini_set('session.cookie_samesite', 'None');
+ini_set('session.cookie_secure', '1');
 session_start();
 
 if ($_SESSION['role'] !== 'Admin') {
@@ -28,5 +28,7 @@ if (!empty($supervisor)) {
     $stmt->execute();
 }
 
-header("Location: manage_users.php");
+$filter = $_POST['redirect_filter'] ?? '';
+$redirect = "manage_supervisors.php" . ($filter ? "?filter=$filter" : "");
+header("Location: $redirect");
 exit;

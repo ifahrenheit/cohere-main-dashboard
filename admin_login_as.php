@@ -15,15 +15,46 @@ if ($_SESSION['role'] !== 'Admin') {
 
 $message = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
-    $email = $_POST['email'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['employee_id'])) {
+    $employee_id = $_POST['employee_id'];
+
+    file_put_contents('/tmp/debug.txt', "Searching for: [$email] Length: " . strlen($email) . "\n", FILE_APPEND);
+
+    
+    // DEBUG: Show what we received
+    echo "<pre style='background: yellow; padding: 10px; margin: 20px;'>";
+    echo "DEBUG INFO:\n";
+    echo "Posted email: " . htmlspecialchars($email) . "\n";
+    echo "Email length: " . strlen($email) . "\n";
+    echo "Email hex: " . bin2hex($email) . "\n";
+    echo "</pre>";
 
     // ✅ Fetch the user to impersonate
-    $stmt = $conn->prepare("SELECT EmployeeID, FirstName, LastName, Email, role, is_qa FROM Employees WHERE Email = ?");
-    $stmt->bind_param("s", $email);
+    $stmt = $conn->prepare("SELECT EmployeeID, FirstName, LastName, Email, role, is_qa FROM Employees WHERE EmployeeID = ?");
+    $stmt->bind_param("s", $employee_id);
     $stmt->execute();
     $user = $stmt->get_result()->fetch_assoc();
     $stmt->close();
+    
+    // DEBUG: Show query result
+    echo "<pre style='background: lightblue; padding: 10px; margin: 20px;'>";
+    echo "QUERY RESULT:\n";
+    if ($user) {
+        echo "Found user: " . print_r($user, true);
+    } else {
+        echo "NO USER FOUND\n";
+        
+        // Let's check what's actually in the database
+        $debug = $conn->query("SELECT EmployeeID, Email, FirstName, LastName FROM Employees WHERE Email LIKE '%jose%rizal%' OR Email LIKE '%260113%'");
+        echo "\nSearching for similar emails:\n";
+        while ($row = $debug->fetch_assoc()) {
+            echo "  - " . $row['Email'] . " (ID: " . $row['EmployeeID'] . ")\n";
+        }
+    }
+    echo "</pre>";
+    
+    // Comment out the rest temporarily to see debug info
+    // die("DEBUG - stopping here");
 
     if (!$user) {
         $message = "User not found.";
@@ -49,14 +80,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
         $_SESSION['role'] = $user['role'] ?? 'Employee';
         $_SESSION['is_qa'] = (bool)$user['is_qa'];   // 👈 add this
 
-        // ✅ Check user's overhead group from gsheet_employees
+        // ✅ Check user's overhead group AND account type from gsheet_employees
         $_SESSION['user_group'] = null;
-        if ($stmt_group = $conn->prepare("SELECT group_name FROM gsheet_employees WHERE email = ? AND status = 'Active'")) {
+        $_SESSION['account_type'] = null;
+        if ($stmt_group = $conn->prepare("SELECT group_name, account FROM gsheet_employees WHERE email = ? AND status = 'Active'")) {
             $stmt_group->bind_param("s", $user['Email']);
             $stmt_group->execute();
             $group_result = $stmt_group->get_result();
             if ($group_row = $group_result->fetch_assoc()) {
                 $_SESSION['user_group'] = $group_row['group_name'];
+                $_SESSION['account_type'] = $group_row['account'];  // ← ADD THIS LINE
             }
             $stmt_group->close();
         }
@@ -101,12 +134,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
 
     <form method="POST" class="space-y-4">
       <label for="email" class="block text-sm font-semibold">Select a user to impersonate:</label>
-      <select name="email" id="email" required class="w-full border p-2 rounded">
-        <?php
-        $users = $conn->query("SELECT Email, FirstName, LastName, role FROM Employees WHERE IsVerified = 1 ORDER BY FirstName, LastName");
-        while ($u = $users->fetch_assoc()):
-        ?>
-          <option value="<?= htmlspecialchars($u['Email']) ?>">
+      <select name="employee_id" id="employee_id" required class="w-full border p-2 rounded">
+  <?php
+  $users = $conn->query("SELECT EmployeeID, Email, FirstName, LastName, role FROM Employees WHERE IsVerified = 1 ORDER BY FirstName, LastName");
+  while ($u = $users->fetch_assoc()):
+  ?>
+    <option value="<?= htmlspecialchars($u['EmployeeID']) ?>">
             <?= htmlspecialchars($u['FirstName'] . ' ' . $u['LastName']) ?> (<?= $u['role'] ?>)
           </option>
         <?php endwhile; ?>

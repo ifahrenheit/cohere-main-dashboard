@@ -112,14 +112,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 $_SESSION['is_qa'] = $isQa;
 
-                // ✅ Check user's overhead group from gsheet_employees
+                // ✅ Check user's overhead group AND account type from gsheet_employees
                 $_SESSION['user_group'] = null;
-                if ($stmt_group = $conn->prepare("SELECT group_name FROM gsheet_employees WHERE email = ? AND status = 'Active'")) {
+                $_SESSION['account_type'] = null;
+                if ($stmt_group = $conn->prepare("SELECT group_name, account FROM gsheet_employees WHERE email = ? AND status = 'Active'")) {
                     $stmt_group->bind_param("s", $email);
                     $stmt_group->execute();
                     $group_result = $stmt_group->get_result();
                     if ($group_row = $group_result->fetch_assoc()) {
                         $_SESSION['user_group'] = $group_row['group_name'];
+                        $_SESSION['account_type'] = $group_row['account'];
                     }
                     $stmt_group->close();
                 }

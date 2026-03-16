@@ -1,35 +1,30 @@
 # ==========================================
-# COHERE DASHBOARD - .gitignore
+# COHERE DASHBOARD - .gitignore (Optimized)
 # ==========================================
 
 # --------------------
-# SENSITIVE FILES (CRITICAL!)
+# SENSITIVE FILES
 # --------------------
 config.php
 db_connection.php
 database.php
 connection.php
+ldap_config.php
 .env
 *.env
 credentials.json
-ldap_config.php
 api/credentials.json
 
-# Keep examples
+# Keep example config files
 !config.example.php
 !db_connection.example.php
 
 # --------------------
-# SUB-PROJECTS (Have their own repos)
+# SUB-PROJECTS (Separate repos)
 # --------------------
 /cohere_dashboard_frontend/
 /coaching/.git/
 /coaching/
-
-# If you want to include them as git submodules later:
-# (uncomment if needed)
-# !cohere_dashboard_frontend/.gitmodules
-# !coaching/.gitmodules
 
 # --------------------
 # NODE_MODULES & DEPENDENCIES
@@ -39,7 +34,6 @@ node_modules/
 /api/node_modules/
 vendor/
 /api/vendor/
-/vendor/
 composer.lock
 package-lock.json
 
@@ -50,7 +44,14 @@ package-lock.json
 !/uploads/.gitkeep
 /coaching/uploads/*
 !/coaching/uploads/.gitkeep
-/coaching/uploads/profile_pictures/*
+/coaching/uploads/profile_pictures/*  # Optional: track profile pics if needed
+/incident_report/uploads/*            # Ignore all IR images
+
+# Ignore image files globally if never tracked
+*.png
+*.jpg
+*.jpeg
+*.gif
 
 # --------------------
 # LOGS & DEBUG FILES
@@ -85,7 +86,7 @@ testing*.php
 info.php
 
 # --------------------
-# TEMPORARY & CSV FILES
+# TEMPORARY & CACHE FILES
 # --------------------
 tempfile.csv
 *.tmp
@@ -116,16 +117,16 @@ Thumbs.db
 desktop.ini
 
 # --------------------
-# IDE
+# IDE / EDITOR FILES
 # --------------------
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Credentials
+# --------------------
+# CREDENTIALS / SECRETS
+# --------------------
 google-credentials.json
-*.json
-.env
 /secrets/
 /var/www/secrets/

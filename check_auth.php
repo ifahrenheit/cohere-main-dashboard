@@ -16,15 +16,20 @@ if (!isset($_SESSION['user_email'])) {
     exit;
 }
 
-// Check if user has required role (Admin, Manager, Director)
+// Check if user has required role (Admin, Manager, Director) OR is honey.cortes@cohere.ph
 $role = $_SESSION['role'] ?? 'Employee';
+$userEmail = $_SESSION['user_email'] ?? '';
 $allowedRoles = ['Admin', 'Manager', 'Director'];
 
-if (!in_array($role, $allowedRoles)) {
+if (!in_array($role, $allowedRoles) && $userEmail !== 'honey.cortes@cohere.ph') {
     echo json_encode([
         'authenticated' => true,
         'authorized' => false,
-        'message' => 'Access denied. Only Admin, Manager, and Director roles can access this page.'
+        'message' => 'Access denied. Only Admin, Manager, and Director roles can access this page.',
+        'user' => [
+            'email' => $userEmail,
+            'role' => $role
+        ]
     ]);
     exit;
 }

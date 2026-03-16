@@ -33,19 +33,18 @@ $sql = "
 ";
 
 // ✅ Role-based filters
-if ($role === 'SOM Approver') {
+if (in_array($role, ['SOM Approver', 'Manager'])) {
+    // Managers & SOM Approvers see only their direct reports
     $safeEmail = $conn->real_escape_string($userEmail);
-    $sql .= " AND e.som_email = '{$safeEmail}' AND e.role IN ('Employee','Team Lead','Manager')";
+    $sql .= " AND e.som_email = '{$safeEmail}'";
 }
- 
-
-elseif ($role === 'Manager') {
-    $safeEmail = $conn->real_escape_string($userEmail);
-    $sql .= " AND e.role IN ('Employee', 'Team Lead') AND e.som_email = '{$safeEmail}'";
-}  
-
-elseif (in_array($role, ['Director', 'Admin'])) {
-    // can view all
+elseif ($role === 'Director') {
+    // Directors see only Managers' requests
+    $sql .= " AND e.role = 'Manager'";
+}
+elseif ($role === 'Admin') {
+    // Admins see everything
+    // no filter
 }
 
 $sql .= " ORDER BY STR_TO_DATE(r.rd_date, '%Y-%m-%d') DESC, r.start_time DESC";

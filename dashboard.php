@@ -125,7 +125,7 @@ while ($row = $result->fetch_assoc()) {
     $finalRecords[] = $row;
 }
 
-$conn->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -171,7 +171,7 @@ $conn->close();
             <?php endif; ?>
 
             <!-- Employee Database for Manager/Director -->
-            <?php if (in_array($_SESSION['role'], ['Manager', 'Director'])): ?>
+            <?php if (in_array($_SESSION['role'], ['Manager', 'Director']) || $_SESSION['user_email'] === 'honey.cortes@cohere.ph'): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="https://webhook.cohere.ph/employees" target="_blank">👥 Employee Database</a>
                 </li>
@@ -267,6 +267,20 @@ $conn->close();
                 </li>
             <?php endif; ?>
 
+            <!-- Supervisor Break Logs - Admin, Manager, Director, RTA -->
+            <?php 
+            $has_supervisor_access = (
+                in_array($_SESSION['role'], ['Admin', 'Manager', 'Director']) ||
+                ($_SESSION['user_group'] ?? null) === 'RTA'
+            );
+
+            if ($has_supervisor_access): 
+            ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="supervisor-break-logs.php">Break Logs</a>
+                </li>
+            <?php endif; ?>
+
             <!-- Approvals Dropdown -->
             <?php if (in_array($_SESSION['role'], ['Admin', 'Manager', 'Director'])): ?>
                 <li class="nav-item dropdown">
@@ -319,6 +333,59 @@ $conn->close();
                 <a class="nav-link" href="ot/index.php" target="_blank">OT Tracker</a>
             </li>
 
+            <!-- Break Tracker - Numa & Arctic Only -->
+<?php
+// Check user's account type for Break Tracker access
+$break_tracker_access = false;
+
+// Try multiple session variables
+$user_account = $_SESSION['account_type'] ?? $_SESSION['account'] ?? null;
+
+// If not found, try to extract from user_group (e.g., "Numa CS" → "Numa")
+if (!$user_account && isset($_SESSION['user_group'])) {
+    $user_group = $_SESSION['user_group'];
+    
+    if (stripos($user_group, 'Numa') !== false) {
+        $user_account = 'Numa';
+    } elseif (stripos($user_group, 'Arctic') !== false) {
+        $user_account = 'Arctic';
+    } elseif (stripos($user_group, 'GYG') !== false) {
+        $user_account = 'GYG';
+    }
+}
+
+// If still not found, query database as last resort
+if (!$user_account && isset($_SESSION['user_email'])) {
+    $stmt = $conn->prepare("SELECT account FROM gsheet_employees WHERE email = ? AND status = 'Active' LIMIT 1");
+    $stmt->bind_param("s", $_SESSION['user_email']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $user_account = $row['account'];
+    }
+    $stmt->close();
+}
+
+$allowed_accounts = [
+    'Arctic',
+    'Numa',
+    // 'GYG',  // Uncomment to enable GYG access
+];
+
+// Also allow admins/managers/directors to access
+if (in_array($_SESSION['role'], ['Admin', 'Manager', 'Director'])) {
+    $break_tracker_access = true;
+} else if ($user_account && in_array($user_account, $allowed_accounts)) {
+    $break_tracker_access = true;
+}
+
+if ($break_tracker_access): 
+?>
+    <li class="nav-item">
+        <a class="nav-link" href="break-log.php">⏱ Break Tracker</a>
+    </li>
+<?php endif; ?>
+
             <!-- Logout Button -->
             <li class="nav-item">
                 <a href="logout.php" class="btn btn-logout">Logout</a>
@@ -326,6 +393,7 @@ $conn->close();
         </ul>
     </div>
 </nav>
+
 <br>
     <div style="margin-bottom: 10px; max-width: 180px;">
         <form method="POST">
@@ -552,5 +620,7 @@ function hideIframe() {
 <!-- Bootstrap Bundle - Load only ONCE -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
+$conn->close();
 </body>
 </html>

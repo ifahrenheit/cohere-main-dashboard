@@ -52,7 +52,19 @@ $stmt->bind_param("s", $user_email);
 $stmt->execute();
 $current_user = $stmt->get_result()->fetch_assoc();
 
+// Set current employee ID from database query
+$current_employee_id = $current_user['EmployeeID'] ?? null;
+$is_admin = isset($_SESSION['role']) && in_array($_SESSION['role'], ['Admin', 'Manager', 'Director']);
 
+// Function to check if user can edit report
+function canEditReport($report, $current_employee_id, $is_admin) {
+    return $is_admin || ($report['submitted_by_id'] == $current_employee_id);
+}
+
+// Function to check if user can edit comment
+function canEditComment($comment, $current_employee_id, $is_admin) {
+    return $is_admin || ($comment['employee_id'] == $current_employee_id);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,6 +106,12 @@ $current_user = $stmt->get_result()->fetch_assoc();
         }
         .badge-resolved {
             background: #28a745;
+        }
+        .badge-pending_hr {
+            background: #ff6b35;
+        }
+        .badge-resolved_hr {
+            background: #6c757d;
         }
         .info-section {
             margin-bottom: 30px;
@@ -277,6 +295,174 @@ $current_user = $stmt->get_result()->fetch_assoc();
         .close-lightbox:hover {
             color: #e55a2b;
         }
+
+        /* Edit Buttons and Indicators */
+        .btn-edit {
+            background: linear-gradient(135deg, #0f2557 0%, #ff6b35 100%);
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            font-size: 14px;
+        }
+
+        .btn-edit:hover {
+            background: linear-gradient(135deg, #1e3a8a 0%, #e55a2b 100%);
+            transform: translateY(-2px);
+        }
+
+        .btn-edit-comment {
+            background: none;
+            border: none;
+            color: #ff6b35;
+            font-size: 12px;
+            padding: 2px 8px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .btn-edit-comment:hover {
+            color: #e55a2b;
+            text-decoration: underline;
+        }
+
+        .edited-indicator {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+            margin-left: 15px;
+        }
+
+        .edited-indicator-small {
+            font-size: 0.75em;
+            color: #999;
+            font-style: italic;
+            margin-left: 8px;
+        }
+
+        .history-link, .history-link-small {
+            color: #0f2557;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .history-link:hover, .history-link-small:hover {
+            color: #ff6b35;
+            text-decoration: underline;
+        }
+
+        #summary-edit-form textarea,
+        [id^="comment-edit-form-"] textarea,
+        #incident-date-input {
+            border: 2px solid #0f2557;
+            border-radius: 5px;
+        }
+
+        #summary-edit-form textarea:focus,
+        [id^="comment-edit-form-"] textarea:focus,
+        #incident-date-input:focus {
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+        }
+
+        .history-item {
+            border-left: 3px solid #0f2557;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .history-item:hover {
+            border-left-color: #ff6b35;
+        }
+
+        .history-header {
+            font-weight: bold;
+            color: #0f2557;
+            margin-bottom: 8px;
+        }
+
+        .history-diff {
+            background: #fff;
+            padding: 10px;
+            border-radius: 3px;
+            margin-top: 8px;
+        }
+
+        .old-value {
+            background: #ffebee;
+            padding: 5px;
+            border-radius: 3px;
+            text-decoration: line-through;
+            color: #c62828;
+        }
+
+        .new-value {
+            background: #e8f5e9;
+            padding: 5px;
+            border-radius: 3px;
+            color: #2e7d32;
+        }
+
+        .preview-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border: 2px solid #0f2557;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+        }
+        .preview-item .remove-btn:hover {
+            background: #e55a2b;
+        }
+        .comment-attachment {
+            display: inline-block;
+            margin: 5px;
+            border: 2px solid #0f2557;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .comment-attachment:hover {
+            transform: scale(1.05);
+            border-color: #ff6b35;
+        }
+        .comment-attachment img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+        }
+        .comment-attachments {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -297,17 +483,33 @@ $current_user = $stmt->get_result()->fetch_assoc();
 
         <!-- Report Details -->
         <div class="row">
-                    <div class="col-md-6 info-section">
-                        <div class="info-label">Date of Incident</div>
-                        <div class="info-value">📅 <?= date('F j, Y', strtotime($report['incident_date'])) ?></div>
-                    </div>
-                    <div class="col-md-6 info-section">
-                        <div class="info-label">Reported On</div>
-                        <div class="info-value">🕐 <?= date('F j, Y g:i A', strtotime($report['created_at'])) ?></div>
+            <div class="col-md-6 info-section">
+                <div class="info-label">Date of Incident</div>
+                <div id="incident-date-display">
+                    <div class="info-value">📅 <?= date('F j, Y', strtotime($report['incident_date'])) ?></div>
+                    <?php if (canEditReport($report, $current_employee_id, $is_admin)): ?>
+                        <button onclick="editIncidentDate()" class="btn btn-sm btn-edit mt-1 no-print" style="font-size: 12px; padding: 3px 10px;">
+                            ✏️ Edit Date
+                        </button>
+                    <?php endif; ?>
+                </div>
+                
+                <!-- Hidden edit form -->
+                <div id="incident-date-edit-form" style="display: none;">
+                    <input type="date" id="incident-date-input" class="form-control" value="<?= $report['incident_date'] ?>" max="<?= date('Y-m-d') ?>">
+                    <div class="mt-2">
+                        <button onclick="saveIncidentDate()" class="btn btn-sm btn-success">💾 Save</button>
+                        <button onclick="cancelIncidentDateEdit()" class="btn btn-sm btn-secondary">❌ Cancel</button>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6 info-section">
+                <div class="info-label">Reported On</div>
+                <div class="info-value">🕐 <?= date('F j, Y g:i A', strtotime($report['created_at'])) ?></div>
+            </div>
+        </div>
 
-                <div class="row">
+        <div class="row">
             <div class="col-md-6 info-section">
                 <div class="info-label">Agent Involved</div>
                 <div class="info-value">👤 <?= htmlspecialchars($report['employee_name']) ?></div>
@@ -318,22 +520,45 @@ $current_user = $stmt->get_result()->fetch_assoc();
             </div>
         </div>
 
-<div class="row">
-    <div class="col-md-6 info-section">
-        <div class="info-label">Reported By</div>
-        <div class="info-value">📝 <?= htmlspecialchars($report['submitted_by_name'] ?? 'N/A') ?></div>
-    </div>
-    <div class="col-md-6 info-section">
-        <div class="info-label">Submitter ID</div>
-        <div class="info-value">🆔 <?= htmlspecialchars($report['submitted_by_id'] ?? 'N/A') ?></div>
-    </div>
-</div>
+        <div class="row">
+            <div class="col-md-6 info-section">
+                <div class="info-label">Reported By</div>
+                <div class="info-value">📝 <?= htmlspecialchars($report['submitted_by_name'] ?? 'N/A') ?></div>
+            </div>
+            <div class="col-md-6 info-section">
+                <div class="info-label">Submitter ID</div>
+                <div class="info-value">🆔 <?= htmlspecialchars($report['submitted_by_id'] ?? 'N/A') ?></div>
+            </div>
+        </div>
 
         <!-- Summary -->
         <div class="info-section">
-            <div class="info-label">Incident Summary</div>
-            <div class="summary-box">
+            <div class="info-label">
+                Incident Summary
+                <?php if ($report['edited_at']): ?>
+                    <span class="edited-indicator" title="Last edited <?= date('M j, Y g:i A', strtotime($report['edited_at'])) ?>">
+                        (Edited <?= date('M j, Y g:i A', strtotime($report['edited_at'])) ?>)
+                        <a href="#" onclick="showEditHistory('report', <?= $report['id'] ?>); return false;" class="history-link">View history</a>
+                    </span>
+                <?php endif; ?>
+            </div>
+            <div class="summary-box" id="summary-display">
                 <?= nl2br(htmlspecialchars($report['summary'])) ?>
+            </div>
+            
+            <?php if (canEditReport($report, $current_employee_id, $is_admin)): ?>
+                <button onclick="editReport()" class="btn btn-sm btn-edit mt-2 no-print">
+                    ✏️ Edit Summary
+                </button>
+            <?php endif; ?>
+            
+            <!-- Hidden edit form -->
+            <div id="summary-edit-form" style="display: none;">
+                <textarea id="summary-edit-textarea" class="form-control" rows="6"><?= htmlspecialchars($report['summary']) ?></textarea>
+                <div class="mt-2">
+                    <button onclick="saveReportEdit()" class="btn btn-sm btn-success">💾 Save</button>
+                    <button onclick="cancelReportEdit()" class="btn btn-sm btn-secondary">❌ Cancel</button>
+                </div>
             </div>
         </div>
 
@@ -383,18 +608,36 @@ $current_user = $stmt->get_result()->fetch_assoc();
                     <div class="no-comments">No comments yet. Be the first to comment!</div>
                 <?php else: ?>
                     <?php foreach ($comments as $comment): ?>
-                        <div class="comment-item">
+                        <div class="comment-item" data-comment-id="<?= $comment['id'] ?>">
                             <div class="comment-header">
                                 <div class="comment-author">
                                     👤 <?= htmlspecialchars($comment['employee_name']) ?>
                                     <span class="badge bg-secondary ms-2"><?= htmlspecialchars($comment['employee_id']) ?></span>
+                                    <?php if ($comment['edited_at']): ?>
+                                        <span class="edited-indicator-small" title="Last edited <?= date('M j, Y g:i A', strtotime($comment['edited_at'])) ?>">
+                                            (Edited)
+                                            <a href="#" onclick="showEditHistory('comment', <?= $comment['id'] ?>); return false;" class="history-link-small">history</a>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="comment-date">
                                     <?= date('M j, Y g:i A', strtotime($comment['created_at'])) ?>
+                                    <?php if (canEditComment($comment, $current_employee_id, $is_admin)): ?>
+                                        <button onclick="editComment(<?= $comment['id'] ?>)" class="btn-edit-comment no-print">✏️ Edit</button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
-                            <div class="comment-text">
+                            <div class="comment-text" id="comment-display-<?= $comment['id'] ?>">
                                 <?= nl2br(htmlspecialchars($comment['comment'])) ?>
+                            </div>
+                            
+                            <!-- Hidden edit form -->
+                            <div id="comment-edit-form-<?= $comment['id'] ?>" style="display: none;">
+                                <textarea id="comment-edit-textarea-<?= $comment['id'] ?>" class="form-control" rows="4"><?= htmlspecialchars($comment['comment']) ?></textarea>
+                                <div class="mt-2">
+                                    <button onclick="saveCommentEdit(<?= $comment['id'] ?>)" class="btn btn-sm btn-success">💾 Save</button>
+                                    <button onclick="cancelCommentEdit(<?= $comment['id'] ?>)" class="btn btn-sm btn-secondary">❌ Cancel</button>
+                                </div>
                             </div>
                             
                             <?php
@@ -424,7 +667,7 @@ $current_user = $stmt->get_result()->fetch_assoc();
             <!-- Add Comment Form -->
             <div class="comment-form">
                 <h5 style="color: #0f2557; margin-bottom: 15px;">Add a Comment</h5>
-                <form id="commentForm">
+                <form id="commentForm" method="POST" action="#">
                     <input type="hidden" name="report_number" value="<?= htmlspecialchars($report_number) ?>">
                     <div class="mb-3">
                         <textarea 
@@ -442,7 +685,7 @@ $current_user = $stmt->get_result()->fetch_assoc();
                         <label for="comment_attachments" class="form-label" style="color: #0f2557; font-weight: 600;">
                             📎 Add Attachments (Optional)
                         </label>
-                        <input type="file" class="form-control" id="comment_attachments" name="comment_attachments[]" multiple accept="image/*">
+                        <input type="file" class="form-control" id="comment_attachments" multiple accept="image/*">
                         <small class="text-muted">Up to 4 images. Files will be compressed automatically.</small>
                         <div id="commentPreviewContainer" class="preview-container mt-2"></div>
                     </div>
@@ -492,41 +735,164 @@ $current_user = $stmt->get_result()->fetch_assoc();
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
 
-     <?php $conn->close(); ?>       
+    <?php $conn->close(); ?>
 
     <!-- Lightbox -->
     <div id="lightbox" class="lightbox">
-    <button class="close-lightbox">×</button>
+        <button class="close-lightbox">×</button>
         <img id="lightbox-img" src="" alt="Full size image">
     </div>
 
+    <!-- Edit History Modal -->
+    <div class="modal fade" id="historyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #0f2557 0%, #ff6b35 100%); color: white;">
+                    <h5 class="modal-title">📜 Edit History</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="historyContent">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
+    <script>
 let compressedCommentFiles = [];
 
-// File input change handler for comments
-document.getElementById('comment_attachments').addEventListener('change', async function(e) {
-    const files = Array.from(e.target.files);
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', function() {
     
-    if (files.length + compressedCommentFiles.length > 4) {
-        alert('You can only upload up to 4 images');
-        e.target.value = '';
-        return;
-    }
-
-    for (let file of files) {
-        if (!file.type.startsWith('image/')) {
-            alert('Only image files are allowed');
-            continue;
+    // File input change handler for comments
+    document.getElementById('comment_attachments').addEventListener('change', async function(e) {
+        const files = Array.from(e.target.files);
+        
+        if (files.length + compressedCommentFiles.length > 4) {
+            alert('You can only upload up to 4 images');
+            e.target.value = '';
+            return;
         }
 
-        const compressed = await compressImage(file);
-        compressedCommentFiles.push(compressed);
-    }
+        for (let file of files) {
+            if (!file.type.startsWith('image/')) {
+                alert('Only image files are allowed');
+                continue;
+            }
 
-    updateCommentPreview();
-    e.target.value = '';
+            const compressed = await compressImage(file);
+            compressedCommentFiles.push(compressed);
+        }
+
+        updateCommentPreview();
+        e.target.value = '';
+    });
+
+    // Handle comment submission
+    document.getElementById('commentForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitComment');
+        const submitText = document.getElementById('submitText');
+        const submitSpinner = document.getElementById('submitSpinner');
+        const commentField = document.getElementById('comment');
+        const statusActionField = document.getElementById('status_action');
+        
+        const statusAction = statusActionField ? statusActionField.value : '';
+        const commentText = commentField.value.trim();
+        
+        if (statusAction && !commentText) {
+            alert('⚠️ Comment is required when updating status.');
+            commentField.focus();
+            return;
+        }
+        
+        if (!commentText) {
+            alert('⚠️ Please enter a comment.');
+            commentField.focus();
+            return;
+        }
+        
+        submitBtn.disabled = true;
+        submitText.classList.add('d-none');
+        submitSpinner.classList.remove('d-none');
+        
+        const formData = new FormData(this);
+        
+        // Add compressed images
+        compressedCommentFiles.forEach((item, index) => {
+            formData.append('comment_attachments[]', item.file);
+        });
+        
+        try {
+            const response = await fetch('add_comment.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                location.reload();
+            } else {
+                alert('❌ Error: ' + result.message);
+            }
+        } catch (error) {
+            alert('❌ Error posting comment: ' + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitText.classList.remove('d-none');
+            submitSpinner.classList.add('d-none');
+        }
+    });
+
+    // Print button
+    const printBtn = document.querySelector('.btn-print');
+    if (printBtn) {
+        printBtn.addEventListener('click', function() {
+            window.print();
+        });
+    }
+    
+    // Attachment items - use event delegation for dynamically loaded content
+    document.addEventListener('click', function(e) {
+        const attachmentItem = e.target.closest('.attachment-item');
+        if (attachmentItem) {
+            const img = attachmentItem.querySelector('img');
+            if (img) {
+                openLightbox(img.src);
+            }
+            return;
+        }
+        
+        const commentAttachment = e.target.closest('.comment-attachment');
+        if (commentAttachment) {
+            const img = commentAttachment.querySelector('img');
+            if (img) {
+                openLightbox(img.src);
+            }
+            return;
+        }
+        
+        if (e.target.id === 'lightbox' || e.target.classList.contains('close-lightbox')) {
+            closeLightbox();
+        }
+    });
+    
+    // Escape key to close lightbox
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
+    });
 });
 
 // Image compression function
@@ -593,7 +959,6 @@ function updateCommentPreview() {
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '×';
         removeBtn.type = 'button';
-        // ✅ FIXED: Use addEventListener instead of onclick
         removeBtn.addEventListener('click', () => removeCommentImage(index));
         
         div.appendChild(img);
@@ -608,66 +973,7 @@ function removeCommentImage(index) {
     updateCommentPreview();
 }
 
-// Handle comment submission
-document.getElementById('commentForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const submitBtn = document.getElementById('submitComment');
-    const submitText = document.getElementById('submitText');
-    const submitSpinner = document.getElementById('submitSpinner');
-    const commentField = document.getElementById('comment');
-    const statusActionField = document.getElementById('status_action');
-    
-    const statusAction = statusActionField ? statusActionField.value : '';
-    const commentText = commentField.value.trim();
-    
-    if (statusAction && !commentText) {
-        alert('⚠️ Comment is required when updating status.');
-        commentField.focus();
-        return;
-    }
-    
-    if (!commentText) {
-        alert('⚠️ Please enter a comment.');
-        commentField.focus();
-        return;
-    }
-    
-    submitBtn.disabled = true;
-    submitText.classList.add('d-none');
-    submitSpinner.classList.remove('d-none');
-    
-    const formData = new FormData(this);
-    
-    // Add compressed images
-    compressedCommentFiles.forEach((item, index) => {
-        formData.append('comment_attachments[]', item.file);
-    });
-    
-    try {
-        const response = await fetch('add_comment.php', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            // Reload page to show new comment with attachments
-            location.reload();
-        } else {
-            alert('❌ Error: ' + result.message);
-        }
-    } catch (error) {
-        alert('❌ Error posting comment: ' + error.message);
-    } finally {
-        submitBtn.disabled = false;
-        submitText.classList.remove('d-none');
-        submitSpinner.classList.add('d-none');
-    }
-});
-
-// ✅ FIXED: Lightbox functions using event delegation
+// Lightbox functions
 function openLightbox(src) {
     document.getElementById('lightbox').classList.add('active');
     document.getElementById('lightbox-img').src = src;
@@ -677,125 +983,194 @@ function closeLightbox() {
     document.getElementById('lightbox').classList.remove('active');
 }
 
-// ✅ FIXED: Add event listeners for all onclick elements
-document.addEventListener('DOMContentLoaded', function() {
-    // Print button
-    const printBtn = document.querySelector('.btn-print');
-    if (printBtn) {
-        printBtn.addEventListener('click', function() {
-            window.print();
-        });
+// Edit Report
+function editReport() {
+    document.getElementById('summary-display').style.display = 'none';
+    document.getElementById('summary-edit-form').style.display = 'block';
+    document.querySelector('.btn-edit').style.display = 'none';
+}
+
+function cancelReportEdit() {
+    document.getElementById('summary-display').style.display = 'block';
+    document.getElementById('summary-edit-form').style.display = 'none';
+    document.querySelector('.btn-edit').style.display = 'inline-block';
+}
+
+async function saveReportEdit() {
+    const newSummary = document.getElementById('summary-edit-textarea').value.trim();
+    
+    if (!newSummary) {
+        alert('Summary cannot be empty');
+        return;
     }
     
-    // Attachment items - use event delegation for dynamically loaded content
-    document.addEventListener('click', function(e) {
-        // Handle attachment items
-        const attachmentItem = e.target.closest('.attachment-item');
-        if (attachmentItem) {
-            const img = attachmentItem.querySelector('img');
-            if (img) {
-                openLightbox(img.src);
-            }
-            return;
-        }
-        
-        // Handle comment attachments
-        const commentAttachment = e.target.closest('.comment-attachment');
-        if (commentAttachment) {
-            const img = commentAttachment.querySelector('img');
-            if (img) {
-                openLightbox(img.src);
-            }
-            return;
-        }
-        
-        // Handle lightbox close
-        if (e.target.id === 'lightbox' || e.target.classList.contains('close-lightbox')) {
-            closeLightbox();
-        }
-    });
+    const formData = new FormData();
+    formData.append('report_id', <?= $report['id'] ?>);
+    formData.append('summary', newSummary);
+    formData.append('incident_date', '<?= $report['incident_date'] ?>');
     
-    // Escape key to close lightbox
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeLightbox();
+    try {
+        const response = await fetch('edit_report.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + result.message);
         }
-    });
-});
-</script>
-
-<style>
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(255, 107, 53, 0.6); }
+    } catch (error) {
+        alert('Error saving changes: ' + error.message);
+    }
 }
 
-.badge-pending_hr {
-    background: #ff6b35;
-}
-.badge-resolved_hr {
-    background: #6c757d;
+// Edit Incident Date
+function editIncidentDate() {
+    document.getElementById('incident-date-display').style.display = 'none';
+    document.getElementById('incident-date-edit-form').style.display = 'block';
 }
 
-.preview-container {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+function cancelIncidentDateEdit() {
+    document.getElementById('incident-date-display').style.display = 'block';
+    document.getElementById('incident-date-edit-form').style.display = 'none';
 }
-.preview-item {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border: 2px solid #0f2557;
-    border-radius: 8px;
-    overflow: hidden;
+
+async function saveIncidentDate() {
+    const newDate = document.getElementById('incident-date-input').value;
+    
+    if (!newDate) {
+        alert('Please select a date');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('report_id', <?= $report['id'] ?>);
+    formData.append('incident_date', newDate);
+    formData.append('summary', `<?= str_replace(["\r", "\n", "'"], ["", "", "\\'"], $report['summary']) ?>`);
+    
+    try {
+        const response = await fetch('edit_report.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        alert('Error saving date: ' + error.message);
+    }
 }
-.preview-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+
+// Edit Comment
+function editComment(commentId) {
+    document.getElementById('comment-display-' + commentId).style.display = 'none';
+    document.getElementById('comment-edit-form-' + commentId).style.display = 'block';
 }
-.preview-item .remove-btn {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    background: #ff6b35;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    line-height: 1;
+
+function cancelCommentEdit(commentId) {
+    document.getElementById('comment-display-' + commentId).style.display = 'block';
+    document.getElementById('comment-edit-form-' + commentId).style.display = 'none';
 }
-.preview-item .remove-btn:hover {
-    background: #e55a2b;
+
+async function saveCommentEdit(commentId) {
+    const newComment = document.getElementById('comment-edit-textarea-' + commentId).value.trim();
+    
+    if (!newComment) {
+        alert('Comment cannot be empty');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('comment_id', commentId);
+    formData.append('comment', newComment);
+    
+    try {
+        const response = await fetch('edit_comment.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        alert('Error saving changes: ' + error.message);
+    }
 }
-.comment-attachment {
-    display: inline-block;
-    margin: 5px;
-    border: 2px solid #0f2557;
-    border-radius: 5px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.2s;
+
+// Show Edit History
+async function showEditHistory(type, id) {
+    const modal = new bootstrap.Modal(document.getElementById('historyModal'));
+    const content = document.getElementById('historyContent');
+    
+    content.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
+    modal.show();
+    
+    try {
+        const response = await fetch(`get_edit_history.php?type=${type}&id=${id}`);
+        const result = await response.json();
+        
+        if (result.success && result.history.length > 0) {
+            let html = '';
+            
+            result.history.forEach(item => {
+                if (type === 'report') {
+                    html += `
+                        <div class="history-item">
+                            <div class="history-header">
+                                ${item.editor_name || 'Unknown'} edited ${item.field_name}
+                                <span style="float: right; color: #999; font-size: 0.9em;">
+                                    ${new Date(item.edited_at).toLocaleString()}
+                                </span>
+                            </div>
+                            <div class="history-diff">
+                                <div><strong>From:</strong></div>
+                                <div class="old-value mb-2">${item.old_value || '(empty)'}</div>
+                                <div><strong>To:</strong></div>
+                                <div class="new-value">${item.new_value || '(empty)'}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="history-item">
+                            <div class="history-header">
+                                ${item.editor_name || 'Unknown'} edited this comment
+                                <span style="float: right; color: #999; font-size: 0.9em;">
+                                    ${new Date(item.edited_at).toLocaleString()}
+                                </span>
+                            </div>
+                            <div class="history-diff">
+                                <div><strong>Previous version:</strong></div>
+                                <div class="old-value mb-2">${item.old_content.replace(/\n/g, '<br>')}</div>
+                                <div><strong>Updated version:</strong></div>
+                                <div class="new-value">${item.new_content.replace(/\n/g, '<br>')}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            content.innerHTML = html;
+        } else {
+            content.innerHTML = '<p class="text-center text-muted">No edit history available</p>';
+        }
+    } catch (error) {
+        content.innerHTML = '<p class="text-center text-danger">Error loading history</p>';
+    }
 }
-.comment-attachment:hover {
-    transform: scale(1.05);
-    border-color: #ff6b35;
-}
-.comment-attachment img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    display: block;
-}
-.comment-attachments {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #ddd;
-}
-</style>
+    </script>
 </body>
 </html>

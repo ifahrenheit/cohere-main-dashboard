@@ -19,6 +19,68 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
 }
 
 $message = '';
+$syncMessage = '';
+
+// ✅ Handle Sync Request
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['syncUsers'])) {
+    // Execute the sync script
+    $syncScriptPath = __DIR__ . '/sync_users_include.php';
+    
+    if (file_exists($syncScriptPath)) {
+        // Capture output from sync script
+        ob_start();
+        
+        try {
+            // Include and execute the sync script
+            include $syncScriptPath;
+            $syncOutput = ob_get_clean();
+            
+            // Parse the output to get summary
+            preg_match('/Successfully synced:\s*(\d+)/', $syncOutput, $syncedMatch);
+            preg_match('/Skipped \(duplicates\):\s*(\d+)/', $syncOutput, $skippedMatch);
+            preg_match('/Errors:\s*(\d+)/', $syncOutput, $errorsMatch);
+            
+            $synced = $syncedMatch[1] ?? 0;
+            $skipped = $skippedMatch[1] ?? 0;
+            $errors = $errorsMatch[1] ?? 0;
+            
+            // Redirect to refresh data
+            header("Location: manage_employee.php?synced=1&new=$synced&skipped=$skipped&errors=$errors");
+            exit;
+            
+        } catch (Exception $e) {
+            ob_end_clean();
+            $syncMessage = "<div class='alert alert-danger'>❌ Sync failed: " . htmlspecialchars($e->getMessage()) . "</div>";
+        }
+    } else {
+        $syncMessage = "<div class='alert alert-danger'>❌ Sync script not found. Please ensure 'sync_users_include.php' is in the same directory.</div>";
+    }
+}
+
+// Show sync message after redirect
+if (isset($_GET['synced']) && $_GET['synced'] == '1') {
+    $synced = $_GET['new'] ?? 0;
+    $skipped = $_GET['skipped'] ?? 0;
+    $errors = $_GET['errors'] ?? 0;
+    
+    if ($synced > 0) {
+        $syncMessage = "<div class='alert alert-success'>
+            ✅ Sync completed successfully!<br>
+            <strong>Synced:</strong> $synced new users | 
+            <strong>Skipped:</strong> $skipped duplicates | 
+            <strong>Errors:</strong> $errors
+        </div>";
+    } elseif ($errors > 0) {
+        $syncMessage = "<div class='alert alert-danger'>
+            ❌ Sync completed with errors!<br>
+            <strong>Synced:</strong> $synced | <strong>Errors:</strong> $errors
+        </div>";
+    } else {
+        $syncMessage = "<div class='alert alert-info'>
+            ℹ️ No new users to sync. All users are already in the Employees table.
+        </div>";
+    }
+}
 
 // ✅ Handle Update Request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateEmployee'])) {
@@ -38,6 +100,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateEmployee'])) {
         ");
         if ($stmt->execute([$firstName, $lastName, $email, $som, $somEmail, $role, $employeeID])) {
             $message = "<div class='alert alert-success'>✅ Employee updated successfully!</div>";
+            
+            // Redirect back with filter preserved
+            $redirectUrl = "manage_employee.php?updated=1";
+            if (isset($_POST['filter']) && $_POST['filter'] === 'unassigned') {
+                $redirectUrl .= "&filter=unassigned";
+            }
+            header("Location: $redirectUrl");
+            exit;
         } else {
             $message = "<div class='alert alert-danger'>❌ Error: ".$stmt->error."</div>";
         }
@@ -45,6 +115,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateEmployee'])) {
         $message = "<div class='alert alert-warning'>⚠ Please fill in all required fields.</div>";
     }
 }
+
+// Show success message after redirect
+if (isset($_GET['updated']) && $_GET['updated'] == '1') {
+    $message = "<div class='alert alert-success'>✅ Employee updated successfully!</div>";
+}
+
+// ✅ Filter handling
+$filter = $_GET['filter'] ?? '';
+$isFiltered = ($filter === 'unassigned');
 
 // ✅ Sorting
 $allowedSorts = ["EmployeeID", "FirstName", "LastName", "SOM", "role"];
@@ -61,25 +140,51 @@ if (isset($_GET['order']) && in_array(strtoupper($_GET['order']), ["ASC", "DESC"
 // Flip order when clicking same column again
 $nextOrder = ($sortOrder === "ASC") ? "DESC" : "ASC";
 
+// Build query params for maintaining filter in sort links
+$queryParams = $isFiltered ? "&filter=unassigned" : "";
+
 // ✅ Fetch ACTIVE Employees only (joined with gsheet_employees)
 $employees = [];
-$result = $conn->query("SELECT e.EmployeeID, e.FirstName, e.LastName, e.Email, e.som_email, e.SOM, e.role 
-                        FROM Employees e
-                        INNER JOIN gsheet_employees ge ON e.Email = ge.email
-                        WHERE ge.status = 'Active'
-                        ORDER BY e.$sortColumn $sortOrder");
+$sql = "SELECT e.EmployeeID, e.FirstName, e.LastName, e.Email, e.som_email, e.SOM, e.role 
+        FROM Employees e
+        INNER JOIN gsheet_employees ge ON e.Email = ge.email
+        WHERE ge.status IN ('Active', 'Training', 'Pending')";
+
+// Add filter condition if filtering for unassigned approvers
+if ($isFiltered) {
+    $sql .= " AND (e.som_email IS NULL OR e.som_email = '')";
+}
+
+$sql .= " ORDER BY e.$sortColumn $sortOrder";
+
+$result = $conn->query($sql);
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $employees[] = $row;
     }
 }
 
-// ✅ Calculate unassigned approver count
+// ✅ Calculate unassigned approver count (always from full dataset)
 $unassignedApproverCount = 0;
-foreach ($employees as $emp) {
-    if (empty($emp['som_email']) || is_null($emp['som_email'])) {
-        $unassignedApproverCount++;
-    }
+$countResult = $conn->query("SELECT COUNT(*) as count
+                             FROM Employees e
+                             INNER JOIN gsheet_employees ge ON e.Email = ge.email
+                             WHERE ge.status IN ('Active', 'Training', 'Pending')
+                             AND (e.som_email IS NULL OR e.som_email = '')");
+if ($countResult) {
+    $countRow = $countResult->fetch_assoc();
+    $unassignedApproverCount = $countRow['count'];
+}
+
+// Total active employees count
+$totalActiveCount = 0;
+$totalResult = $conn->query("SELECT COUNT(*) as count
+                             FROM Employees e
+                             INNER JOIN gsheet_employees ge ON e.Email = ge.email
+                             WHERE ge.status IN ('Active', 'Training', 'Pending')");
+if ($totalResult) {
+    $totalRow = $totalResult->fetch_assoc();
+    $totalActiveCount = $totalRow['count'];
 }
 ?>
 
@@ -199,10 +304,24 @@ foreach ($employees as $emp) {
             padding: 15px 25px;
             border-radius: 8px;
             flex: 1;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .stat-card.warning {
             background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+
+        .stat-card.active {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
         }
 
         .stat-card .label {
@@ -216,6 +335,31 @@ foreach ($employees as $emp) {
             font-size: 32px;
             font-weight: 700;
             margin-top: 5px;
+        }
+
+        .filter-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #b45309;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .clear-filter {
+            background: none;
+            border: none;
+            color: #b45309;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        .clear-filter:hover {
+            color: #92400e;
         }
 
         .table-container {
@@ -358,6 +502,43 @@ foreach ($employees as $emp) {
             color: #b45309;
         }
 
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .btn-sync {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-sync:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-sync:active {
+            transform: translateY(0);
+        }
+
+        .sync-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
         @media (max-width: 768px) {
             .stats {
                 flex-direction: column;
@@ -397,21 +578,46 @@ foreach ($employees as $emp) {
     </ul>
 
     <div class="header">
-        <h1>Active Employees</h1>
-        <p>Showing only active employees from the system</p>
-        <div class="stats">
-            <div class="stat-card">
-                <div class="label">Total Active Employees</div>
-                <div class="value"><?= count($employees) ?></div>
+        <div class="sync-container">
+            <div>
+                <h1>Active Employees</h1>
+                <p>Showing only active employees from the system</p>
             </div>
-            <div class="stat-card <?= $unassignedApproverCount > 0 ? 'warning' : '' ?>">
+            <form method="post" style="margin: 0;">
+                <button type="submit" name="syncUsers" class="btn-sync" onclick="return confirm('Sync users from userdata to Employees table?')">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                    </svg>
+                    Sync Users
+                </button>
+            </form>
+        </div>
+        
+        <?php if ($isFiltered): ?>
+            <div class="filter-badge">
+                🔍 Filtered: Showing only unassigned approvers
+                <a href="manage_employee.php" class="clear-filter">✖ Clear Filter</a>
+            </div>
+        <?php endif; ?>
+
+        <div class="stats">
+            <a href="manage_employee.php" class="stat-card <?= !$isFiltered ? 'active' : '' ?>" style="color: white;">
+                <div class="label">Total Active Employees</div>
+                <div class="value"><?= $totalActiveCount ?></div>
+            </a>
+            <a href="?filter=unassigned" class="stat-card warning <?= $isFiltered ? 'active' : '' ?>" style="color: white;">
                 <div class="label">Unassigned Approver</div>
                 <div class="value"><?= $unassignedApproverCount ?></div>
-            </div>
+            </a>
         </div>
     </div>
 
     <!-- Status Messages -->
+    <?php if (!empty($syncMessage)): ?>
+        <?= $syncMessage ?>
+    <?php endif; ?>
+    
     <?php if (!empty($message)): ?>
         <?= $message ?>
     <?php endif; ?>
@@ -421,13 +627,13 @@ foreach ($employees as $emp) {
         <table>
             <thead>
                 <tr>
-                    <th><a href="?sort=EmployeeID&order=<?= ($sortColumn === 'EmployeeID') ? $nextOrder : 'ASC' ?>">Employee ID <?= $sortColumn === 'EmployeeID' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
-                    <th><a href="?sort=FirstName&order=<?= ($sortColumn === 'FirstName') ? $nextOrder : 'ASC' ?>">First Name <?= $sortColumn === 'FirstName' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
-                    <th><a href="?sort=LastName&order=<?= ($sortColumn === 'LastName') ? $nextOrder : 'ASC' ?>">Last Name <?= $sortColumn === 'LastName' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th><a href="?sort=EmployeeID&order=<?= ($sortColumn === 'EmployeeID') ? $nextOrder : 'ASC' ?><?= $queryParams ?>">Employee ID <?= $sortColumn === 'EmployeeID' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th><a href="?sort=FirstName&order=<?= ($sortColumn === 'FirstName') ? $nextOrder : 'ASC' ?><?= $queryParams ?>">First Name <?= $sortColumn === 'FirstName' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th><a href="?sort=LastName&order=<?= ($sortColumn === 'LastName') ? $nextOrder : 'ASC' ?><?= $queryParams ?>">Last Name <?= $sortColumn === 'LastName' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
                     <th>Email</th>
-                    <th><a href="?sort=SOM&order=<?= ($sortColumn === 'SOM') ? $nextOrder : 'ASC' ?>">SOM <?= $sortColumn === 'SOM' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th><a href="?sort=SOM&order=<?= ($sortColumn === 'SOM') ? $nextOrder : 'ASC' ?><?= $queryParams ?>">SOM <?= $sortColumn === 'SOM' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
                     <th>Approver</th>
-                    <th><a href="?sort=role&order=<?= ($sortColumn === 'role') ? $nextOrder : 'ASC' ?>">Role <?= $sortColumn === 'role' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
+                    <th><a href="?sort=role&order=<?= ($sortColumn === 'role') ? $nextOrder : 'ASC' ?><?= $queryParams ?>">Role <?= $sortColumn === 'role' ? ($sortOrder === 'ASC' ? '▲' : '▼') : '' ?></a></th>
                     <th style="width:100px;">Action</th>
                 </tr>
             </thead>
@@ -435,7 +641,11 @@ foreach ($employees as $emp) {
             <?php if (empty($employees)): ?>
                 <tr>
                     <td colspan="8" style="text-align: center; padding: 40px; color: #718096;">
-                        No active employees found.
+                        <?php if ($isFiltered): ?>
+                            🎉 Great! No employees with unassigned approvers found.
+                        <?php else: ?>
+                            No active employees found.
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php else: ?>
@@ -485,6 +695,7 @@ foreach ($employees as $emp) {
         </div>
         <div class="modal-body row g-3 p-3">
             <input type="hidden" name="EmployeeID" id="editEmployeeID">
+            <input type="hidden" name="filter" value="<?= htmlspecialchars($filter) ?>">
             <div class="col-md-6">
                 <label class="form-label">First Name</label>
                 <input type="text" class="form-control" name="FirstName" id="editFirstName" required>

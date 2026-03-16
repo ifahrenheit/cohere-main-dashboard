@@ -31,21 +31,21 @@ $sql = "
     WHERE f.status = 'Pending'
 ";
 
-// Role-based filtering
-if ($role === 'SOM Approver') {
+// ✅ Role-based filtering
+if (in_array($role, ['SOM Approver', 'Manager'])) {
+    // Managers & SOM Approvers see only their direct reports
     $safeEmail = $conn->real_escape_string($userEmail);
-    $sql .= " AND e.som_email = '{$safeEmail}' AND e.role IN ('Employee','Team Lead','Manager')";
+    $sql .= " AND e.som_email = '{$safeEmail}'";
+}
+elseif ($role === 'Director') {
+    // Directors see only Managers' requests
+    $sql .= " AND e.role = 'Manager'";
+}
+elseif ($role === 'Admin') {
+    // Admins see everything
+    // no filter
 }
 
-
-elseif ($role === 'Manager') {
-    $safeEmail = $conn->real_escape_string($userEmail);
-    $sql .= " AND e.role IN ('Employee', 'Team Lead') AND e.som_email = '{$safeEmail}'";
-} 
-
-elseif ($role === 'Director' || $role === 'Admin') {
-    // Directors/Admins see all
-}
 
 $sql .= " ORDER BY STR_TO_DATE(f.fts_date, '%Y-%m-%d') DESC, e.FirstName ASC";
 $result = $conn->query($sql);

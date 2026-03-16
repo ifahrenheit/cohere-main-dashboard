@@ -198,58 +198,79 @@ function sendEmailToApprover($conn, $employee_id, $original_date, $original_time
 }
 
 // Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $original_date   = htmlspecialchars(trim($_POST['original_date']));
-    $original_time   = htmlspecialchars(trim($_POST['original_time']));
-    $new_date        = htmlspecialchars(trim($_POST['new_date']));
-    $new_time        = htmlspecialchars(trim($_POST['new_time']));
-    $reason          = htmlspecialchars(trim($_POST['reason']));
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    if (!empty($original_date) && !empty($original_time) && !empty($new_date) && !empty($new_time) && !empty($reason)) {
-        // Check for existing request
-        $check_stmt = $conn->prepare("SELECT status FROM cws_requests WHERE employee_id = ? AND original_date = ? AND original_time = ? AND deleted_at IS NULL");
-        $check_stmt->bind_param("sss", $employee_id, $original_date, $original_time);
-        $check_stmt->execute();
-        $result_check = $check_stmt->get_result();
+    // Store RAW input (escape only on output)
+    $original_date = trim($_POST['original_date']);
+    $original_time = trim($_POST['original_time']);
+    $new_date      = trim($_POST['new_date']);
+    $new_time      = trim($_POST['new_time']);
+    $reason        = trim($_POST['reason']);
 
-        $found_pending_or_approved = false;
-        while ($row = $result_check->fetch_assoc()) {
-            if ($row['status'] === 'Pending' || $row['status'] === 'Approved') {
-                $found_pending_or_approved = true;
-                break;
-            }
-        }
-        $check_stmt->close();
+    if (
+        $original_date !== '' &&
+        $original_time !== '' &&
+        $new_date !== '' &&
+        $new_time !== '' &&
+        $reason !== ''
+    ) {
 
-        if ($found_pending_or_approved) {
-            $message = "You have already submitted a change work schedule request for this date and time.";
-        } else {
-            // Insert request
-            $stmt = $conn->prepare("INSERT INTO cws_requests (employee_id, original_date, original_time, new_date, new_time, reason, status) VALUES (?, ?, ?, ?, ?, ?, 'Pending')");
-            $stmt->bind_param("ssssss", $employee_id, $original_date, $original_time, $new_date, $new_time, $reason);
+        $stmt = $conn->prepare("
+            INSERT INTO cws_requests
+            (employee_id, original_date, original_time, new_date, new_time, reason, status)
+            VALUES (?, ?, ?, ?, ?, ?, 'Pending')
+        ");
 
-            if ($stmt->execute()) {
-                // Send email (wrapped in try-catch)
-                try {
-                    sendEmailToApprover($conn, $employee_id, $original_date, $original_time, $new_date, $new_time, $reason);
-                } catch (Exception $e) {
-                    error_log("Email exception: " . $e->getMessage());
-                }
-                
-                $stmt->close();
-                $conn->close();
-                
-                header("Location: submit_cws.php?success=1");
-                exit();
+        $stmt->bind_param(
+            "ssssss",
+            $employee_id,
+            $original_date,
+            $original_time,
+            $new_date,
+            $new_time,
+            $reason
+        );
+
+        if (!$stmt->execute()) {
+
+            // Duplicate detected by UNIQUE key
+            if ($conn->errno == 1062) {
+                $message = "You already submitted this exact Change Work Schedule request.";
             } else {
-                $message = "Error submitting request: " . $stmt->error;
+                $message = "Database error: " . $conn->error;
             }
+
             $stmt->close();
+
+        } else {
+
+            // Send email ONLY after successful insert
+            try {
+                sendEmailToApprover(
+                    $conn,
+                    $employee_id,
+                    $original_date,
+                    $original_time,
+                    $new_date,
+                    $new_time,
+                    $reason
+                );
+            } catch (Exception $e) {
+                error_log("CWS Email exception: " . $e->getMessage());
+            }
+
+            $stmt->close();
+            $conn->close();
+
+            header("Location: submit_cws.php?success=1");
+            exit();
         }
+
     } else {
         $message = "All fields are required.";
     }
 }
+
 
 // Fetch user's CWS requests
 $fetch_stmt = $conn->prepare("SELECT original_date, original_time, new_date, new_time, reason, status, approver_name, approved_at, created_at FROM cws_requests WHERE employee_id = ? ORDER BY created_at DESC");

@@ -54,11 +54,6 @@ if (!$is_sga) {
     $stmt_user_group->close();
 }
 
-// If user is HR or SGA, show only HR-escalated incidents
-//if (!$can_see_all && !$is_supervisor && !$user_group && ($is_hr || $is_sga)) {
-//    $sql .= " AND ir.status IN ('pending_hr', 'resolved_hr')";
-//}
-
 // Get filter parameters
 $status_filter = $_GET['status'] ?? 'all';
 $search = $_GET['search'] ?? '';
@@ -125,7 +120,7 @@ if (!empty($end_date)) {
     $types .= "s";
 }
 
-$sql .= " ORDER BY created_at DESC";
+$sql .= " ORDER BY incident_date DESC, created_at DESC";
 
 $stmt = $conn->prepare($sql);
 if (!empty($params)) {
@@ -236,12 +231,38 @@ $conn->close();
         .badge-pending {
             background: #ffc107;
             color: #000;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
         }
         .badge-reviewed {
             background: #0f2557;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
         }
         .badge-resolved {
             background: #28a745;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-pending_hr {
+            background: #ff6b35;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-resolved_hr {
+            background: #6c757d;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
         }
         .report-number {
             font-weight: bold;
@@ -263,6 +284,10 @@ $conn->close();
         .btn-primary {
             background: linear-gradient(135deg, #0f2557 0%, #ff6b35 100%);
             border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
         }
         .btn-primary:hover {
             background: linear-gradient(135deg, #1e3a8a 0%, #e55a2b 100%);
@@ -291,122 +316,105 @@ $conn->close();
         }
         
         /* Table View */
-        .table-responsive {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .table {
-            margin-bottom: 0;
-        }
-        .table thead th {
-            background: linear-gradient(135deg, #0f2557 0%, #1e3a8a 100%);
-            color: white;
-            border: none;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 13px;
-            padding: 15px 10px;
-        }
-        .table tbody tr {
-            border-bottom: 1px solid #f0f0f0;
-            transition: background 0.3s;
-        }
-        .table tbody tr:hover {
-            background: #f8f9fa;
-        }
-        .table tbody td {
-            padding: 15px 10px;
-            vertical-align: middle;
-        }
-        .btn-copy {
-            background: linear-gradient(135deg, #0f2557 0%, #ff6b35 100%);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .btn-copy:hover {
-            background: linear-gradient(135deg, #1e3a8a 0%, #e55a2b 100%);
-            color: white;
-        }
-        .copy-success {
-            display: none;
-            color: #28a745;
-            font-weight: bold;
-            margin-left: 10px;
-        }
+.table-responsive {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow-x: auto; /* Enable horizontal scroll */
+}
+.table {
+    margin-bottom: 0;
+    min-width: 1000px; /* Ensure table has minimum width */
+}
+.table thead th {
+    background: linear-gradient(135deg, #0f2557 0%, #1e3a8a 100%);
+    color: white;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding: 15px 10px;
+    white-space: nowrap; /* Prevent header text wrapping */
+}
+.table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.3s;
+}
+.table tbody tr:hover {
+    background: #f8f9fa;
+}
+.table tbody td {
+    padding: 15px 10px;
+    vertical-align: middle;
+}
+.btn-copy {
+    background: linear-gradient(135deg, #0f2557 0%, #ff6b35 100%);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.btn-copy:hover {
+    background: linear-gradient(135deg, #1e3a8a 0%, #e55a2b 100%);
+    color: white;
+}
+.copy-success {
+    display: none;
+    color: #28a745;
+    font-weight: bold;
+    margin-left: 10px;
+}
 
-        /* Table Column Widths and Text Handling */
-        .table tbody td:nth-child(1) {
-            width: 12%;
-            white-space: nowrap;
-        }
-        .table tbody td:nth-child(2) {
-            width: 20%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
-        }
-        .table tbody td:nth-child(3) {
-            width: 35%;
-        }
-        .table tbody td:nth-child(4) {
-            width: 20%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
-        }
-        .table tbody td:nth-child(5) {
-            width: 13%;
-            white-space: nowrap;
-        }
+/* Table Column Widths - Fixed proportions */
+.table tbody td:nth-child(1) {
+    width: 110px;
+    min-width: 110px;
+    white-space: nowrap;
+}
+.table tbody td:nth-child(2) {
+    width: 180px;
+    min-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.table tbody td:nth-child(3) {
+    width: 300px;
+    min-width: 300px;
+    max-width: 400px;
+}
+.table tbody td:nth-child(4) {
+    width: 180px;
+    min-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.table tbody td:nth-child(5) {
+    width: 120px;
+    min-width: 120px;
+    white-space: nowrap;
+    text-align: center;
+}
+.table tbody td:nth-child(6) {
+    width: 150px;
+    min-width: 150px;
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: 13px;
+    color: #0f2557;
+    font-weight: 600;
+}
 
-        /* Table Column Widths and Text Handling */
-        .table tbody td:nth-child(1) {
-            width: 10%;
-            white-space: nowrap;
-        }
-        .table tbody td:nth-child(2) { /* Agent Involved */
-            width: 18%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 180px;
-        }
-        .table tbody td:nth-child(3) { /* Summary */
-            width: 30%;
-        }
-        .table tbody td:nth-child(4) { /* Reported By */
-            width: 18%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 180px;
-        }
-        .table tbody td:nth-child(5) { /* Status */
-            width: 10%;
-            white-space: nowrap;
-        }
-        .table tbody td:nth-child(6) { /* IR Number */
-            width: 14%;
-            white-space: nowrap;
-            font-family: monospace;
-            font-size: 13px;
-            color: #0f2557;
-            font-weight: 600;
-        }
-
-        .badge-pending_hr {
-            background: #ff6b35;
-        }
-        .badge-resolved_hr {
-            background: #6c757d;
-        }
+/* Table headers match body widths */
+.table thead th:nth-child(1) { width: 110px; min-width: 110px; }
+.table thead th:nth-child(2) { width: 180px; min-width: 180px; }
+.table thead th:nth-child(3) { width: 300px; min-width: 300px; }
+.table thead th:nth-child(4) { width: 180px; min-width: 180px; }
+.table thead th:nth-child(5) { width: 120px; min-width: 120px; }
+.table thead th:nth-child(6) { width: 150px; min-width: 150px; }
     </style>
 </head>
 <body>
@@ -527,9 +535,9 @@ $conn->close();
                                             <?= htmlspecialchars($report['summary']) ?>
                                         </div>
                                     </div>
-                                    <div class="d-flex flex-column align-items-end gap-2">
-                                        <span class="badge badge-<?= $report['status'] ?>"><?= strtoupper($report['status']) ?></span>
-                                        <a href="view_report.php?id=<?= $report['report_number'] ?>" class="btn btn-sm btn-primary" target="_blank">View Details</a>
+                                    <div class="d-flex flex-column align-items-end" style="gap: 10px; min-width: 130px;">
+                                        <span class="badge badge-<?= $report['status'] ?>" style="width: 100%; text-align: center;"><?= strtoupper($report['status']) ?></span>
+                                        <a href="view_report.php?id=<?= $report['report_number'] ?>" class="btn btn-sm btn-primary" style="width: 100%;" target="_blank">View Details</a>
                                     </div>
                                 </div>
                                 <div class="mt-2">
@@ -559,29 +567,29 @@ $conn->close();
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover" id="reportsTable">
-    <thead>
-        <tr>
-            <th>Date of Incident</th>
-            <th>Agent Involved</th>
-            <th>Summary</th>
-            <th>Reported By</th>
-            <th>Status</th>
-            <th>IR Number</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($reports as $report): ?>
-            <tr>
-                <td><?= date('Y-m-d', strtotime($report['incident_date'])) ?></td>
-                <td><?= htmlspecialchars($report['employee_name']) ?></td>
-                <td><?= htmlspecialchars($report['summary']) ?></td>
-                <td><?= htmlspecialchars($report['submitted_by_name'] ?? 'N/A') ?></td>
-                <td><span class="badge badge-<?= $report['status'] ?>"><?= strtoupper($report['status']) ?></span></td>
-                <td><?= htmlspecialchars($report['report_number']) ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                            <thead>
+                                <tr>
+                                    <th>Date of Incident</th>
+                                    <th>Agent Involved</th>
+                                    <th>Summary</th>
+                                    <th>Reported By</th>
+                                    <th>Status</th>
+                                    <th>IR Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($reports as $report): ?>
+                                    <tr>
+                                        <td><?= date('Y-m-d', strtotime($report['incident_date'])) ?></td>
+                                        <td><?= htmlspecialchars($report['employee_name']) ?></td>
+                                        <td><?= htmlspecialchars($report['summary']) ?></td>
+                                        <td><?= htmlspecialchars($report['submitted_by_name'] ?? 'N/A') ?></td>
+                                        <td><span class="badge badge-<?= $report['status'] ?>"><?= strtoupper($report['status']) ?></span></td>
+                                        <td><?= htmlspecialchars($report['report_number']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 <?php endif; ?>
             </div>
@@ -623,34 +631,71 @@ $conn->close();
         }
 
         function copyTableToClipboard() {
-            const table = document.getElementById('reportsTable');
-            let text = '';
-            
-            // Get headers
-            const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
-            text += headers.join('\t') + '\n';
-            
-            // Get rows
-            const rows = table.querySelectorAll('tbody tr');
-            rows.forEach(row => {
-                const cells = Array.from(row.querySelectorAll('td')).map(td => {
-                    // Remove badge HTML and get just the text
-                    return td.textContent.trim();
-                });
-                text += cells.join('\t') + '\n';
-            });
-            
-            // Copy to clipboard
-            navigator.clipboard.writeText(text).then(() => {
-                const successMsg = document.getElementById('copySuccess');
-                successMsg.style.display = 'inline';
-                setTimeout(() => {
-                    successMsg.style.display = 'none';
-                }, 3000);
-            }).catch(err => {
-                alert('Failed to copy: ' + err);
-            });
+    const table = document.getElementById('reportsTable');
+    
+    if (!table) {
+        alert('Table not found!');
+        return;
+    }
+    
+    let text = '';
+    
+    // Get headers
+    const headers = [];
+    table.querySelectorAll('thead th').forEach(th => {
+        headers.push(th.textContent.trim());
+    });
+    text += headers.join('\t') + '\n';
+    
+    // Get data rows
+    table.querySelectorAll('tbody tr').forEach(row => {
+        const rowData = [];
+        row.querySelectorAll('td').forEach(td => {
+            // Get cell text and clean it
+            let cellText = td.textContent.trim();
+            // Remove ALL line breaks and replace with space
+            cellText = cellText.replace(/[\r\n]+/g, ' ');
+            // Replace multiple spaces with single space
+            cellText = cellText.replace(/\s+/g, ' ');
+            // Remove tab characters
+            cellText = cellText.replace(/\t/g, ' ');
+            rowData.push(cellText);
+        });
+        text += rowData.join('\t') + '\n';
+    });
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(text).then(() => {
+        const successMsg = document.getElementById('copySuccess');
+        successMsg.style.display = 'inline';
+        setTimeout(() => {
+            successMsg.style.display = 'none';
+        }, 3000);
+    }).catch(err => {
+        console.error('Copy failed:', err);
+        
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            const successMsg = document.getElementById('copySuccess');
+            successMsg.style.display = 'inline';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        } catch (e) {
+            alert('Failed to copy. Please manually select and copy the table.');
         }
+        
+        document.body.removeChild(textArea);
+    });
+}
     </script>
 </body>
 </html>

@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_ot'])) {
         // Determine if this is a no-ticket work type
         $is_no_ticket_ot = false;
         if ($work_day_type === 'REGULAR') {
-            $is_no_ticket_ot = in_array($ot_type, ['TEAM_MEETING', 'OVERHEAD_OT', 'DAILY_OT']);
+            $is_no_ticket_ot = in_array($ot_type, ['TEAM_MEETING', 'OVERHEAD_OT', 'DAILY_OT', 'QA_REFRESHER']);
         } else {
             $is_no_ticket_ot = in_array($work_category, ['OVERHEAD', 'TEAM_MEETING']);
         }
@@ -250,7 +250,13 @@ $check_stmt->store_result();
                         // Success message based on work type
                         if ($work_day_type === 'REGULAR') {
                             if ($is_no_ticket_ot) {
-                                $ot_type_display = ($ot_type === 'TEAM_MEETING') ? 'Team Meeting' : 'Overhead OT';
+                                if ($ot_type === 'TEAM_MEETING') {
+                                    $ot_type_display = 'Team Meeting';
+                                } elseif ($ot_type === 'QA_REFRESHER') {
+                                    $ot_type_display = 'QA Refresher Training';
+                                } else {
+                                    $ot_type_display = 'Overhead OT';
+                                }
                                 $success_message = "Successfully submitted $ot_type_display request! Your manager will review it soon.";
                             } else {
                                 $success_message = "Successfully submitted OT request with $inserted ticket(s)! Your manager will review it soon.";
@@ -305,7 +311,6 @@ $my_requests_query = "
     LEFT JOIN ot_tickets ott ON otr.id = ott.ot_request_id
     LEFT JOIN Employees approver ON otr.approver = approver.EmployeeID
     WHERE otr.employee_id = '$current_employee_id'
-    AND otr.deleted_at IS NULL
     GROUP BY otr.id
     
     UNION ALL
@@ -339,7 +344,6 @@ $my_requests_query = "
     FROM rd_requests rdr
     LEFT JOIN ot_tickets ott ON rdr.id = ott.rd_request_id
     WHERE rdr.employee_id = '$current_employee_id'
-    AND rdr.deleted_at IS NULL
     GROUP BY rdr.id
     
     ORDER BY work_date DESC, start_time DESC
@@ -600,7 +604,7 @@ $my_requests = $conn->query($my_requests_query);
         
         // Function to toggle ticket section for Regular OT
         function toggleTicketSection() {
-            const noTicketTypes = ['TEAM_MEETING', 'OVERHEAD_OT', 'DAILY_OT'];
+            const noTicketTypes = ['TEAM_MEETING', 'OVERHEAD_OT', 'DAILY_OT', 'QA_REFRESHER'];
             if (noTicketTypes.includes(otTypeSelect.value)) {
                 ticketSection.style.display = 'none';
                 ticketTextarea.removeAttribute('required');
@@ -644,7 +648,7 @@ $my_requests = $conn->query($my_requests_query);
                 let skipValidation = false;
                 
                 if (workDayType === 'REGULAR') {
-                    const noTicketTypes = ['TEAM_MEETING', 'OVERHEAD_OT', 'DAILY_OT'];
+                    const noTicketTypes = ['TEAM_MEETING', 'OVERHEAD_OT', 'DAILY_OT', 'QA_REFRESHER'];
                     skipValidation = noTicketTypes.includes(otTypeSelect.value);
                 } else if (workDayType === 'REST_DAY') {
                     const noTicketCategories = ['OVERHEAD', 'TEAM_MEETING'];
@@ -663,7 +667,7 @@ $my_requests = $conn->query($my_requests_query);
                 
                 // Check if we should skip ticket validation
                 if (workDayType === 'REGULAR') {
-                    const noTicketTypes = ['TEAM_MEETING', 'OVERHEAD_OT' , 'DAILY_OT'];
+                    const noTicketTypes = ['TEAM_MEETING', 'OVERHEAD_OT', 'DAILY_OT', 'QA_REFRESHER'];
                     skipValidation = noTicketTypes.includes(otTypeSelect.value);
                 } else if (workDayType === 'REST_DAY') {
                     const noTicketCategories = ['OVERHEAD', 'TEAM_MEETING'];
@@ -802,12 +806,13 @@ $my_requests = $conn->query($my_requests_query);
                                 <option value="POST" <?php echo (isset($_POST['ot_type']) && $_POST['ot_type'] === 'POST') ? 'selected' : ''; ?>>POST (After Shift)</option>
                                 <option value="OVERHEAD_OT" <?php echo (isset($_POST['ot_type']) && $_POST['ot_type'] === 'OVERHEAD_OT') ? 'selected' : ''; ?>>Overhead OT</option>
                                 <option value="TEAM_MEETING" <?php echo (isset($_POST['ot_type']) && $_POST['ot_type'] === 'TEAM_MEETING') ? 'selected' : ''; ?>>Team Meeting</option>
+                                <option value="QA_REFRESHER" <?php echo (isset($_POST['ot_type']) && $_POST['ot_type'] === 'QA_REFRESHER') ? 'selected' : ''; ?>>QA Refresher Training</option>
                                 <?php if ($can_file_daily_ot): ?>
                                     <option value="DAILY_OT" <?php echo (isset($_POST['ot_type']) && $_POST['ot_type'] === 'DAILY_OT') ? 'selected' : ''; ?>>Daily OT</option>
                                 <?php endif; ?>
                             </select>
                             <div class="form-hint">
-                                💡 <em>Note: Overhead OT, Team Meeting<?php echo $can_file_daily_ot ? ', and Daily OT' : ''; ?> do not require ticket numbers</em>
+                                💡 <em>Note: Overhead OT, Team Meeting, QA Refresher Training<?php echo $can_file_daily_ot ? ', and Daily OT' : ''; ?> do not require ticket numbers</em>
                             </div>
                         </div>
                     </div>
@@ -960,6 +965,10 @@ $my_requests = $conn->query($my_requests_query);
                                             <span style="background: #f3e5f5; color: #7b1fa2; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
                                                 ⚙️ OVERHEAD
                                             </span>
+                                        <?php elseif ($req['work_type'] === 'QA_REFRESHER'): ?>
+                                            <span style="background: #e8f5e9; color: #2e7d32; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
+                                                📚 QA TRAINING
+                                            </span>   
                                         <?php elseif ($req['work_type'] === 'RD-OVERHEAD'): ?>
                                             <span style="background: #f3e5f5; color: #7b1fa2; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
                                                 ⚙️ RD-OVERHEAD
@@ -997,7 +1006,7 @@ $my_requests = $conn->query($my_requests_query);
                                         <span style="font-size: 0.8rem; color: var(--text-light);"> hrs</span>
                                     </td>
                                     <td>
-                                        <?php if (in_array($req['work_type'], ['TEAM_MEETING', 'OVERHEAD_OT', 'DAILY_OT', 'RD-OVERHEAD', 'RD-MEETING'])): ?>
+                                        <?php if (in_array($req['work_type'], ['TEAM_MEETING', 'OVERHEAD_OT', 'DAILY_OT', 'QA_REFRESHER', 'RD-OVERHEAD', 'RD-MEETING'])): ?>
                                             <span style="color: var(--text-light); font-size: 0.85rem; font-style: italic;">
                                                 N/A
                                             </span>
@@ -1007,15 +1016,23 @@ $my_requests = $conn->query($my_requests_query);
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <span class="status-badge status-<?php echo strtolower($req['status']); ?>">
-                                            <?php 
-                                            if ($req['status'] === 'Pending') echo '⏳ ';
-                                            elseif ($req['status'] === 'Approved') echo '✓ ';
-                                            elseif ($req['status'] === 'Rejected') echo '✗ ';
-                                            echo htmlspecialchars($req['status']); 
-                                            ?>
-                                        </span>
-                                    </td>
+    <?php
+    // Check if soft deleted (rejected)
+    if ($req['deleted_at'] !== null) {
+        $display_status = 'Rejected';
+    } else {
+        $display_status = $req['status'];
+    }
+    ?>
+    <span class="status-badge status-<?php echo strtolower($display_status); ?>">
+        <?php 
+        if ($display_status === 'Pending') echo '⏳ ';
+        elseif ($display_status === 'Approved') echo '✓ ';
+        elseif ($display_status === 'Rejected') echo '✗ ';
+        echo htmlspecialchars($display_status); 
+        ?>
+    </span>
+</td>
                                     <td style="font-size: 0.85rem; color: var(--text-light);">
                                         <?php echo formatDateTime($req['created_at']); ?>
                                     </td>

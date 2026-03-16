@@ -224,14 +224,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Error: Approver email not found.");
     }
 
-    // Insert the request
-    $stmt = $conn->prepare("INSERT INTO fts_requests (employeeID, employee_name, fts_date, fts_time, fts_type, status, approver)
-                            VALUES (?, ?, ?, ?, ?, 'Pending', ?)");
-    $stmt->bind_param("ssssss", $employee_id, $employee_name, $fts_date, $fts_time, $fts_type, $approver_name);
-    $stmt->execute();
-    $stmt->close();
+    // Insert the request safely
+    $stmt_check = $conn->prepare("SELECT id FROM fts_requests 
+                                WHERE employeeID = ? AND fts_date = ? AND fts_time = ? AND fts_type = ?");
+    $stmt_check->bind_param("ssss", $employee_id, $fts_date, $fts_time, $fts_type);
+    $stmt_check->execute();
+    $stmt_check->store_result();
 
-    // Send professional email notification (wrapped in try-catch)
+    if ($stmt_check->num_rows > 0) {
+        // Duplicate exists, do not insert
+        echo "<script>alert('You have already submitted an FTS request for this date/time/type.'); window.location.href='submit_fts.php';</script>";
+        exit();
+    }
+    $stmt_check->close();
+
+    // Safe to insert
+    $stmt_insert = $conn->prepare("INSERT INTO fts_requests (employeeID, employee_name, fts_date, fts_time, fts_type, status, approver)
+                                VALUES (?, ?, ?, ?, ?, 'Pending', ?)");
+    $stmt_insert->bind_param("ssssss", $employee_id, $employee_name, $fts_date, $fts_time, $fts_type, $approver_name);
+    $stmt_insert->execute();
+    $stmt_insert->close();
+
+    // Send email only after successful insert
     try {
         sendFTSEmailToApprover($conn, $employee_id, $employee_name, $role, $fts_date, $fts_time, $fts_type, $approver_email, $approver_name);
     } catch (Exception $e) {
@@ -240,6 +254,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     echo "<script>alert('FTS Request Submitted & Email Sent!'); window.location.href='submit_fts.php';</script>";
     exit();
+
 }
 ?>
 

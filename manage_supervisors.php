@@ -14,14 +14,23 @@ if ($_SESSION['role'] !== 'Admin') {
     die("Access denied.");
 }
 
-// Fetch only ACTIVE users from gsheet_employees
+// Filter handling
+$filter = $_GET['filter'] ?? '';
+$isFiltered = ($filter === 'unassigned');
+
+// Fetch users based on filter
 $users = [];
 $sql = "SELECT u.* 
         FROM userdata u
-        INNER JOIN gsheet_employees ge ON u.email = ge.email
+        INNER JOIN gsheet_employees ge ON u.companyid = ge.employee_id
         WHERE u.email IS NOT NULL 
-        AND ge.status = 'Active'
-        ORDER BY u.fname, u.lname";
+        AND ge.status IN ('Active', 'Training', 'Pending')";
+
+if ($isFiltered) {
+    $sql .= " AND u.email NOT IN (SELECT agent_email FROM supervisor_mapping WHERE agent_email IS NOT NULL)";
+}
+
+$sql .= " ORDER BY u.fname, u.lname";
 
 $result = $conn->query($sql);
 
@@ -41,21 +50,38 @@ while ($row = $result->fetch_assoc()) {
     $supervisors[$row['agent_email']] = $row['supervisor_email'];
 }
 
-// Calculate unassigned count
+// Calculate unassigned count (always from full dataset)
 $unassignedCount = 0;
-foreach ($users as $user) {
-    if (!isset($supervisors[$user['email']])) {
-        $unassignedCount++;
-    }
+$countResult = $conn->query("SELECT COUNT(*) as count
+                             FROM userdata u
+                             INNER JOIN gsheet_employees ge ON u.companyid = ge.employee_id
+                             WHERE u.email IS NOT NULL
+                             AND ge.status IN ('Active', 'Training', 'Pending')
+                             AND u.email NOT IN (SELECT agent_email FROM supervisor_mapping WHERE agent_email IS NOT NULL)");
+if ($countResult) {
+    $countRow = $countResult->fetch_assoc();
+    $unassignedCount = $countRow['count'];
+}
+
+// Total active employees count (always full)
+$totalCount = 0;
+$totalResult = $conn->query("SELECT COUNT(*) as count
+                             FROM userdata u
+                             INNER JOIN gsheet_employees ge ON u.companyid = ge.employee_id
+                             WHERE u.email IS NOT NULL
+                             AND ge.status IN ('Active', 'Training', 'Pending')");
+if ($totalResult) {
+    $totalRow = $totalResult->fetch_assoc();
+    $totalCount = $totalRow['count'];
 }
 
 // Get active supervisors for dropdown
 $activeSupervisors = [];
 $supResult = $conn->query("SELECT u.email, u.fname, u.lname 
                            FROM userdata u
-                           INNER JOIN gsheet_employees ge ON u.email = ge.email
+                           INNER JOIN gsheet_employees ge ON u.companyid = ge.employee_id
                            WHERE u.email IS NOT NULL 
-                           AND ge.status = 'Active'
+                           AND ge.status IN ('Active', 'Training', 'Pending')
                            ORDER BY u.fname, u.lname");
 
 while ($row = $supResult->fetch_assoc()) {
@@ -178,10 +204,25 @@ while ($row = $supResult->fetch_assoc()) {
             padding: 15px 25px;
             border-radius: 8px;
             flex: 1;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            color: white;
         }
 
         .stat-card.warning {
             background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+
+        .stat-card.active-filter {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
         }
 
         .stat-card .label {
@@ -195,6 +236,28 @@ while ($row = $supResult->fetch_assoc()) {
             font-size: 32px;
             font-weight: 700;
             margin-top: 5px;
+        }
+
+        .filter-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #b45309;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .filter-badge a {
+            color: #b45309;
+            margin-left: 10px;
+            font-size: 12px;
+            text-decoration: underline;
+        }
+
+        .filter-badge a:hover {
+            color: #92400e;
         }
 
         .search-section {
@@ -320,6 +383,16 @@ while ($row = $supResult->fetch_assoc()) {
             color: #b45309;
         }
 
+        .role-badge.manager {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .role-badge.director {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
         .supervisor-cell {
             font-size: 13px;
             color: #4a5568;
@@ -412,8 +485,6 @@ while ($row = $supResult->fetch_assoc()) {
                 padding: 12px 10px;
             }
         }
-
-
     </style>
 </head>
 <body>
@@ -434,16 +505,24 @@ while ($row = $supResult->fetch_assoc()) {
         <div class="header">
             <h1>Supervisor Assignment</h1>
             <p>Manage active employees and their supervisors</p>
+
             <div class="stats">
-                <div class="stat-card">
+                <a href="manage_supervisors.php" class="stat-card <?= !$isFiltered ? 'active-filter' : '' ?>">
                     <div class="label">Active Employees</div>
-                    <div class="value"><?= count($users) ?></div>
-                </div>
-                <div class="stat-card <?= $unassignedCount > 0 ? 'warning' : '' ?>">
+                    <div class="value"><?= $totalCount ?></div>
+                </a>
+                <a href="?filter=unassigned" class="stat-card warning <?= $isFiltered ? 'active-filter' : '' ?>">
                     <div class="label">Unassigned Employees</div>
                     <div class="value"><?= $unassignedCount ?></div>
-                </div>
+                </a>
             </div>
+
+            <?php if ($isFiltered): ?>
+                <div class="filter-badge">
+                    🔍 Showing only unassigned employees
+                    <a href="manage_supervisors.php">✖ Clear Filter</a>
+                </div>
+            <?php endif; ?>
         </div>
 
         <div class="search-section">
@@ -469,7 +548,11 @@ while ($row = $supResult->fetch_assoc()) {
                     <?php if (empty($users)): ?>
                         <tr>
                             <td colspan="6" class="no-results">
-                                No active employees found.
+                                <?php if ($isFiltered): ?>
+                                    🎉 Great! All employees have been assigned a supervisor.
+                                <?php else: ?>
+                                    No active employees found.
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php else: ?>
@@ -500,7 +583,8 @@ while ($row = $supResult->fetch_assoc()) {
                                 <td>
                                     <form action="update_supervisor.php" method="POST" class="action-form">
                                         <input type="hidden" name="agent_email" value="<?= htmlspecialchars($u['email']) ?>">
-                                        
+                                        <input type="hidden" name="redirect_filter" value="<?= $isFiltered ? 'unassigned' : '' ?>">
+
                                         <select name="supervisor_email" required>
                                             <option value="">— Select Supervisor —</option>
                                             <?php foreach ($activeSupervisors as $sup): ?>

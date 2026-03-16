@@ -115,7 +115,7 @@ $summary_sql = "
                     TIMESTAMPDIFF(SECOND, o.start_time, o.end_time) / 3600
             END
         ) >= 0.5
-    WHERE e.role COLLATE utf8mb4_unicode_ci IN ('Employee', 'Team Lead')
+    WHERE e.role COLLATE utf8mb4_unicode_ci IN ('Employee', 'Team Lead', 'Admin')
 ";
 
 $summary_params = [];
@@ -230,7 +230,7 @@ $sql = "
     )
     AND o.deleted_at IS NULL
     AND o.ot_date BETWEEN ? AND ?
-    AND e.role COLLATE utf8mb4_unicode_ci IN ('Employee', 'Team Lead')
+    AND e.role COLLATE utf8mb4_unicode_ci IN ('Employee', 'Team Lead', 'Admin')
     AND (
         CASE
             WHEN o.end_time < o.start_time THEN
@@ -280,7 +280,7 @@ $sql = "
     )
     AND r.deleted_at IS NULL
     AND r.rd_date BETWEEN ? AND ?
-    AND e.role COLLATE utf8mb4_unicode_ci IN ('Employee', 'Team Lead')
+    AND e.role COLLATE utf8mb4_unicode_ci IN ('Employee', 'Team Lead', 'Admin')
     AND (
         CASE
             WHEN r.end_time < r.start_time THEN
@@ -1072,6 +1072,15 @@ while ($row = $teamlead_result->fetch_assoc()) {
                                 onchange="updateSelection('ottype')">
                             <label for="ottype_TEAM_MEETING">Team Meeting</label>
                         </div>
+                        <div class="multi-select-item">
+                            <input type="checkbox" 
+                                name="ot_type[]" 
+                                value="QA_REFRESHER" 
+                                id="ottype_QA_REFRESHER"
+                                <?= in_array('QA_REFRESHER', $ot_type_filter) ? 'checked' : '' ?>
+                                onchange="updateSelection('ottype')">
+                            <label for="ottype_QA_REFRESHER">QA Refresher Training</label>
+                        </div>
                         
                         <!-- Rest Day OT Types -->
                         <div class="multi-select-item" style="border-top: 2px solid #d4af37; margin-top: 8px; padding-top: 8px;">
@@ -1363,7 +1372,12 @@ while ($row = $teamlead_result->fetch_assoc()) {
                                     $display_type = 'Team Meeting';
                                     $badge_color = '#ffc107'; // yellow
                                     $text_color = '#1a1a1a';
+                                } elseif ($row['ot_type'] === 'QA_REFRESHER') {
+                                    $display_type = 'QA Refresher Training';
+                                    $badge_color = '#e8f5e9'; // light green
+                                    $text_color = '#2e7d32'; // dark green
                                 }
+
                                 ?>
                                 <span style="background: <?= $badge_color ?>; color: <?= $text_color ?>; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">
                                     <?= htmlspecialchars($display_type) ?>

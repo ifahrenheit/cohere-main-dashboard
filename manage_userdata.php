@@ -41,12 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateUser'])) {
     }
 }
 
-// ✅ Fetch ACTIVE Userdata only (joined with gsheet_employees)
+// ✅ Fetch ACTIVE, TRAINING, and PENDING Userdata (joined with gsheet_employees)
 $users = [];
-$result = $conn->query("SELECT u.companyid, u.username, u.fname, u.lname, u.email, u.role, u.SOM, u.is_qa 
+$result = $conn->query("SELECT u.companyid, u.username, u.fname, u.lname, 
+                               COALESCE(u.email, ge.email) as email, 
+                               u.role, u.SOM, u.is_qa 
                         FROM userdata u
-                        INNER JOIN gsheet_employees ge ON u.email = ge.email
-                        WHERE ge.status = 'Active'
+                        INNER JOIN gsheet_employees ge ON u.companyid = ge.employee_id
+                        WHERE ge.status IN ('Active', 'Training', 'Pending')
                         ORDER BY u.lname, u.fname");
 if ($result) {
     while ($row = $result->fetch_assoc()) {

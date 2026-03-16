@@ -395,6 +395,11 @@ html.small-screen #sidebar:not(.collapsed) ~ #incidentDashboard {
                     <li class="nav-item"><a class="nav-link" href="https://webhook.cohere.ph/employees" target="_blank">Employee DB</a></li>
                 <?php endif; ?>
 
+                <!-- SGA Access (honey.cortes) -->
+                <?php if ($_SESSION['user_email'] === 'honey.cortes@cohere.ph'): ?>
+                    <li class="nav-item"><a class="nav-link" href="https://webhook.cohere.ph/employees" target="_blank">Employee DB</a></li>
+                <?php endif; ?>
+
                 <!-- Return to Admin -->
                 <?php if (isset($_SESSION['original_admin'])): ?>
                     <li class="nav-item mt-2">
